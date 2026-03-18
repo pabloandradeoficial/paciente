@@ -1,0 +1,31 @@
+import { createClient } from '@supabase/supabase-js'
+
+const db = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
+
+export default async function handler(req, res) {
+  const { id } = req.query
+
+  if (req.method === 'PATCH') {
+    const { title, description, welcome_message, is_active } = req.body
+    const updates = {}
+    if (title           !== undefined) updates.title           = title
+    if (description     !== undefined) updates.description     = description
+    if (welcome_message !== undefined) updates.welcome_message = welcome_message
+    if (is_active       !== undefined) updates.is_active       = is_active
+
+    const { data, error } = await db.from('plans').update(updates).eq('id', id).select().single()
+    if (error) return res.status(500).json({ error: error.message })
+    return res.status(200).json(data)
+  }
+
+  if (req.method === 'DELETE') {
+    const { error } = await db.from('plans').delete().eq('id', id)
+    if (error) return res.status(500).json({ error: error.message })
+    return res.status(204).end()
+  }
+
+  res.status(405).end()
+}
