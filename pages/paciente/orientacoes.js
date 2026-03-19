@@ -8,12 +8,18 @@ const T = {
   sans: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
   serif: "'Georgia', serif",
   navy: '#1a2744', gold: '#c9a84c', white: '#ffffff',
-  gray100: '#f3f4f6', gray200: '#e5e7eb', gray400: '#9ca3af',
-  gray500: '#6b7280', gray600: '#4b5563',
+  textPrimary: '#1a2744', textSecondary: '#374151', textTertiary: '#4b5563', textMuted: '#6b7280',
+  bg: '#f5f3ed', bgCard: '#ffffff', border: '#e5e7eb', borderLight: '#f3f4f6',
 }
 
-/* Subtle accent colors per category index */
-const accents = ['#c9a84c', '#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4']
+const ACCENT_COLORS = [
+  { border: '#c9a84c', dot: '#c9a84c', label: '#78350f', bg: '#fffbeb' },
+  { border: '#059669', dot: '#059669', label: '#065f46', bg: '#f0fdf4' },
+  { border: '#2563eb', dot: '#2563eb', label: '#1e40af', bg: '#eff6ff' },
+  { border: '#7c3aed', dot: '#7c3aed', label: '#4c1d95', bg: '#f5f3ff' },
+  { border: '#dc2626', dot: '#dc2626', label: '#7f1d1d', bg: '#fef2f2' },
+  { border: '#0891b2', dot: '#0891b2', label: '#164e63', bg: '#ecfeff' },
+]
 
 export default function PatientOrientacoes() {
   const [guidelines, setGuidelines] = useState([])
@@ -36,50 +42,47 @@ export default function PatientOrientacoes() {
       <Head><title>Orientações — Dr. Pablo Andrade</title></Head>
       <PatientLayout>
 
-        {/* Header */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 10, color: T.gold, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 6, fontFamily: T.sans }}>Orientações</div>
-          <h1 style={{ fontSize: 'clamp(20px,4vw,26px)', fontWeight: 400, color: T.navy, margin: 0, fontFamily: T.serif }}>
-            Do Dia a Dia {!loading && guidelines.length > 0 && <span style={{ fontSize: 14, color: T.gray400, fontFamily: T.sans, fontWeight: 400 }}>({guidelines.length})</span>}
+          <div style={{ fontSize: 10.5, color: T.gold, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 6, fontFamily: T.sans }}>Orientações</div>
+          <h1 style={{ fontSize: 'clamp(20px,4vw,26px)', fontWeight: 700, color: T.textPrimary, margin: '0 0 8px', fontFamily: T.serif }}>
+            Do Dia a Dia
+            {!loading && guidelines.length > 0 && (
+              <span style={{ fontSize: 14, color: T.textMuted, fontFamily: T.sans, fontWeight: 400, marginLeft: 10 }}>({guidelines.length})</span>
+            )}
           </h1>
-          <p style={{ fontSize: 13, color: T.gray500, fontFamily: T.sans, marginTop: 6, lineHeight: 1.6 }}>
-            Cuidados e hábitos importantes para apoiar sua recuperação fora das sessões.
+          <p style={{ fontSize: 13.5, color: T.textTertiary, fontFamily: T.sans, margin: 0, lineHeight: 1.65 }}>
+            Hábitos, cuidados e recomendações definidos especialmente para a sua recuperação.
           </p>
         </div>
 
         {loading ? <Skeleton /> : guidelines.length === 0 ? <EmptyState /> : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {guidelines.map((g, i) => {
-              const accent = accents[i % accents.length]
+              const ac = ACCENT_COLORS[i % ACCENT_COLORS.length]
               return (
                 <div key={g.id} style={{
-                  background: T.white, borderRadius: 16, padding: 'clamp(18px,3vw,24px)',
-                  border: `1px solid ${T.gray200}`, borderLeft: `4px solid ${accent}`,
-                  transition: 'box-shadow 0.2s',
-                }}
-                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(26,39,68,0.09)'}
-                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
-                  {/* Category label */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: accent, flexShrink: 0 }} />
-                    <div style={{ fontSize: 10.5, fontWeight: 700, color: accent, textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: T.sans }}>
-                      {g.category}
-                    </div>
+                  background: T.bgCard, borderRadius: 16, padding: 'clamp(18px,3vw,24px)',
+                  border: `1px solid ${T.border}`, borderLeft: `4px solid ${ac.border}`,
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                }}>
+                  {/* Category */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: ac.dot, flexShrink: 0 }} />
+                    <div style={{ fontSize: 10.5, fontWeight: 700, color: ac.label, textTransform: 'uppercase', letterSpacing: '1.2px', fontFamily: T.sans }}>{g.category}</div>
                   </div>
-                  {/* Content */}
-                  <p style={{ fontSize: 'clamp(14px,1.6vw,15px)', color: T.gray600, lineHeight: 1.85, margin: 0, fontFamily: T.sans }}>{g.content}</p>
+                  {/* Content — DARK on WHITE */}
+                  <p style={{ fontSize: 'clamp(14px,1.8vw,15px)', color: T.textSecondary, lineHeight: 1.9, margin: 0, fontFamily: T.sans }}>{g.content}</p>
                 </div>
               )
             })}
           </div>
         )}
 
-        {/* Footer note */}
         {!loading && guidelines.length > 0 && (
-          <div style={{ marginTop: 24, padding: 'clamp(14px,2.5vw,18px)', background: 'rgba(201,168,76,0.07)', borderRadius: 12, border: '1px solid rgba(201,168,76,0.18)', textAlign: 'center' }}>
-            <p style={{ fontSize: 13, color: T.gray500, fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
-              Estas orientações foram definidas especificamente para o seu caso. Siga com atenção e ligue em caso de dúvida:{' '}
-              <a href="tel:+5535998732804" style={{ color: T.gold, textDecoration: 'none', fontWeight: 600 }}>(35) 99873-2804</a>
+          <div style={{ marginTop: 24, padding: 'clamp(16px,3vw,20px)', background: '#fffbeb', borderRadius: 12, border: '1px solid rgba(201,168,76,0.25)', textAlign: 'center' }}>
+            <p style={{ fontSize: 13.5, color: '#78350f', fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
+              Estas orientações foram definidas para o seu caso. Siga com atenção e ligue se tiver dúvidas:{' '}
+              <a href="tel:+5535998732804" style={{ color: T.gold, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>
             </p>
           </div>
         )}
@@ -90,9 +93,9 @@ export default function PatientOrientacoes() {
 
 function Skeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      {[1, 2, 3].map(i => <div key={i} style={{ height: 90, background: '#e5e7eb', borderRadius: 14, animation: 'pulse 1.5s ease-in-out infinite' }} />)}
-      <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}`}</style>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.45}}`}</style>
+      {[1, 2, 3].map(i => <div key={i} style={{ height: 90, background: '#e5e7eb', borderRadius: 14, animation: `pulse 1.5s ${i*0.1}s ease-in-out infinite` }} />)}
     </div>
   )
 }
@@ -100,8 +103,8 @@ function Skeleton() {
 function EmptyState() {
   return (
     <div style={{ textAlign: 'center', padding: '56px 20px', background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb' }}>
-      <div style={{ fontSize: 15, color: '#6b7280', fontFamily: 'system-ui, sans-serif' }}>Nenhuma orientação cadastrada ainda.</div>
-      <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 6, fontFamily: 'system-ui, sans-serif' }}>O Dr. Pablo irá adicionar em breve.</div>
+      <div style={{ fontSize: 15, color: '#374151', fontFamily: 'system-ui,sans-serif', fontWeight: 600, marginBottom: 6 }}>Nenhuma orientação cadastrada ainda</div>
+      <div style={{ fontSize: 13, color: '#6b7280', fontFamily: 'system-ui,sans-serif' }}>O Dr. Pablo irá adicionar em breve.</div>
     </div>
   )
 }

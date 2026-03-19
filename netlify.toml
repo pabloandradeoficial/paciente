@@ -7,3 +7,23 @@
 
 [build.environment]
   NODE_VERSION = "18"
+
+# Force HTTPS — fix "Não seguro"
+[[redirects]]
+  from = "http://pablopaciente.com.br/*"
+  to   = "https://pablopaciente.com.br/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from = "http://www.pablopaciente.com.br/*"
+  to   = "https://pablopaciente.com.br/:splat"
+  status = 301
+  force  = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"

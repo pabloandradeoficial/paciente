@@ -37,7 +37,7 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 20 }}>
           <div style={{ background: C.white, borderRadius: 12, border: `1px solid ${C.gray200}`, overflow: 'hidden' }}>
             <div style={{ padding: '20px 24px', borderBottom: `1px solid ${C.gray100}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ fontSize: 15, fontWeight: 700, color: C.navy }}>Pacientes Recentes</div>

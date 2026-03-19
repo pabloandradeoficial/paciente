@@ -46,7 +46,7 @@ export default function NewPatient() {
       <AdminLayout title="Novo Paciente" subtitle="Cadastrar novo paciente no sistema">
         <button onClick={() => router.back()} style={{ background: 'none', border: 'none', color: C.navy, fontSize: 14, cursor: 'pointer', marginBottom: 24 }}>← Voltar</button>
         <div style={{ background: C.white, borderRadius: 12, border: `1px solid ${C.gray200}`, padding: 32 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 20, marginBottom: 20 }}>
             {field('Nome Completo', 'full_name', 'text', true)}
             {field('Telefone', 'phone')}
             {field('E-mail', 'email', 'email')}

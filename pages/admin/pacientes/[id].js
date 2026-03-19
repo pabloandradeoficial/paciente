@@ -71,19 +71,20 @@ export default function PatientDetail() {
           <StatusBadge active={patient.is_active} />
         </div>
 
-        {/* Tabs */}
-        <div style={{ display: 'flex', gap: 4, marginBottom: 24, flexWrap: 'wrap' }}>
+        {/* Tabs — horizontal scroll on mobile */}
+        <div style={{ display: 'flex', gap: 6, marginBottom: 20, overflowX: 'auto', paddingBottom: 4, WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
+          <style>{`.tab-scroll::-webkit-scrollbar{display:none}`}</style>
           {tabs.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)} style={{
-              padding: '8px 20px', borderRadius: 8, border: `1px solid ${tab === t.id ? C.navy : C.gray200}`,
-              cursor: 'pointer', fontSize: 14, fontWeight: tab === t.id ? 700 : 400,
+              padding: '8px 16px', borderRadius: 8, border: `1px solid ${tab === t.id ? C.navy : C.gray200}`,
+              cursor: 'pointer', fontSize: 13, fontWeight: tab === t.id ? 700 : 400, whiteSpace: 'nowrap', flexShrink: 0,
               background: tab === t.id ? C.navy : C.white,
               color: tab === t.id ? C.white : C.gray500,
             }}>{t.label}</button>
           ))}
         </div>
 
-        <div style={{ background: C.white, borderRadius: 12, border: `1px solid ${C.gray200}`, padding: 28 }}>
+        <div style={{ background: C.white, borderRadius: 12, border: `1px solid ${C.gray200}`, padding: 'clamp(18px,3vw,28px)' }}>
           {tab === 'dados'       && <TabDados       patient={patient} onSave={loadPatient} showToast={showToast} />}
           {tab === 'plano'       && <TabPlano       patient={patient} activePlan={activePlan} onSave={loadPatient} showToast={showToast} />}
           {tab === 'exercicios'  && <TabExercicios  activePlan={activePlan} onSave={loadPatient} showToast={showToast} />}
@@ -119,7 +120,7 @@ function TabDados({ patient, onSave, showToast }) {
             </div>
         }
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 20 }}>
         {[['Nome completo', 'full_name'], ['Telefone', 'phone'], ['E-mail', 'email']].map(([lbl, key]) => (
           <div key={key}>
             <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{lbl}</label>
@@ -237,7 +238,7 @@ function TabExercicios({ activePlan, onSave, showToast }) {
 
       {showForm && (
         <div style={{ background: C.gray50, borderRadius: 12, padding: 24, marginBottom: 24, border: `1px solid ${C.gray200}` }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 16, marginBottom: 16 }}>
             {inp('Título', 'title')}
             {inp('Frequência', 'frequency')}
             {inp('Séries', 'sets', 'number')}
@@ -369,7 +370,7 @@ function TabMateriais({ activePlan, onSave, showToast }) {
 
       {showForm && (
         <div style={{ background: C.gray50, borderRadius: 12, padding: 24, marginBottom: 24, border: `1px solid ${C.gray200}` }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 16, marginBottom: 16 }}>
             <div>
               <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>Título</label>
               <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none' }} />
@@ -458,7 +459,7 @@ function TabAcesso({ patient, onSave, showToast }) {
   return (
     <div>
       <h3 style={{ margin: '0 0 24px', color: C.navy, fontSize: 16 }}>Gerenciamento de Acesso</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 24 }}>
         <div style={{ background: C.gray50, borderRadius: 12, padding: 24, border: `1px solid ${C.gray200}` }}>
           <div style={{ fontSize: 15, fontWeight: 700, color: C.navy, marginBottom: 16 }}>Credenciais Atuais</div>
           {[['Login (username)', patient.username], ['Senha', '••••••••']].map(([l, v]) => (
