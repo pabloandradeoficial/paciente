@@ -4,8 +4,8 @@ import Head from 'next/head'
 import { saveSession } from '../lib/auth'
 
 const T = {
-  sans: ''Montserrat', system-ui, sans-serif',
-  serif: 'Montserrat', sans-serif,
+  sans: "'Montserrat', system-ui, sans-serif",
+  serif: "'Montserrat', sans-serif",
   navy: '#1a2744', navyDeep: '#0e1628', gold: '#c9a84c',
   white: '#ffffff', gray200: '#e5e7eb', gray400: '#9ca3af',
   gray600: '#4b5563', gray700: '#374151',

@@ -6,8 +6,8 @@ import ProtectedRoute from '../../components/shared/ProtectedRoute'
 import { getSession } from '../../lib/auth'
 
 const T = {
-  sans: ''Montserrat', system-ui, sans-serif',
-  serif: 'Montserrat', sans-serif,
+  sans: "'Montserrat', system-ui, sans-serif",
+  serif: "'Montserrat', sans-serif",
   navy: '#1a2744', navyDeep: '#0e1628', gold: '#c9a84c',
   white: '#ffffff',
   gray50: '#f9fafb', gray100: '#f3f4f6', gray200: '#e5e7eb',

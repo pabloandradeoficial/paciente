@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { C } from '../lib/colors'
 
 const T = {
-  sans: ''Montserrat', system-ui, sans-serif',
-  serif: 'Montserrat', sans-serif,
+  sans: "'Montserrat', system-ui, sans-serif",
+  serif: "'Montserrat', sans-serif",
   gold: '#c9a84c',
   navy: '#1a2744',
   navyDeep: '#0e1628',
