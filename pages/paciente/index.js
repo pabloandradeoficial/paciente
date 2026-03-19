@@ -6,8 +6,8 @@ import ProtectedRoute from '../../components/shared/ProtectedRoute'
 import { getSession } from '../../lib/auth'
 
 const T = {
-  sans: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
-  serif: "'Georgia', serif",
+  sans: ''Montserrat', system-ui, sans-serif',
+  serif: 'Montserrat', sans-serif,
   navy: '#1a2744', navyDeep: '#0e1628', gold: '#c9a84c',
   white: '#ffffff',
   gray50: '#f9fafb', gray100: '#f3f4f6', gray200: '#e5e7eb',
@@ -21,6 +21,7 @@ export default function PatientHome() {
   const router = useRouter()
   const [patient, setPatient] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [weeklyMessage, setWeeklyMessage] = useState(null)
 
   useEffect(() => {
     const session = getSession()
@@ -28,6 +29,9 @@ export default function PatientHome() {
     fetch(`/api/patients/${session.id}`)
       .then(r => r.json())
       .then(data => { setPatient(data); setLoading(false) })
+    fetch('/api/weekly-message')
+      .then(r => r.json())
+      .then(data => { if (data?.message) setWeeklyMessage(data) })
   }, [])
 
   const activePlan = patient?.plans?.find(p => p.is_active) || patient?.plans?.[0]
@@ -207,7 +211,36 @@ export default function PatientHome() {
               </div>
             )}
 
-            {/* ══ 4. MATERIAIS (preview) ══ */}
+            {/* ══ 4. MENSAGEM DA SEMANA ══ */}
+            {weeklyMessage && (
+              <div style={{ borderRadius: 16, overflow: 'hidden', border: `1px solid ${T.gray200}` }}>
+                {/* Topo dourado */}
+                <div style={{ background: `linear-gradient(135deg, ${T.navy}, #243358)`, padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 9, background: T.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={T.navy} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: T.white, fontFamily: T.sans }}>
+                      {weeklyMessage.title || 'Mensagem desta semana'}
+                    </div>
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontFamily: T.sans, marginTop: 1 }}>
+                      Dr. Pablo Andrade · {new Date(weeklyMessage.created_at).toLocaleDateString('pt-BR')}
+                    </div>
+                  </div>
+                  <div style={{ marginLeft: 'auto', width: 8, height: 8, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80', flexShrink: 0 }} title="Ativo esta semana" />
+                </div>
+                {/* Corpo */}
+                <div style={{ background: T.white, padding: 'clamp(16px,3vw,22px)' }}>
+                  <p style={{ fontSize: 'clamp(14px,1.8vw,15px)', color: T.gray700, lineHeight: 1.9, margin: 0, fontFamily: T.sans }}>
+                    {weeklyMessage.message}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* ══ 5. MATERIAIS (preview) ══ */}
             {materials.length > 0 && (
               <div style={{ background: T.white, borderRadius: 16, padding: 'clamp(16px,3vw,20px)', border: `1px solid ${T.gray200}` }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
@@ -238,7 +271,7 @@ export default function PatientHome() {
               </div>
             )}
 
-            {/* ══ 5. MENSAGEM DO FISIOTERAPEUTA ══ */}
+            {/* ══ 6. MENSAGEM DO FISIOTERAPEUTA ══ */}
             <div style={{ background: T.white, borderRadius: 16, padding: 'clamp(16px,3vw,20px)', border: `1px solid ${T.gray200}`, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
               <div style={{ width: 44, height: 44, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${T.gold}`, flexShrink: 0 }}>
                 <img src="/pablo.jpg" alt="Dr. Pablo" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 10%' }} />
@@ -255,7 +288,7 @@ export default function PatientHome() {
               </div>
             </div>
 
-            {/* ══ 6. AVISO DE SEGURANÇA ══ */}
+            {/* ══ 7. AVISO DE SEGURANÇA ══ */}
             <div style={{ borderRadius: 14, padding: 'clamp(14px,2.5vw,18px)', background: '#fff7ed', border: '1px solid #fed7aa', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
               <div style={{ width: 34, height: 34, borderRadius: 9, background: '#f97316', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

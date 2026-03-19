@@ -6,8 +6,8 @@ import { getSession } from '../../lib/auth'
 
 /* ── LEGIBILIDADE MÁXIMA: todos os textos escuros sobre fundo branco ── */
 const T = {
-  sans:  'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
-  serif: "'Georgia', serif",
+  sans:  ''Montserrat', system-ui, sans-serif',
+  serif: 'Montserrat', sans-serif,
   /* Cores absolutamente fixas — nunca mudar */
   navy:    '#1a2744',
   gold:    '#c9a84c',

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { clearSession, getSession } from '../../lib/auth'
 
 const T = {
-  sans: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+  sans: ''Montserrat', system-ui, sans-serif',
   navy: '#1a2744', navyDeep: '#0e1628', navyMid: '#243358',
   gold: '#c9a84c', white: '#ffffff',
   gray50: '#f9fafb', gray100: '#f3f4f6', gray200: '#e5e7eb',

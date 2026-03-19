@@ -128,3 +128,13 @@ values (
   'teste@email.com',
   'Paciente criado para teste inicial.'
 );
+
+-- MENSAGEM SEMANAL DO FISIOTERAPEUTA
+-- Execute no SQL Editor do Supabase
+create table if not exists weekly_messages (
+  id uuid primary key default gen_random_uuid(),
+  title text not null default 'Mensagem desta semana',
+  message text not null,
+  is_active boolean default true,
+  created_at timestamptz default now()
+);

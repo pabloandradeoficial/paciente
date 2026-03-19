@@ -5,7 +5,7 @@ import ProtectedRoute from '../../components/shared/ProtectedRoute'
 import { getSession } from '../../lib/auth'
 
 const T = {
-  sans:  'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+  sans:  ''Montserrat', system-ui, sans-serif',
   serif: "'Georgia', serif",
   navy:  '#1a2744', gold: '#c9a84c', white: '#ffffff',
   h1:    '#111827', body: '#1f2937', meta: '#374151',

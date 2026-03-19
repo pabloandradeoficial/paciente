@@ -6,7 +6,7 @@ import ProtectedRoute from '../../../components/shared/ProtectedRoute'
 import Toast from '../../../components/shared/Toast'
 
 const T = {
-  sans: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+  sans: ''Montserrat', system-ui, sans-serif',
   navy: '#1a2744', gold: '#c9a84c', white: '#ffffff',
   gray50: '#f9fafb', gray100: '#f3f4f6', gray200: '#e5e7eb',
   gray400: '#9ca3af', gray500: '#6b7280', gray600: '#4b5563', gray700: '#374151', gray800: '#1f2937',
