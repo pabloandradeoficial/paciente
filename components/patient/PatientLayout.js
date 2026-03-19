@@ -3,10 +3,10 @@ import { clearSession, getSession } from '../../lib/auth'
 
 const T = {
   sans: "'Montserrat', system-ui, sans-serif",
-  navy: '#1a2744',
-  navyDeep: '#0e1628',
-  gold: '#c9a84c',
-  cream: '#f5f3ed',
+  navy: '#111827',
+  navyDeep: '#0d1117',
+  green: '#22c55e',
+  cream: '#f5f5f0',
   gray50: '#f9fafb',
   gray100: '#f3f4f6',
   gray200: '#e5e7eb',
@@ -30,7 +30,7 @@ export default function PatientLayout({ children }) {
   function logout() { clearSession(); router.push('/login') }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f3ed', fontFamily: T.sans }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f0', fontFamily: T.sans }}>
       <style>{`
         * { box-sizing: border-box; }
         body { margin: 0; }
@@ -44,17 +44,17 @@ export default function PatientLayout({ children }) {
       `}</style>
 
       {/* ── Top bar ── */}
-      <div style={{ background: T.navyDeep, position: 'sticky', top: 0, zIndex: 100, borderBottom: '1px solid rgba(201,168,76,0.15)' }}>
+      <div style={{ background: T.navyDeep, position: 'sticky', top: 0, zIndex: 100, borderBottom: '1px solid rgba(34,197,94,0.15)' }}>
         <div style={{ maxWidth: 820, margin: '0 auto', padding: '0 clamp(1rem, 3vw, 1.5rem)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
             {/* Brand */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 34, height: 34, borderRadius: '50%', background: T.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <div style={{ width: 34, height: 34, borderRadius: '50%', background: T.green, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <span style={{ color: T.navy, fontWeight: 800, fontSize: 12 }}>PA</span>
               </div>
               <div>
                 <div style={{ color: T.white, fontWeight: 700, fontSize: 13, lineHeight: 1.2 }}>Dr. Pablo Andrade</div>
-                <div style={{ color: T.gold, fontSize: 10, letterSpacing: '0.3px' }}>Fisioterapia e Quiropraxia</div>
+                <div style={{ color: T.green, fontSize: 10, letterSpacing: '0.3px' }}>Fisioterapia e Quiropraxia</div>
               </div>
             </div>
 
@@ -79,12 +79,12 @@ export default function PatientLayout({ children }) {
                 <button key={t.href} onClick={() => router.push(t.href)} style={{
                   display: 'flex', alignItems: 'center', gap: 7, padding: '10px 18px',
                   background: 'none', border: 'none', cursor: 'pointer',
-                  color: on ? T.gold : 'rgba(255,255,255,0.5)',
+                  color: on ? T.green : 'rgba(255,255,255,0.5)',
                   fontSize: 13.5, fontWeight: on ? 700 : 400,
-                  borderBottom: on ? `2px solid ${T.gold}` : '2px solid transparent',
+                  borderBottom: on ? `2px solid ${T.green}` : '2px solid transparent',
                   transition: 'all 0.15s', fontFamily: T.sans,
                 }}>
-                  <t.icon size={14} color={on ? T.gold : 'rgba(255,255,255,0.45)'} />
+                  <t.icon size={14} color={on ? T.green : 'rgba(255,255,255,0.45)'} />
                   {t.label}
                 </button>
               )
@@ -121,7 +121,7 @@ export default function PatientLayout({ children }) {
       {/* ── Mobile bottom tab bar ── */}
       <div className="patient-bottombar" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100,
-        background: T.navyDeep, borderTop: '1px solid rgba(201,168,76,0.15)',
+        background: T.navyDeep, borderTop: '1px solid rgba(34,197,94,0.15)',
         display: 'none', justifyContent: 'space-around', alignItems: 'center',
         height: 68, paddingBottom: 'env(safe-area-inset-bottom)',
       }}>
@@ -132,9 +132,9 @@ export default function PatientLayout({ children }) {
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
               background: 'none', border: 'none', cursor: 'pointer',
               padding: '8px 16px', borderRadius: 10, flex: 1,
-              color: on ? T.gold : 'rgba(255,255,255,0.4)', fontFamily: T.sans,
+              color: on ? T.green : 'rgba(255,255,255,0.4)', fontFamily: T.sans,
             }}>
-              <t.icon size={20} color={on ? T.gold : 'rgba(255,255,255,0.4)'} />
+              <t.icon size={20} color={on ? T.green : 'rgba(255,255,255,0.4)'} />
               <span style={{ fontSize: 10.5, fontWeight: on ? 700 : 400, letterSpacing: '0.2px' }}>{t.label}</span>
             </button>
           )

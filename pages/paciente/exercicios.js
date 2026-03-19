@@ -9,8 +9,8 @@ const T = {
   sans:  "'Montserrat', system-ui, sans-serif",
   serif: "'Montserrat', sans-serif",
   /* Cores absolutamente fixas — nunca mudar */
-  navy:    '#1a2744',
-  gold:    '#c9a84c',
+  navy:    '#111827',
+  gold:    '#22c55e',
   white:   '#ffffff',
   /* Hierarquia de texto — sempre escuro */
   h1:     '#111827',  /* quase preto — títulos de exercícios */
@@ -19,11 +19,11 @@ const T = {
   muted:  '#4b5563',  /* médio — textos secundários */
   hint:   '#6b7280',  /* só para info muito secundária */
   /* Backgrounds */
-  pageBg: '#f5f3ed',
+  pageBg: '#f5f5f0',
   card:   '#ffffff',
   metaBg: '#f1f5f9',  /* levemente azulado para pills */
   border: '#d1d5db',  /* borda mais definida */
-  borderFocus: '#c9a84c',
+  borderFocus: '#22c55e',
   /* Amber para observações */
   amberBg:     '#fff7ed',
   amberBorder: '#f59e0b',
@@ -62,7 +62,7 @@ export default function PatientExercicios() {
 
         {/* Section header */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 10.5, color: T.gold, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 7, fontFamily: T.sans }}>Prescrição</div>
+          <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 7, fontFamily: T.sans }}>Prescrição</div>
           <h1 style={{ fontSize: 'clamp(22px,4vw,28px)', fontWeight: 700, color: T.h1, margin: '0 0 8px', fontFamily: T.serif, letterSpacing: '-0.3px' }}>
             Exercícios Prescritos
             {!loading && exercises.length > 0 && (
@@ -81,9 +81,9 @@ export default function PatientExercicios() {
               return (
                 <div key={ex.id} style={{
                   background: T.card, borderRadius: 16,
-                  border: open ? `2px solid ${T.gold}` : `1.5px solid ${T.border}`,
+                  border: open ? `2px solid ${T.green}` : `1.5px solid ${T.border}`,
                   overflow: 'hidden',
-                  boxShadow: open ? '0 6px 24px rgba(201,168,76,0.14)' : '0 1px 3px rgba(0,0,0,0.06)',
+                  boxShadow: open ? '0 6px 24px rgba(34,197,94,0.14)' : '0 1px 3px rgba(0,0,0,0.06)',
                   transition: 'border-color 0.2s, box-shadow 0.2s',
                 }}>
 
@@ -98,7 +98,7 @@ export default function PatientExercicios() {
                     {/* Número */}
                     <div style={{
                       width: 40, height: 40, borderRadius: 11, flexShrink: 0,
-                      background: open ? T.gold : T.metaBg,
+                      background: open ? T.green : T.metaBg,
                       border: open ? 'none' : `1.5px solid ${T.border}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       transition: 'all 0.22s',
@@ -126,7 +126,7 @@ export default function PatientExercicios() {
 
                     {/* Chevron */}
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                      stroke={open ? T.gold : T.meta} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                      stroke={open ? T.green : T.meta} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                       style={{ flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s' }}>
                       <polyline points="6 9 12 15 18 9"/>
                     </svg>
@@ -192,7 +192,7 @@ export default function PatientExercicios() {
           <div style={{ marginTop: 22, padding: 'clamp(13px,2.5vw,17px)', background: T.card, borderRadius: 12, border: `1.5px solid ${T.border}`, textAlign: 'center' }}>
             <p style={{ fontSize: 13.5, color: T.muted, fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
               Dúvidas sobre algum exercício?{' '}
-              <a href="tel:+5535998732804" style={{ color: T.gold, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>
+              <a href="tel:+5535998732804" style={{ color: T.green, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>
             </p>
           </div>
         )}

@@ -84,7 +84,7 @@ export default function AdminDashboard() {
               </div>
             ))}
             {/* Quick action card */}
-            <button onClick={() => router.push('/admin/pacientes/novo')} style={{ background: `linear-gradient(135deg, ${T.navy}, ${T.navyMid})`, borderRadius: 14, padding: '20px 22px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14, boxShadow: '0 4px 16px rgba(26,39,68,0.2)', textAlign: 'left' }}>
+            <button onClick={() => router.push('/admin/pacientes/novo')} style={{ background: `linear-gradient(135deg, ${T.navy}, ${T.navyMid})`, borderRadius: 14, padding: '20px 22px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14, boxShadow: '0 4px 16px rgba(17,24,39,0.2)', textAlign: 'left' }}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: T.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <span style={{ color: T.navy, fontSize: 22, fontWeight: 700, lineHeight: 1 }}>+</span>
               </div>

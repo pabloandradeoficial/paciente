@@ -8,7 +8,7 @@ import { getSession } from '../../lib/auth'
 const T = {
   sans: "'Montserrat', system-ui, sans-serif",
   serif: "'Montserrat', sans-serif",
-  navy: '#1a2744', navyDeep: '#0e1628', gold: '#c9a84c',
+  navy: '#111827', navyDeep: '#0d1117', green: '#22c55e',
   white: '#ffffff',
   gray50: '#f9fafb', gray100: '#f3f4f6', gray200: '#e5e7eb',
   gray400: '#9ca3af', gray500: '#6b7280', gray600: '#4b5563', gray700: '#374151', gray800: '#1f2937',
@@ -60,32 +60,32 @@ export default function PatientHome() {
 
             {/* ══ 1. SAUDAÇÃO ══ */}
             <div style={{ background: `linear-gradient(135deg, ${T.navyDeep} 0%, #1a2744 65%, #243358 100%)`, borderRadius: 20, overflow: 'hidden', position: 'relative' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(to right, ${T.gold}, rgba(201,168,76,0.1))` }} />
-              <div style={{ position: 'absolute', right: -50, bottom: -50, width: 180, height: 180, borderRadius: '50%', border: '1px solid rgba(201,168,76,0.07)' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(to right, ${T.green}, rgba(34,197,94,0.1))` }} />
+              <div style={{ position: 'absolute', right: -50, bottom: -50, width: 180, height: 180, borderRadius: '50%', border: '1px solid rgba(34,197,94,0.07)' }} />
               <div style={{ padding: 'clamp(22px,4vw,30px)', position: 'relative', zIndex: 2 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 14, marginBottom: 14 }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                      <div style={{ fontSize: 10.5, color: T.gold, letterSpacing: '2px', textTransform: 'uppercase', fontFamily: T.sans }}>{greeting}</div>
+                      <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2px', textTransform: 'uppercase', fontFamily: T.sans }}>{greeting}</div>
                       {weekNumber && (
-                        <div style={{ background: 'rgba(201,168,76,0.2)', border: '1px solid rgba(201,168,76,0.35)', borderRadius: 20, padding: '2px 10px', fontSize: 10, color: T.gold, fontFamily: T.sans, letterSpacing: '0.5px' }}>
+                        <div style={{ background: 'rgba(34,197,94,0.2)', border: '1px solid rgba(34,197,94,0.35)', borderRadius: 20, padding: '2px 10px', fontSize: 10, color: T.green, fontFamily: T.sans, letterSpacing: '0.5px' }}>
                           Semana {weekNumber} de tratamento
                         </div>
                       )}
                     </div>
                     <h1 style={{ color: T.white, fontSize: 'clamp(22px,5vw,28px)', fontWeight: 400, margin: '7px 0 0', fontFamily: T.serif, lineHeight: 1.15 }}>
-                      Olá, <em style={{ color: T.gold, fontStyle: 'italic' }}>{firstName}</em>
+                      Olá, <em style={{ color: T.green, fontStyle: 'italic' }}>{firstName}</em>
                     </h1>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, flexShrink: 0 }}>
-                    <div style={{ width: 50, height: 50, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${T.gold}`, boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }}>
+                    <div style={{ width: 50, height: 50, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${T.green}`, boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }}>
                       <img src="/pablo.jpg" alt="Dr. Pablo" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 10%' }} />
                     </div>
                     <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', fontFamily: T.sans }}>Dr. Pablo</div>
                   </div>
                 </div>
                 {activePlan?.welcome_message ? (
-                  <div style={{ fontSize: 13.5, lineHeight: 1.85, color: 'rgba(255,255,255,0.82)', background: 'rgba(255,255,255,0.06)', borderRadius: 10, padding: '12px 16px', borderLeft: `3px solid ${T.gold}`, fontFamily: T.sans }}>
+                  <div style={{ fontSize: 13.5, lineHeight: 1.85, color: 'rgba(255,255,255,0.82)', background: 'rgba(255,255,255,0.06)', borderRadius: 10, padding: '12px 16px', borderLeft: `3px solid ${T.green}`, fontFamily: T.sans }}>
                     {activePlan.welcome_message}
                   </div>
                 ) : (
@@ -103,7 +103,7 @@ export default function PatientHome() {
                 <div style={{ padding: 'clamp(16px,3vw,20px)', borderBottom: `1px solid ${T.gray100}` }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                     <div>
-                      <div style={{ fontSize: 10, color: T.gold, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 5, fontFamily: T.sans }}>Seu Plano Atual</div>
+                      <div style={{ fontSize: 10, color: T.green, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 5, fontFamily: T.sans }}>Seu Plano Atual</div>
                       <div style={{ fontSize: 'clamp(15px,2.5vw,18px)', fontWeight: 700, color: T.navy, fontFamily: T.serif }}>{activePlan.title}</div>
                     </div>
                     {/* Status badge */}
@@ -154,14 +154,14 @@ export default function PatientHome() {
             {(exercises.length > 0 || guidelines.length > 0) && (
               <div style={{ background: T.navy, borderRadius: 18, overflow: 'hidden', position: 'relative' }}>
                 {/* Gold top bar */}
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: T.gold }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: T.green }} />
                 {/* Decorative */}
-                <div style={{ position: 'absolute', right: -30, top: -30, width: 130, height: 130, borderRadius: '50%', background: 'rgba(201,168,76,0.06)' }} />
+                <div style={{ position: 'absolute', right: -30, top: -30, width: 130, height: 130, borderRadius: '50%', background: 'rgba(34,197,94,0.06)' }} />
 
                 <div style={{ padding: 'clamp(18px,3.5vw,24px)', position: 'relative', zIndex: 2 }}>
                   {/* Header */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 9, background: T.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 9, background: T.green, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={T.navy} strokeWidth="2.5" strokeLinecap="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
                     </div>
                     <div>
@@ -173,13 +173,13 @@ export default function PatientHome() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {/* Principal exercício */}
                     {exercises.length > 0 && (
-                      <div style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 12, padding: '14px 16px', borderLeft: `3px solid ${T.gold}` }}>
-                        <div style={{ fontSize: 10, color: T.gold, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 5, fontFamily: T.sans }}>Principal exercício</div>
+                      <div style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 12, padding: '14px 16px', borderLeft: `3px solid ${T.green}` }}>
+                        <div style={{ fontSize: 10, color: T.green, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 5, fontFamily: T.sans }}>Principal exercício</div>
                         <div style={{ fontSize: 'clamp(14px,2vw,16px)', fontWeight: 700, color: T.white, fontFamily: T.sans, marginBottom: exercises[0].sets ? 6 : 0 }}>{exercises[0].title}</div>
                         {(exercises[0].sets || exercises[0].reps || exercises[0].frequency) && (
                           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                             {[exercises[0].sets && `${exercises[0].sets} séries`, exercises[0].reps && `${exercises[0].reps} reps`, exercises[0].frequency].filter(Boolean).map(v => (
-                              <span key={v} style={{ background: 'rgba(201,168,76,0.18)', color: T.gold, fontSize: 11, fontWeight: 600, fontFamily: T.sans, padding: '3px 10px', borderRadius: 6 }}>{v}</span>
+                              <span key={v} style={{ background: 'rgba(34,197,94,0.18)', color: T.green, fontSize: 11, fontWeight: 600, fontFamily: T.sans, padding: '3px 10px', borderRadius: 6 }}>{v}</span>
                             ))}
                           </div>
                         )}
@@ -200,7 +200,7 @@ export default function PatientHome() {
 
                   {/* CTAs */}
                   <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    <button onClick={() => router.push('/paciente/exercicios')} style={{ background: T.gold, color: T.navy, border: 'none', padding: '10px 20px', borderRadius: 9, fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: T.sans }}>
+                    <button onClick={() => router.push('/paciente/exercicios')} style={{ background: T.green, color: T.navy, border: 'none', padding: '10px 20px', borderRadius: 9, fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: T.sans }}>
                       Ver Exercícios
                     </button>
                     <button onClick={() => router.push('/paciente/orientacoes')} style={{ background: 'rgba(255,255,255,0.1)', color: T.white, border: '1px solid rgba(255,255,255,0.18)', padding: '10px 18px', borderRadius: 9, fontSize: 13, cursor: 'pointer', fontFamily: T.sans }}>
@@ -216,7 +216,7 @@ export default function PatientHome() {
               <div style={{ borderRadius: 16, overflow: 'hidden', border: `1px solid ${T.gray200}` }}>
                 {/* Topo dourado */}
                 <div style={{ background: `linear-gradient(135deg, ${T.navy}, #243358)`, padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: 9, background: T.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 9, background: T.green, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={T.navy} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
                     </svg>
@@ -244,7 +244,7 @@ export default function PatientHome() {
             {materials.length > 0 && (
               <div style={{ background: T.white, borderRadius: 16, padding: 'clamp(16px,3vw,20px)', border: `1px solid ${T.gray200}` }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                  <div style={{ fontSize: 10, color: T.gold, letterSpacing: '2px', textTransform: 'uppercase', fontFamily: T.sans }}>Materiais de Apoio</div>
+                  <div style={{ fontSize: 10, color: T.green, letterSpacing: '2px', textTransform: 'uppercase', fontFamily: T.sans }}>Materiais de Apoio</div>
                   <button onClick={() => router.push('/paciente/materiais')} style={{ background: 'none', border: 'none', color: T.blue, fontSize: 12.5, cursor: 'pointer', fontFamily: T.sans, fontWeight: 600 }}>
                     Ver todos →
                   </button>
@@ -273,16 +273,16 @@ export default function PatientHome() {
 
             {/* ══ 6. MENSAGEM DO FISIOTERAPEUTA ══ */}
             <div style={{ background: T.white, borderRadius: 16, padding: 'clamp(16px,3vw,20px)', border: `1px solid ${T.gray200}`, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-              <div style={{ width: 44, height: 44, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${T.gold}`, flexShrink: 0 }}>
+              <div style={{ width: 44, height: 44, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${T.green}`, flexShrink: 0 }}>
                 <img src="/pablo.jpg" alt="Dr. Pablo" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 10%' }} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 10, color: T.gold, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 6, fontFamily: T.sans }}>Mensagem do seu fisioterapeuta</div>
+                <div style={{ fontSize: 10, color: T.green, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 6, fontFamily: T.sans }}>Mensagem do seu fisioterapeuta</div>
                 <p style={{ fontSize: 14, color: T.gray700, lineHeight: 1.8, margin: '0 0 8px', fontFamily: T.serif, fontStyle: 'italic' }}>
                   "Mantenha constância no que foi proposto. Cada exercício realizado é um passo real na sua evolução."
                 </p>
                 <div style={{ fontSize: 11.5, color: T.gray400, fontFamily: T.sans }}>Dr. Pablo Andrade · Fisioterapeuta</div>
-                <a href="tel:+5535998732804" style={{ display: 'inline-block', marginTop: 7, fontSize: 12, color: T.gold, textDecoration: 'none', fontFamily: T.sans, fontWeight: 700 }}>
+                <a href="tel:+5535998732804" style={{ display: 'inline-block', marginTop: 7, fontSize: 12, color: T.green, textDecoration: 'none', fontFamily: T.sans, fontWeight: 700 }}>
                   Dúvidas? (35) 99873-2804
                 </a>
               </div>

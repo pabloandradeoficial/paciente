@@ -7,10 +7,10 @@ import { getSession } from '../../lib/auth'
 const T = {
   sans:  "'Montserrat', system-ui, sans-serif",
   serif: "'Georgia', serif",
-  navy:  '#1a2744', gold: '#c9a84c', white: '#ffffff',
+  navy:  '#111827', green: '#22c55e', white: '#ffffff',
   h1:    '#111827', body: '#1f2937', meta: '#374151',
   muted: '#4b5563', hint: '#6b7280',
-  card:  '#ffffff', border: '#d1d5db', bg: '#f5f3ed',
+  card:  '#ffffff', border: '#d1d5db', bg: '#f5f5f0',
 }
 
 const TYPE_CFG = {
@@ -43,7 +43,7 @@ export default function PatientMateriais() {
       <PatientLayout>
 
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 10.5, color: T.gold, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 7, fontFamily: T.sans }}>Conteúdo de apoio</div>
+          <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 7, fontFamily: T.sans }}>Conteúdo de apoio</div>
           <h1 style={{ fontSize: 'clamp(22px,4vw,28px)', fontWeight: 700, color: T.h1, margin: '0 0 8px', fontFamily: T.serif, letterSpacing: '-0.3px' }}>
             Materiais Complementares
             {!loading && materials.length > 0 && (
@@ -64,7 +64,7 @@ export default function PatientMateriais() {
               return (
                 <a key={m.id} href={url} target="_blank" rel="noreferrer"
                   style={{ display: 'flex', alignItems: 'center', gap: 16, padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,20px)', background: T.card, borderRadius: 14, border: `1.5px solid ${T.border}`, textDecoration: 'none', transition: 'all 0.18s', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.navy; e.currentTarget.style.boxShadow = '0 6px 22px rgba(26,39,68,0.12)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.navy; e.currentTarget.style.boxShadow = '0 6px 22px rgba(17,24,39,0.12)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.05)'; e.currentTarget.style.transform = 'none' }}>
 
                   {/* Ícone colorido */}
@@ -97,7 +97,7 @@ export default function PatientMateriais() {
         {!loading && materials.length > 0 && (
           <div style={{ marginTop: 22, textAlign: 'center', fontSize: 13.5, color: T.muted, fontFamily: T.sans, lineHeight: 1.7 }}>
             Dúvidas?{' '}
-            <a href="tel:+5535998732804" style={{ color: T.gold, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>
+            <a href="tel:+5535998732804" style={{ color: T.green, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>
           </div>
         )}
       </PatientLayout>

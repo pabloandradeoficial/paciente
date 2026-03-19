@@ -7,13 +7,13 @@ import { getSession } from '../../lib/auth'
 const T = {
   sans: "'Montserrat', system-ui, sans-serif",
   serif: "'Georgia', serif",
-  navy: '#1a2744', gold: '#c9a84c', white: '#ffffff',
-  textPrimary: '#1a2744', textSecondary: '#374151', textTertiary: '#4b5563', textMuted: '#6b7280',
-  bg: '#f5f3ed', bgCard: '#ffffff', border: '#e5e7eb', borderLight: '#f3f4f6',
+  navy: '#111827', green: '#22c55e', white: '#ffffff',
+  textPrimary: '#111827', textSecondary: '#374151', textTertiary: '#4b5563', textMuted: '#6b7280',
+  bg: '#f5f5f0', bgCard: '#ffffff', border: '#e5e7eb', borderLight: '#f3f4f6',
 }
 
 const ACCENT_COLORS = [
-  { border: '#c9a84c', dot: '#c9a84c', label: '#78350f', bg: '#fffbeb' },
+  { border: '#22c55e', dot: '#22c55e', label: '#78350f', bg: '#fffbeb' },
   { border: '#059669', dot: '#059669', label: '#065f46', bg: '#f0fdf4' },
   { border: '#2563eb', dot: '#2563eb', label: '#1e40af', bg: '#eff6ff' },
   { border: '#7c3aed', dot: '#7c3aed', label: '#4c1d95', bg: '#f5f3ff' },
@@ -43,7 +43,7 @@ export default function PatientOrientacoes() {
       <PatientLayout>
 
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 10.5, color: T.gold, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 6, fontFamily: T.sans }}>Orientações</div>
+          <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 6, fontFamily: T.sans }}>Orientações</div>
           <h1 style={{ fontSize: 'clamp(20px,4vw,26px)', fontWeight: 700, color: T.textPrimary, margin: '0 0 8px', fontFamily: T.serif }}>
             Do Dia a Dia
             {!loading && guidelines.length > 0 && (
@@ -79,10 +79,10 @@ export default function PatientOrientacoes() {
         )}
 
         {!loading && guidelines.length > 0 && (
-          <div style={{ marginTop: 24, padding: 'clamp(16px,3vw,20px)', background: '#fffbeb', borderRadius: 12, border: '1px solid rgba(201,168,76,0.25)', textAlign: 'center' }}>
+          <div style={{ marginTop: 24, padding: 'clamp(16px,3vw,20px)', background: '#fffbeb', borderRadius: 12, border: '1px solid rgba(34,197,94,0.25)', textAlign: 'center' }}>
             <p style={{ fontSize: 13.5, color: '#78350f', fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
               Estas orientações foram definidas para o seu caso. Siga com atenção e ligue se tiver dúvidas:{' '}
-              <a href="tel:+5535998732804" style={{ color: T.gold, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>
+              <a href="tel:+5535998732804" style={{ color: T.green, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>
             </p>
           </div>
         )}

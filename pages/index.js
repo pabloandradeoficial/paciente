@@ -6,20 +6,20 @@ import { C } from '../lib/colors'
 const T = {
   sans: "'Montserrat', system-ui, sans-serif",
   serif: "'Montserrat', sans-serif",
-  gold: '#c9a84c',
-  navy: '#1a2744',
-  navyDeep: '#0e1628',
-  cream: '#f5f3ed',
+  green: '#22c55e',
+  navy: '#111827',
+  navyDeep: '#0d1117',
+  cream: '#f5f5f0',
   phone: '(35) 99873-2804',
   rSm: 8, rMd: 12, rLg: 18, rXl: 24,
-  shadowSm: '0 2px 12px rgba(26,39,68,0.07)',
-  shadowMd: '0 8px 28px rgba(26,39,68,0.12)',
-  shadowLg: '0 20px 56px rgba(26,39,68,0.18)',
-  shadowGold: '0 8px 32px rgba(201,168,76,0.28)',
+  shadowSm: '0 2px 12px rgba(17,24,39,0.07)',
+  shadowMd: '0 8px 28px rgba(17,24,39,0.12)',
+  shadowLg: '0 20px 56px rgba(17,24,39,0.18)',
+  shadowGold: '0 8px 32px rgba(34,197,94,0.28)',
 }
 
 const eyebrow = {
-  color: T.gold, fontSize: 11, fontFamily: T.sans,
+  color: T.green, fontSize: 11, fontFamily: T.sans,
   letterSpacing: '2.5px', textTransform: 'uppercase',
   display: 'block', marginBottom: 12,
 }
@@ -83,21 +83,21 @@ function Nav({ onLogin }) {
     <>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
-        background: scrolled || menuOpen ? 'rgba(14,22,40,0.98)' : 'transparent',
+        background: scrolled || menuOpen ? 'rgba(17,24,39,0.98)' : 'transparent',
         backdropFilter: scrolled || menuOpen ? 'blur(16px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(201,168,76,0.18)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(34,197,94,0.18)' : 'none',
         transition: 'all 0.35s ease',
         padding: '0 clamp(1rem, 4vw, 3rem)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64,
       }}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 38, height: 38, borderRadius: '50%', background: T.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <div style={{ width: 38, height: 38, borderRadius: '50%', background: T.green, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <span style={{ color: T.navy, fontWeight: 800, fontSize: 13, fontFamily: T.sans }}>PA</span>
           </div>
           <div>
             <div style={{ color: '#fff', fontWeight: 700, fontSize: 13, fontFamily: T.sans, lineHeight: 1.2 }}>Dr. Pablo Andrade</div>
-            <div style={{ color: T.gold, fontSize: 10, fontFamily: T.sans, letterSpacing: '0.5px' }}>Fisioterapia e Quiropraxia</div>
+            <div style={{ color: T.green, fontSize: 10, fontFamily: T.sans, letterSpacing: '0.5px' }}>Fisioterapia e Quiropraxia</div>
           </div>
         </div>
 
@@ -106,14 +106,14 @@ function Nav({ onLogin }) {
           {['Início', 'Como Funciona', 'Sobre', 'Localização'].map(s => (
             <a key={s} href="#" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 13, fontFamily: T.sans }}>{s}</a>
           ))}
-          <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: '8px 22px', borderRadius: T.rSm, fontWeight: 700, fontSize: 13, fontFamily: T.sans, cursor: 'pointer' }}>
+          <button onClick={onLogin} style={{ background: T.green, color: T.navy, border: 'none', padding: '8px 22px', borderRadius: T.rSm, fontWeight: 700, fontSize: 13, fontFamily: T.sans, cursor: 'pointer' }}>
             Entrar
           </button>
         </div>
 
         {/* Mobile: Entrar button + hamburger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: '8px 18px', borderRadius: T.rSm, fontWeight: 700, fontSize: 13, fontFamily: T.sans, cursor: 'pointer', display: 'none' }}
+          <button onClick={onLogin} style={{ background: T.green, color: T.navy, border: 'none', padding: '8px 18px', borderRadius: T.rSm, fontWeight: 700, fontSize: 13, fontFamily: T.sans, cursor: 'pointer', display: 'none' }}
             className="mobile-show">
             Entrar
           </button>
@@ -132,11 +132,11 @@ function Nav({ onLogin }) {
 
       {/* Mobile dropdown menu */}
       {menuOpen && (
-        <div style={{ position: 'fixed', top: 64, left: 0, right: 0, zIndex: 199, background: 'rgba(14,22,40,0.98)', backdropFilter: 'blur(16px)', padding: '20px 1.5rem 28px', borderBottom: `1px solid rgba(201,168,76,0.2)` }}>
+        <div style={{ position: 'fixed', top: 64, left: 0, right: 0, zIndex: 199, background: 'rgba(17,24,39,0.98)', backdropFilter: 'blur(16px)', padding: '20px 1.5rem 28px', borderBottom: `1px solid rgba(34,197,94,0.2)` }}>
           {['Início', 'Como Funciona', 'Sobre', 'Localização'].map(s => (
             <a key={s} href="#" onClick={() => setMenuOpen(false)} style={{ display: 'block', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 16, fontFamily: T.sans, padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>{s}</a>
           ))}
-          <button onClick={() => { setMenuOpen(false); onLogin() }} style={{ marginTop: 20, width: '100%', background: T.gold, color: T.navy, border: 'none', padding: '14px', borderRadius: T.rMd, fontWeight: 700, fontSize: 15, fontFamily: T.sans, cursor: 'pointer' }}>
+          <button onClick={() => { setMenuOpen(false); onLogin() }} style={{ marginTop: 20, width: '100%', background: T.green, color: T.navy, border: 'none', padding: '14px', borderRadius: T.rMd, fontWeight: 700, fontSize: 15, fontFamily: T.sans, cursor: 'pointer' }}>
             Entrar na Minha Área
           </button>
           <a href={`tel:+553599873-2804`} style={{ display: 'block', textAlign: 'center', marginTop: 14, color: 'rgba(255,255,255,0.5)', fontSize: 14, fontFamily: T.sans, textDecoration: 'none' }}>
@@ -156,20 +156,20 @@ function Hero({ onLogin }) {
     <div style={{ minHeight: '100svh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(96px, 14vw, 140px) clamp(1.25rem, 5vw, 4rem) clamp(56px, 8vw, 96px)' }}>
       <div style={{ position: 'absolute', inset: 0 }}>
         <img src="/consultorio.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 70%', filter: 'brightness(0.52)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(110deg, rgba(10,16,36,0.88) 0%, rgba(14,22,40,0.80) 50%, rgba(18,28,52,0.60) 100%)' }} />
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(to top, rgba(10,16,36,0.7) 0%, transparent 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(110deg, rgba(13,17,23,0.88) 0%, rgba(17,24,39,0.80) 50%, rgba(31,41,55,0.60) 100%)' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(to top, rgba(13,17,23,0.7) 0%, transparent 100%)' }} />
       </div>
 
       <div style={{ maxWidth: 820, textAlign: 'center', position: 'relative', zIndex: 2, width: '100%' }}>
         {/* Eyebrow */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(201,168,76,0.13)', border: '1px solid rgba(201,168,76,0.38)', borderRadius: 28, padding: '6px 16px', marginBottom: 28 }}>
-          <span style={{ width: 5, height: 5, borderRadius: '50%', background: T.gold, flexShrink: 0 }} />
-          <span style={{ color: T.gold, fontSize: 10, fontFamily: T.sans, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Fisioterapia · Quiropraxia · Três Pontas, MG</span>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(34,197,94,0.13)', border: '1px solid rgba(34,197,94,0.38)', borderRadius: 28, padding: '6px 16px', marginBottom: 28 }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: T.green, flexShrink: 0 }} />
+          <span style={{ color: T.green, fontSize: 10, fontFamily: T.sans, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Fisioterapia · Quiropraxia · Três Pontas, MG</span>
         </div>
 
         <h1 style={{ color: '#fff', fontSize: 'clamp(2rem, 7vw, 4.2rem)', lineHeight: 1.1, margin: '0 0 20px', fontWeight: 400, letterSpacing: '-0.5px' }}>
           Seu tratamento,<br />
-          <em style={{ color: T.gold, fontStyle: 'italic' }}>acompanhado com precisão</em>
+          <em style={{ color: T.green, fontStyle: 'italic' }}>acompanhado com precisão</em>
         </h1>
 
         <p style={{ color: 'rgba(255,255,255,0.88)', fontSize: 'clamp(15px, 2vw, 18px)', maxWidth: 480, margin: '0 auto 52px', lineHeight: 1.9, fontFamily: T.sans }}>
@@ -179,15 +179,15 @@ function Hero({ onLogin }) {
         {/* CTA principal — mais forte, mais espaçoso */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
           <button onClick={onLogin} style={{
-            background: T.gold, color: T.navy, border: 'none',
+            background: T.green, color: T.navy, border: 'none',
             padding: 'clamp(16px,2.5vw,20px) clamp(40px,7vw,64px)',
             borderRadius: T.rMd, fontSize: 'clamp(16px,2vw,18px)',
             fontWeight: 800, fontFamily: T.sans, cursor: 'pointer', letterSpacing: '0.3px',
-            boxShadow: '0 12px 40px rgba(201,168,76,0.45), 0 4px 12px rgba(0,0,0,0.2)',
+            boxShadow: '0 12px 40px rgba(34,197,94,0.45), 0 4px 12px rgba(0,0,0,0.2)',
             transition: 'transform 0.15s, box-shadow 0.15s',
           }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 18px 48px rgba(201,168,76,0.55), 0 6px 16px rgba(0,0,0,0.25)' }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(201,168,76,0.45), 0 4px 12px rgba(0,0,0,0.2)' }}>
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 18px 48px rgba(34,197,94,0.55), 0 6px 16px rgba(0,0,0,0.25)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(34,197,94,0.45), 0 4px 12px rgba(0,0,0,0.2)' }}>
             Acessar Minha Área →
           </button>
           <a href={`tel:+5535998732804`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(13px,1.6vw,14px)', fontFamily: T.sans, textDecoration: 'none' }}>
@@ -200,7 +200,7 @@ function Hero({ onLogin }) {
         <div className="hero-stats" style={{ display: 'flex', justifyContent: 'center', marginTop: 60, paddingTop: 36, borderTop: '1px solid rgba(255,255,255,0.1)', flexWrap: 'wrap', gap: 0 }}>
           {[['100%', 'Personalizado'], ['24h', 'Acesso'], ['Seguro', 'Por Paciente'], ['Sempre', 'Atualizado']].map(([val, lbl], i, arr) => (
             <div key={lbl} style={{ textAlign: 'center', padding: '0 clamp(12px, 3vw, 32px)', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
-              <div style={{ color: T.gold, fontSize: 'clamp(16px, 2.5vw, 22px)', fontWeight: 700, fontFamily: T.sans }}>{val}</div>
+              <div style={{ color: T.green, fontSize: 'clamp(16px, 2.5vw, 22px)', fontWeight: 700, fontFamily: T.sans }}>{val}</div>
               <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 10, fontFamily: T.sans, marginTop: 4, letterSpacing: '0.8px', textTransform: 'uppercase' }}>{lbl}</div>
             </div>
           ))}
@@ -230,9 +230,9 @@ function HowItWorks() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))', gap: 20 }}>
           {steps.map((s, i) => (
-            <div key={i} style={{ padding: 'clamp(28px,4vw,44px) clamp(20px,3vw,32px)', background: C.white, borderRadius: T.rLg, boxShadow: T.shadowSm, border: '1px solid rgba(26,39,68,0.05)' }}>
+            <div key={i} style={{ padding: 'clamp(28px,4vw,44px) clamp(20px,3vw,32px)', background: C.white, borderRadius: T.rLg, boxShadow: T.shadowSm, border: '1px solid rgba(17,24,39,0.05)' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: '50%', background: T.navy, marginBottom: 20 }}>
-                <span style={{ color: T.gold, fontWeight: 700, fontSize: 15, fontFamily: T.sans }}>{s.num}</span>
+                <span style={{ color: T.green, fontWeight: 700, fontSize: 15, fontFamily: T.sans }}>{s.num}</span>
               </div>
               <h3 style={{ color: T.navy, fontSize: 'clamp(15px,1.6vw,17px)', margin: '0 0 8px', fontWeight: 600, fontFamily: T.sans }}>{s.title}</h3>
               <p style={{ color: C.gray500, fontSize: 'clamp(13px,1.4vw,14.5px)', lineHeight: 1.8, fontFamily: T.sans, margin: 0 }}>{s.desc}</p>
@@ -269,9 +269,9 @@ function PatientArea() {
             <div key={i} style={{ padding: 'clamp(22px,3vw,30px) clamp(18px,2.5vw,28px)', border: `1px solid ${C.gray200}`, borderRadius: T.rLg, background: C.white }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
                 <div style={{ width: 34, height: 34, borderRadius: T.rSm, background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span style={{ color: T.gold, fontFamily: T.sans, fontWeight: 700, fontSize: 11 }}>{item.num}</span>
+                  <span style={{ color: T.green, fontFamily: T.sans, fontWeight: 700, fontSize: 11 }}>{item.num}</span>
                 </div>
-                <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, rgba(201,168,76,0.3), transparent)' }} />
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, rgba(34,197,94,0.3), transparent)' }} />
               </div>
               <h3 style={{ color: T.navy, fontSize: 'clamp(14px,1.5vw,16px)', margin: '0 0 8px', fontFamily: T.sans, fontWeight: 600 }}>{item.title}</h3>
               <p style={{ color: C.gray500, fontSize: 'clamp(13px,1.3vw,14px)', lineHeight: 1.8, fontFamily: T.sans, margin: 0 }}>{item.desc}</p>
@@ -300,8 +300,8 @@ function Clinic() {
 
           {/* Image */}
           <div className="mobile-full" style={{ flex: '0 0 clamp(280px, 46%, 500px)', position: 'relative' }}>
-            <div className="mobile-hide" style={{ position: 'absolute', top: -18, left: -18, width: 72, height: 72, border: `1.5px solid ${T.gold}`, borderRadius: T.rMd, opacity: 0.4, zIndex: 0 }} />
-            <div className="mobile-hide" style={{ position: 'absolute', bottom: -14, right: -14, width: 48, height: 48, background: T.gold, borderRadius: T.rSm, opacity: 0.18, zIndex: 0 }} />
+            <div className="mobile-hide" style={{ position: 'absolute', top: -18, left: -18, width: 72, height: 72, border: `1.5px solid ${T.green}`, borderRadius: T.rMd, opacity: 0.4, zIndex: 0 }} />
+            <div className="mobile-hide" style={{ position: 'absolute', bottom: -14, right: -14, width: 48, height: 48, background: T.green, borderRadius: T.rSm, opacity: 0.18, zIndex: 0 }} />
             <div style={{ borderRadius: T.rXl, overflow: 'hidden', boxShadow: T.shadowLg, position: 'relative', zIndex: 2 }}>
               <img src="/consultorio.jpg" alt="Consultório Dr. Pablo Andrade"
                 style={{ width: '100%', height: 'clamp(240px, 42vw, 480px)', objectFit: 'cover', objectPosition: 'center 42%', display: 'block' }} />
@@ -321,7 +321,7 @@ function Clinic() {
               {points.map((pt, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                   <div style={{ width: 20, height: 20, borderRadius: '50%', background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: T.gold }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: T.green }} />
                   </div>
                   <span style={{ fontSize: 'clamp(13px,1.4vw,15px)', color: C.gray700, fontFamily: T.sans, lineHeight: 1.65 }}>{pt}</span>
                 </div>
@@ -351,40 +351,40 @@ function About({ onLogin }) {
           {/* Photo — centered on mobile */}
           <div className="mobile-full mobile-center" style={{ flex: '0 0 auto', textAlign: 'center' }}>
             <div style={{ position: 'relative', display: 'inline-block' }}>
-              <div style={{ position: 'absolute', inset: -5, borderRadius: 22, border: '1px solid rgba(201,168,76,0.22)', zIndex: 0 }} />
-              <div style={{ width: 'clamp(180px, 24vw, 248px)', height: 'clamp(230px, 30vw, 316px)', borderRadius: 18, overflow: 'hidden', border: `2.5px solid ${T.gold}`, boxShadow: '0 24px 64px rgba(0,0,0,0.4)', position: 'relative', zIndex: 1 }}>
+              <div style={{ position: 'absolute', inset: -5, borderRadius: 22, border: '1px solid rgba(34,197,94,0.22)', zIndex: 0 }} />
+              <div style={{ width: 'clamp(180px, 24vw, 248px)', height: 'clamp(230px, 30vw, 316px)', borderRadius: 18, overflow: 'hidden', border: `2.5px solid ${T.green}`, boxShadow: '0 24px 64px rgba(0,0,0,0.4)', position: 'relative', zIndex: 1 }}>
                 <img src="/pablo.jpg" alt="Dr. Pablo Andrade"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 12%', display: 'block' }} />
               </div>
-              <div style={{ position: 'absolute', bottom: -8, right: -8, width: 26, height: 26, borderRadius: '50%', background: T.gold, opacity: 0.6, zIndex: 2 }} />
+              <div style={{ position: 'absolute', bottom: -8, right: -8, width: 26, height: 26, borderRadius: '50%', background: T.green, opacity: 0.6, zIndex: 2 }} />
             </div>
-            <div style={{ marginTop: 18, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: T.rMd, padding: '11px 18px', display: 'inline-block' }}>
-              <div style={{ color: T.gold, fontWeight: 700, fontSize: 14.5, fontFamily: T.sans }}>Dr. Pablo Andrade</div>
+            <div style={{ marginTop: 18, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: T.rMd, padding: '11px 18px', display: 'inline-block' }}>
+              <div style={{ color: T.green, fontWeight: 700, fontSize: 14.5, fontFamily: T.sans }}>Dr. Pablo Andrade</div>
               <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11.5, fontFamily: T.sans, marginTop: 2 }}>Fisioterapeuta · Quiropraxista</div>
             </div>
           </div>
 
           {/* Text */}
           <div className="mobile-full" style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ ...eyebrow, color: T.gold }}>Quem vai acompanhar seu tratamento</span>
+            <span style={{ ...eyebrow, color: T.green }}>Quem vai acompanhar seu tratamento</span>
             <h2 style={{ color: '#fff', fontSize: 'clamp(22px, 3.5vw, 36px)', fontWeight: 400, margin: '0 0 18px', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
               Cuidado com propósito<br />e precisão
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 'clamp(14px,1.5vw,15.5px)', lineHeight: 1.9, fontFamily: T.sans, marginBottom: 20 }}>
               Especializado em fisioterapia ortopédica e quiropraxia, com foco no acompanhamento individualizado. Acredito que um tratamento de excelência vai além da clínica — ele deve fazer parte da rotina do paciente.
             </p>
-            <blockquote style={{ margin: '0 0 26px', padding: '14px 18px', borderLeft: `3px solid ${T.gold}`, background: 'rgba(201,168,76,0.06)', borderRadius: `0 ${T.rSm}px ${T.rSm}px 0` }}>
+            <blockquote style={{ margin: '0 0 26px', padding: '14px 18px', borderLeft: `3px solid ${T.green}`, background: 'rgba(34,197,94,0.06)', borderRadius: `0 ${T.rSm}px ${T.rSm}px 0` }}>
               <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(13px,1.4vw,15px)', lineHeight: 1.85, fontFamily: T.serif, fontStyle: 'italic', margin: 0 }}>
                 "Seu acompanhamento será conduzido com atenção, clareza e foco em um plano organizado para a sua evolução."
               </p>
             </blockquote>
             <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 28 }}>
               {specialties.map(esp => (
-                <span key={esp} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 20, padding: '5px 12px', color: T.gold, fontSize: 11.5, fontFamily: T.sans }}>{esp}</span>
+                <span key={esp} style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: 20, padding: '5px 12px', color: T.green, fontSize: 11.5, fontFamily: T.sans }}>{esp}</span>
               ))}
             </div>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-              <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: '12px 30px', borderRadius: T.rMd, fontSize: 14, fontWeight: 700, fontFamily: T.sans, cursor: 'pointer', boxShadow: T.shadowGold }}>
+              <button onClick={onLogin} style={{ background: T.green, color: T.navy, border: 'none', padding: '12px 30px', borderRadius: T.rMd, fontSize: 14, fontWeight: 700, fontFamily: T.sans, cursor: 'pointer', boxShadow: T.shadowGold }}>
                 Acessar Minha Área
               </button>
               <a href={`tel:+5535998732804`} style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, fontFamily: T.sans, textDecoration: 'none' }}>
@@ -413,7 +413,7 @@ function Location() {
         <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 28 }}>
           {[['Localização', 'Três Pontas, MG'], ['Telefone', T.phone], ['Especialidade', 'Fisioterapia e Quiropraxia']].map(([label, info]) => (
             <div key={label} style={{ background: C.white, padding: 'clamp(14px,2vw,18px) clamp(18px,3vw,28px)', borderRadius: T.rLg, boxShadow: T.shadowSm, textAlign: 'center', minWidth: 0, flex: '1 1 160px', maxWidth: 240, border: `1px solid ${C.gray200}` }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: T.gold, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6, fontFamily: T.sans }}>{label}</div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: T.green, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6, fontFamily: T.sans }}>{label}</div>
               {label === 'Telefone'
                 ? <a href={`tel:+5535998732804`} style={{ color: T.navy, fontFamily: T.sans, fontSize: 'clamp(13px,1.4vw,15px)', fontWeight: 600, textDecoration: 'none' }}>{info}</a>
                 : <div style={{ color: T.navy, fontFamily: T.sans, fontSize: 'clamp(13px,1.4vw,15px)', fontWeight: 600 }}>{info}</div>
@@ -431,7 +431,7 @@ function Location() {
             Abrir no Google Maps
           </a>
           <a href={`tel:+5535998732804`}
-            style={{ display: 'inline-block', background: T.gold, color: T.navy, padding: '12px 28px', borderRadius: T.rMd, fontSize: 14, fontFamily: T.sans, fontWeight: 700, boxShadow: T.shadowGold, textDecoration: 'none' }}>
+            style={{ display: 'inline-block', background: T.green, color: T.navy, padding: '12px 28px', borderRadius: T.rMd, fontSize: 14, fontFamily: T.sans, fontWeight: 700, boxShadow: T.shadowGold, textDecoration: 'none' }}>
             Ligar: {T.phone}
           </a>
         </div>
@@ -448,9 +448,9 @@ function CTA({ onLogin }) {
     <section style={{ position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0 }}>
         <img src="/pablo.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%', filter: 'brightness(0.42)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(10,16,36,0.94) 0%, rgba(14,22,40,0.86) 55%, rgba(18,28,52,0.94) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,17,23,0.94) 0%, rgba(17,24,39,0.86) 55%, rgba(31,41,55,0.94) 100%)' }} />
       </div>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(to right, transparent, ${T.gold}, transparent)`, opacity: 0.5 }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(to right, transparent, ${T.green}, transparent)`, opacity: 0.5 }} />
 
       <div style={{ position: 'relative', zIndex: 2, padding: 'clamp(72px, 10vw, 112px) clamp(1.25rem, 5vw, 4rem)', textAlign: 'center' }}>
         <div style={{ maxWidth: 580, margin: '0 auto' }}>
@@ -463,11 +463,11 @@ function CTA({ onLogin }) {
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button onClick={onLogin} style={{
-            background: T.gold, color: T.navy, border: 'none',
+            background: T.green, color: T.navy, border: 'none',
             padding: 'clamp(16px,2.5vw,20px) clamp(44px,7vw,68px)',
             borderRadius: T.rMd, fontSize: 'clamp(15px,2vw,18px)',
             fontWeight: 800, fontFamily: T.sans, cursor: 'pointer', letterSpacing: '0.3px',
-            boxShadow: '0 12px 40px rgba(201,168,76,0.45)',
+            boxShadow: '0 12px 40px rgba(34,197,94,0.45)',
           }}>
               Entrar na Minha Área
             </button>
@@ -489,10 +489,10 @@ function CTA({ onLogin }) {
 ══════════════════════════════════════════════ */
 function Footer() {
   return (
-    <footer style={{ background: T.navyDeep, padding: 'clamp(32px,5vw,48px) clamp(1.25rem, 5vw, 4rem)', borderTop: `1px solid rgba(201,168,76,0.14)` }}>
+    <footer style={{ background: T.navyDeep, padding: 'clamp(32px,5vw,48px) clamp(1.25rem, 5vw, 4rem)', borderTop: `1px solid rgba(34,197,94,0.14)` }}>
       <div style={{ maxWidth: 1120, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <div style={{ color: T.gold, fontWeight: 700, fontSize: 15, fontFamily: T.sans, marginBottom: 4 }}>Dr. Pablo Andrade</div>
+          <div style={{ color: T.green, fontWeight: 700, fontSize: 15, fontFamily: T.sans, marginBottom: 4 }}>Dr. Pablo Andrade</div>
           <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12.5, fontFamily: T.sans }}>Fisioterapia e Quiropraxia · Três Pontas, MG</div>
           <a href={`tel:+5535998732804`} style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, fontFamily: T.sans, textDecoration: 'none', marginTop: 4, display: 'block' }}>{T.phone}</a>
         </div>
