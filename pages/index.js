@@ -3,22 +3,55 @@ import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import { C } from '../lib/colors'
 
-const S = {
-  sans: 'system-ui, -apple-system, sans-serif',
-  serif: "'Georgia', serif",
+const T = {
+  sans: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+  serif: "'Georgia', 'Times New Roman', serif",
+  gold: '#c9a84c',
+  navy: '#1a2744',
+  navyDeep: '#0e1628',
+  cream: '#f5f3ed',
+  phone: '(35) 99873-2804',
+  rSm: 8, rMd: 12, rLg: 18, rXl: 24,
+  shadowSm: '0 2px 12px rgba(26,39,68,0.07)',
+  shadowMd: '0 8px 28px rgba(26,39,68,0.12)',
+  shadowLg: '0 20px 56px rgba(26,39,68,0.18)',
+  shadowGold: '0 8px 32px rgba(201,168,76,0.28)',
+}
+
+const eyebrow = {
+  color: T.gold, fontSize: 11, fontFamily: T.sans,
+  letterSpacing: '2.5px', textTransform: 'uppercase',
+  display: 'block', marginBottom: 12,
 }
 
 export default function Home() {
   const router = useRouter()
   const go = () => router.push('/login')
-
   return (
     <>
       <Head>
         <title>Dr. Pablo Andrade | Fisioterapia e Quiropraxia</title>
-        <meta name="description" content="Fisioterapia e Quiropraxia em Três Pontas, MG. Acompanhamento individual, plano personalizado e área exclusiva para cada paciente." />
+        <meta name="description" content="Fisioterapia e Quiropraxia em Três Pontas, MG. Acompanhamento individual e área exclusiva para cada paciente." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div style={{ fontFamily: S.serif, background: C.white, minHeight: '100vh' }}>
+      <style>{`
+        * { box-sizing: border-box; }
+        body { margin: 0; overflow-x: hidden; }
+        img { max-width: 100%; }
+        /* Nav links hidden on mobile */
+        .nav-links { display: flex; }
+        @media (max-width: 640px) {
+          .nav-links { display: none; }
+          .hero-stats { gap: 0 !important; }
+          .hero-stats > div { padding: 0 14px !important; }
+          .two-col { flex-direction: column !important; }
+          .two-col-rev { flex-direction: column-reverse !important; }
+          .mobile-center { text-align: center !important; }
+          .mobile-full { width: 100% !important; flex: none !important; max-width: 100% !important; min-width: 0 !important; }
+          .mobile-hide { display: none !important; }
+        }
+      `}</style>
+      <div style={{ fontFamily: T.serif, background: C.white, minHeight: '100vh', overflowX: 'hidden' }}>
         <Nav onLogin={go} />
         <Hero onLogin={go} />
         <HowItWorks />
@@ -33,82 +66,131 @@ export default function Home() {
   )
 }
 
+/* ══════════════════════════════════════════════
+   NAV — mobile hamburger
+══════════════════════════════════════════════ */
 function Nav({ onLogin }) {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40)
+    const fn = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', fn)
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
   return (
-    <nav style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? 'rgba(26,39,68,0.96)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(201,168,76,0.15)' : 'none',
-      transition: 'all 0.35s ease',
-      padding: '0 clamp(1.5rem, 4vw, 3rem)',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72,
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div style={{ width: 38, height: 38, borderRadius: '50%', background: C.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <span style={{ color: C.navy, fontWeight: 700, fontSize: 13, fontFamily: S.sans }}>PA</span>
+    <>
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
+        background: scrolled || menuOpen ? 'rgba(14,22,40,0.98)' : 'transparent',
+        backdropFilter: scrolled || menuOpen ? 'blur(16px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(201,168,76,0.18)' : 'none',
+        transition: 'all 0.35s ease',
+        padding: '0 clamp(1rem, 4vw, 3rem)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64,
+      }}>
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 38, height: 38, borderRadius: '50%', background: T.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <span style={{ color: T.navy, fontWeight: 800, fontSize: 13, fontFamily: T.sans }}>PA</span>
+          </div>
+          <div>
+            <div style={{ color: '#fff', fontWeight: 700, fontSize: 13, fontFamily: T.sans, lineHeight: 1.2 }}>Dr. Pablo Andrade</div>
+            <div style={{ color: T.gold, fontSize: 10, fontFamily: T.sans, letterSpacing: '0.5px' }}>Fisioterapia e Quiropraxia</div>
+          </div>
         </div>
-        <div>
-          <div style={{ color: C.white, fontWeight: 700, fontSize: 14, fontFamily: S.sans, lineHeight: 1.2 }}>Dr. Pablo Andrade</div>
-          <div style={{ color: C.gold, fontSize: 11, fontFamily: S.sans, letterSpacing: '0.5px' }}>Fisioterapia e Quiropraxia</div>
+
+        {/* Desktop links */}
+        <div className="nav-links" style={{ gap: '1.4rem', alignItems: 'center' }}>
+          {['Início', 'Como Funciona', 'Sobre', 'Localização'].map(s => (
+            <a key={s} href="#" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 13, fontFamily: T.sans }}>{s}</a>
+          ))}
+          <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: '8px 22px', borderRadius: T.rSm, fontWeight: 700, fontSize: 13, fontFamily: T.sans, cursor: 'pointer' }}>
+            Entrar
+          </button>
         </div>
-      </div>
-      <div style={{ display: 'flex', gap: '1.8rem', alignItems: 'center' }}>
-        {['Início', 'Como Funciona', 'Sobre', 'Localização'].map(s => (
-          <a key={s} href="#" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: 14, fontFamily: S.sans }}>{s}</a>
-        ))}
-        <button onClick={onLogin} style={{ background: C.gold, color: C.navy, border: 'none', padding: '9px 22px', borderRadius: 7, fontWeight: 700, fontSize: 14, fontFamily: S.sans, cursor: 'pointer' }}>
-          Entrar
-        </button>
-      </div>
-    </nav>
+
+        {/* Mobile: Entrar button + hamburger */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: '8px 18px', borderRadius: T.rSm, fontWeight: 700, fontSize: 13, fontFamily: T.sans, cursor: 'pointer', display: 'none' }}
+            className="mobile-show">
+            Entrar
+          </button>
+          {/* Hamburger — visible only on mobile via inline responsive trick */}
+          <button onClick={() => setMenuOpen(o => !o)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 6, display: 'flex', flexDirection: 'column', gap: 5 }}
+            aria-label="Menu">
+            {[0, 1, 2].map(i => (
+              <div key={i} style={{ width: 22, height: 2, background: '#fff', borderRadius: 2, transition: 'all 0.3s',
+                transform: menuOpen && i === 0 ? 'rotate(45deg) translate(5px,5px)' : menuOpen && i === 2 ? 'rotate(-45deg) translate(5px,-5px)' : 'none',
+                opacity: menuOpen && i === 1 ? 0 : 1,
+              }} />
+            ))}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div style={{ position: 'fixed', top: 64, left: 0, right: 0, zIndex: 199, background: 'rgba(14,22,40,0.98)', backdropFilter: 'blur(16px)', padding: '20px 1.5rem 28px', borderBottom: `1px solid rgba(201,168,76,0.2)` }}>
+          {['Início', 'Como Funciona', 'Sobre', 'Localização'].map(s => (
+            <a key={s} href="#" onClick={() => setMenuOpen(false)} style={{ display: 'block', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 16, fontFamily: T.sans, padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>{s}</a>
+          ))}
+          <button onClick={() => { setMenuOpen(false); onLogin() }} style={{ marginTop: 20, width: '100%', background: T.gold, color: T.navy, border: 'none', padding: '14px', borderRadius: T.rMd, fontWeight: 700, fontSize: 15, fontFamily: T.sans, cursor: 'pointer' }}>
+            Entrar na Minha Área
+          </button>
+          <a href={`tel:+553599873-2804`} style={{ display: 'block', textAlign: 'center', marginTop: 14, color: 'rgba(255,255,255,0.5)', fontSize: 14, fontFamily: T.sans, textDecoration: 'none' }}>
+            {T.phone}
+          </a>
+        </div>
+      )}
+    </>
   )
 }
 
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
 function Hero({ onLogin }) {
   return (
-    <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(80px, 12vw, 120px) clamp(1.5rem, 5vw, 4rem) 5rem' }}>
+    <div style={{ minHeight: '100svh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(96px, 14vw, 140px) clamp(1.25rem, 5vw, 4rem) clamp(56px, 8vw, 96px)' }}>
       <div style={{ position: 'absolute', inset: 0 }}>
-        <img src="/consultorio.jpg" alt="Consultório Dr. Pablo Andrade" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, rgba(16,25,52,0.94) 0%, rgba(20,30,60,0.88) 45%, rgba(26,39,68,0.72) 100%)' }} />
+        <img src="/consultorio.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', filter: 'brightness(0.52)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(110deg, rgba(10,16,36,0.88) 0%, rgba(14,22,40,0.80) 50%, rgba(18,28,52,0.60) 100%)' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(to top, rgba(10,16,36,0.7) 0%, transparent 100%)' }} />
       </div>
 
-      <div style={{ maxWidth: 860, textAlign: 'center', position: 'relative', zIndex: 2 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.35)', borderRadius: 24, padding: '7px 18px', marginBottom: 28 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.gold, flexShrink: 0 }} />
-          <span style={{ color: C.gold, fontSize: 12, fontFamily: S.sans, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Fisioterapia e Quiropraxia — Três Pontas, MG</span>
+      <div style={{ maxWidth: 820, textAlign: 'center', position: 'relative', zIndex: 2, width: '100%' }}>
+        {/* Eyebrow */}
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(201,168,76,0.13)', border: '1px solid rgba(201,168,76,0.38)', borderRadius: 28, padding: '6px 16px', marginBottom: 28 }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: T.gold, flexShrink: 0 }} />
+          <span style={{ color: T.gold, fontSize: 10, fontFamily: T.sans, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Fisioterapia · Quiropraxia · Três Pontas, MG</span>
         </div>
 
-        <h1 style={{ color: C.white, fontSize: 'clamp(2.4rem, 5.5vw, 4rem)', lineHeight: 1.15, margin: '0 0 20px', fontWeight: 400, letterSpacing: '-0.5px' }}>
+        <h1 style={{ color: '#fff', fontSize: 'clamp(2rem, 7vw, 4.2rem)', lineHeight: 1.1, margin: '0 0 20px', fontWeight: 400, letterSpacing: '-0.5px' }}>
           Seu tratamento,<br />
-          <span style={{ color: C.gold, fontStyle: 'italic' }}>acompanhado com precisão</span>
+          <em style={{ color: T.gold, fontStyle: 'italic' }}>acompanhado com precisão</em>
         </h1>
 
-        <p style={{ color: 'rgba(255,255,255,0.82)', fontSize: 'clamp(16px, 2vw, 19px)', maxWidth: 580, margin: '0 auto 44px', lineHeight: 1.85, fontFamily: S.sans }}>
-          Uma área exclusiva e personalizada para cada paciente — exercícios, orientações e materiais sempre atualizados, direto do fisioterapeuta para você.
+        <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 'clamp(15px, 2vw, 18px)', maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.9, fontFamily: T.sans }}>
+          Uma área exclusiva e personalizada para cada paciente — exercícios, orientações e materiais sempre atualizados.
         </p>
 
-        <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={onLogin} style={{ background: C.gold, color: C.navy, border: 'none', padding: '15px 40px', borderRadius: 9, fontSize: 16, fontWeight: 700, fontFamily: S.sans, cursor: 'pointer' }}>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: 'clamp(13px,2vw,16px) clamp(28px,5vw,44px)', borderRadius: T.rMd, fontSize: 'clamp(14px,1.8vw,16px)', fontWeight: 700, fontFamily: T.sans, cursor: 'pointer', boxShadow: T.shadowGold }}>
             Acessar Minha Área
           </button>
-          <button style={{ background: 'rgba(255,255,255,0.08)', color: C.white, border: '1px solid rgba(255,255,255,0.3)', padding: '15px 36px', borderRadius: 9, fontSize: 16, fontFamily: S.sans, cursor: 'pointer' }}>
-            Saiba Mais
-          </button>
+          <a href={`tel:+5535998732804`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: '#fff', border: '1px solid rgba(255,255,255,0.28)', padding: 'clamp(13px,2vw,16px) clamp(20px,3vw,32px)', borderRadius: T.rMd, fontSize: 'clamp(13px,1.6vw,15px)', fontFamily: T.sans, cursor: 'pointer', textDecoration: 'none', backdropFilter: 'blur(6px)' }}>
+            {T.phone}
+          </a>
         </div>
 
-        <div style={{ display: 'flex', gap: 0, justifyContent: 'center', marginTop: 64, flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.12)', paddingTop: 36 }}>
-          {[['100%', 'Personalizado'], ['24h', 'Acesso Digital'], ['Seguro', 'Por Paciente'], ['Sempre', 'Atualizado']].map(([num, label], i) => (
-            <div key={label} style={{ textAlign: 'center', padding: '0 28px', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
-              <div style={{ color: C.gold, fontSize: 22, fontWeight: 700, fontFamily: S.sans }}>{num}</div>
-              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, fontFamily: S.sans, marginTop: 4, letterSpacing: '0.8px', textTransform: 'uppercase' }}>{label}</div>
+        {/* Stats — hidden on very small screens, shown from 480px */}
+        <div className="hero-stats" style={{ display: 'flex', justifyContent: 'center', marginTop: 60, paddingTop: 36, borderTop: '1px solid rgba(255,255,255,0.1)', flexWrap: 'wrap', gap: 0 }}>
+          {[['100%', 'Personalizado'], ['24h', 'Acesso'], ['Seguro', 'Por Paciente'], ['Sempre', 'Atualizado']].map(([val, lbl], i, arr) => (
+            <div key={lbl} style={{ textAlign: 'center', padding: '0 clamp(12px, 3vw, 32px)', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
+              <div style={{ color: T.gold, fontSize: 'clamp(16px, 2.5vw, 22px)', fontWeight: 700, fontFamily: T.sans }}>{val}</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 10, fontFamily: T.sans, marginTop: 4, letterSpacing: '0.8px', textTransform: 'uppercase' }}>{lbl}</div>
             </div>
           ))}
         </div>
@@ -117,27 +199,32 @@ function Hero({ onLogin }) {
   )
 }
 
+/* ══════════════════════════════════════════════
+   HOW IT WORKS
+══════════════════════════════════════════════ */
 function HowItWorks() {
   const steps = [
     { num: '01', title: 'Consulta e Avaliação', desc: 'O Dr. Pablo realiza sua avaliação completa e define o protocolo de tratamento personalizado.' },
     { num: '02', title: 'Acesso Criado', desc: 'Você recebe login e senha exclusivos para acessar sua área individual na plataforma.' },
-    { num: '03', title: 'Seu Plano Digital', desc: 'Exercícios, orientações e materiais são adicionados e atualizados conforme sua evolução.' },
+    { num: '03', title: 'Seu Plano Digital', desc: 'Exercícios, orientações e materiais adicionados e atualizados conforme sua evolução.' },
     { num: '04', title: 'Acompanhamento Contínuo', desc: 'Acesse quando quiser, pelo celular ou computador, seguindo seu protocolo com clareza.' },
   ]
   return (
-    <section style={{ padding: 'clamp(72px, 10vw, 110px) clamp(1.5rem, 5vw, 4rem)', background: '#f4f2ec' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 56 }}>
-          <span style={{ color: C.gold, fontSize: 11, fontFamily: S.sans, letterSpacing: '2.5px', textTransform: 'uppercase' }}>Processo</span>
-          <h2 style={{ color: C.navy, fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: 400, margin: '10px 0 12px', letterSpacing: '-0.3px' }}>Como funciona</h2>
-          <p style={{ color: C.gray500, fontSize: 17, fontFamily: S.sans, maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>Simples para o paciente, poderoso para o fisioterapeuta</p>
+    <section style={{ padding: 'clamp(64px, 10vw, 112px) clamp(1.25rem, 5vw, 4rem)', background: T.cream }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <span style={eyebrow}>Processo</span>
+          <h2 style={{ color: T.navy, fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: 400, margin: '0 0 12px', letterSpacing: '-0.3px' }}>Como funciona</h2>
+          <p style={{ color: C.gray500, fontSize: 'clamp(15px,1.8vw,17px)', fontFamily: T.sans, maxWidth: 440, margin: '0 auto', lineHeight: 1.75 }}>Simples para o paciente. Poderoso para o fisioterapeuta.</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))', gap: 20 }}>
           {steps.map((s, i) => (
-            <div key={i} style={{ textAlign: 'center', padding: '40px 28px 36px', background: C.white, borderRadius: 18, boxShadow: '0 2px 20px rgba(26,39,68,0.07)', border: '1px solid rgba(26,39,68,0.05)' }}>
-              <div style={{ width: 54, height: 54, borderRadius: '50%', background: C.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 22px', color: C.gold, fontWeight: 700, fontSize: 17, fontFamily: S.sans }}>{s.num}</div>
-              <h3 style={{ color: C.navy, fontSize: 17, margin: '0 0 10px', fontWeight: 600, fontFamily: S.sans }}>{s.title}</h3>
-              <p style={{ color: C.gray500, fontSize: 14, lineHeight: 1.8, fontFamily: S.sans, margin: 0 }}>{s.desc}</p>
+            <div key={i} style={{ padding: 'clamp(28px,4vw,44px) clamp(20px,3vw,32px)', background: C.white, borderRadius: T.rLg, boxShadow: T.shadowSm, border: '1px solid rgba(26,39,68,0.05)' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: '50%', background: T.navy, marginBottom: 20 }}>
+                <span style={{ color: T.gold, fontWeight: 700, fontSize: 15, fontFamily: T.sans }}>{s.num}</span>
+              </div>
+              <h3 style={{ color: T.navy, fontSize: 'clamp(15px,1.6vw,17px)', margin: '0 0 8px', fontWeight: 600, fontFamily: T.sans }}>{s.title}</h3>
+              <p style={{ color: C.gray500, fontSize: 'clamp(13px,1.4vw,14.5px)', lineHeight: 1.8, fontFamily: T.sans, margin: 0 }}>{s.desc}</p>
             </div>
           ))}
         </div>
@@ -146,31 +233,37 @@ function HowItWorks() {
   )
 }
 
+/* ══════════════════════════════════════════════
+   PATIENT AREA
+══════════════════════════════════════════════ */
 function PatientArea() {
   const items = [
-    { mark: '01', title: 'Exercícios Prescritos', desc: 'Séries, repetições, frequência e observações para cada exercício do seu plano.' },
-    { mark: '02', title: 'Orientações do Dia a Dia', desc: 'Cuidados posturais, hábitos e recomendações específicas para a sua recuperação.' },
-    { mark: '03', title: 'Materiais Complementares', desc: 'PDFs, vídeos e links selecionados pelo fisioterapeuta para apoiar seu tratamento.' },
-    { mark: '04', title: 'Acesso Individual e Seguro', desc: 'Apenas você acessa sua área. Login criado pelo fisioterapeuta, com privacidade total.' },
-    { mark: '05', title: 'Sempre Atualizado', desc: 'O Dr. Pablo atualiza seu plano quando necessário. Você vê as mudanças na hora.' },
-    { mark: '06', title: 'Disponível no Celular', desc: 'Acesse seus exercícios e orientações de qualquer lugar, a qualquer hora.' },
+    { num: '01', title: 'Exercícios Prescritos', desc: 'Séries, repetições, frequência e observações detalhadas para cada exercício.' },
+    { num: '02', title: 'Orientações do Dia a Dia', desc: 'Cuidados posturais, hábitos e recomendações específicas para sua recuperação.' },
+    { num: '03', title: 'Materiais Complementares', desc: 'PDFs, vídeos e links selecionados para apoiar seu tratamento.' },
+    { num: '04', title: 'Acesso Individual e Seguro', desc: 'Apenas você acessa sua área, com privacidade total garantida.' },
+    { num: '05', title: 'Sempre Atualizado', desc: 'O Dr. Pablo atualiza seu plano conforme sua evolução. Em tempo real.' },
+    { num: '06', title: 'Disponível no Celular', desc: 'Acesse exercícios e orientações de qualquer lugar, a qualquer hora.' },
   ]
   return (
-    <section style={{ padding: 'clamp(72px, 10vw, 110px) clamp(1.5rem, 5vw, 4rem)', background: C.white }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 56 }}>
-          <span style={{ color: C.gold, fontSize: 11, fontFamily: S.sans, letterSpacing: '2.5px', textTransform: 'uppercase' }}>Sua área exclusiva</span>
-          <h2 style={{ color: C.navy, fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: 400, margin: '10px 0 12px', letterSpacing: '-0.3px' }}>O que você encontra no portal</h2>
-          <p style={{ color: C.gray500, fontSize: 17, fontFamily: S.sans, maxWidth: 500, margin: '0 auto', lineHeight: 1.7 }}>Tudo o que precisa para seguir seu tratamento, organizado e acessível</p>
+    <section style={{ padding: 'clamp(64px, 10vw, 112px) clamp(1.25rem, 5vw, 4rem)', background: C.white }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <span style={eyebrow}>Sua área exclusiva</span>
+          <h2 style={{ color: T.navy, fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: 400, margin: '0 0 12px', letterSpacing: '-0.3px' }}>O que você encontra no portal</h2>
+          <p style={{ color: C.gray500, fontSize: 'clamp(15px,1.8vw,17px)', fontFamily: T.sans, maxWidth: 480, margin: '0 auto', lineHeight: 1.75 }}>Tudo organizado para seguir seu tratamento com clareza.</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))', gap: 18 }}>
           {items.map((item, i) => (
-            <div key={i} style={{ padding: '30px 28px', border: `1px solid ${C.gray200}`, borderRadius: 14, background: C.white }}>
-              <div style={{ width: 38, height: 38, borderRadius: 9, background: C.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
-                <span style={{ color: C.gold, fontFamily: S.sans, fontWeight: 700, fontSize: 12 }}>{item.mark}</span>
+            <div key={i} style={{ padding: 'clamp(22px,3vw,30px) clamp(18px,2.5vw,28px)', border: `1px solid ${C.gray200}`, borderRadius: T.rLg, background: C.white }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                <div style={{ width: 34, height: 34, borderRadius: T.rSm, background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ color: T.gold, fontFamily: T.sans, fontWeight: 700, fontSize: 11 }}>{item.num}</span>
+                </div>
+                <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, rgba(201,168,76,0.3), transparent)' }} />
               </div>
-              <h3 style={{ color: C.navy, fontSize: 17, margin: '0 0 8px', fontFamily: S.sans, fontWeight: 600 }}>{item.title}</h3>
-              <p style={{ color: C.gray500, fontSize: 14, lineHeight: 1.8, fontFamily: S.sans, margin: 0 }}>{item.desc}</p>
+              <h3 style={{ color: T.navy, fontSize: 'clamp(14px,1.5vw,16px)', margin: '0 0 8px', fontFamily: T.sans, fontWeight: 600 }}>{item.title}</h3>
+              <p style={{ color: C.gray500, fontSize: 'clamp(13px,1.3vw,14px)', lineHeight: 1.8, fontFamily: T.sans, margin: 0 }}>{item.desc}</p>
             </div>
           ))}
         </div>
@@ -179,38 +272,50 @@ function PatientArea() {
   )
 }
 
+/* ══════════════════════════════════════════════
+   CLINIC — consultório foto
+══════════════════════════════════════════════ */
 function Clinic() {
+  const points = [
+    'Equipado para fisioterapia ortopédica e quiropraxia',
+    'Atendimento 100% individual e personalizado',
+    'Ambiente projetado para conforto e recuperação',
+    'Privacidade e exclusividade em cada sessão',
+  ]
   return (
-    <section style={{ padding: 'clamp(72px, 10vw, 110px) clamp(1.5rem, 5vw, 4rem)', background: '#f4f2ec' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', gap: 'clamp(32px, 6vw, 72px)', alignItems: 'center', flexWrap: 'wrap' }}>
-        <div style={{ flex: '0 0 clamp(280px, 45%, 520px)', position: 'relative' }}>
-          <div style={{ position: 'absolute', top: -16, left: -16, width: 64, height: 64, border: `2px solid ${C.gold}`, borderRadius: 8, opacity: 0.45, zIndex: 0 }} />
-          <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 64px rgba(26,39,68,0.18)', position: 'relative', zIndex: 2 }}>
-            <img src="/consultorio.jpg" alt="Consultório Dr. Pablo Andrade" style={{ width: '100%', height: 'clamp(280px, 40vw, 480px)', objectFit: 'cover', objectPosition: 'center 40%', display: 'block' }} />
-          </div>
-          <div style={{ position: 'absolute', bottom: -12, right: -12, width: 40, height: 40, background: C.gold, borderRadius: 6, opacity: 0.22, zIndex: 1 }} />
-        </div>
+    <section style={{ padding: 'clamp(64px, 10vw, 112px) clamp(1.25rem, 5vw, 4rem)', background: T.cream }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto' }}>
+        <div className="two-col" style={{ display: 'flex', gap: 'clamp(32px, 6vw, 72px)', alignItems: 'center', flexWrap: 'wrap' }}>
 
-        <div style={{ flex: 1, minWidth: 260 }}>
-          <span style={{ color: C.gold, fontSize: 11, fontFamily: S.sans, letterSpacing: '2.5px', textTransform: 'uppercase' }}>Estrutura</span>
-          <h2 style={{ color: C.navy, fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 400, margin: '12px 0 22px', lineHeight: 1.25, letterSpacing: '-0.3px' }}>
-            Um ambiente preparado<br />para o seu atendimento
-          </h2>
-          <p style={{ color: C.gray600, fontSize: 16, lineHeight: 1.9, fontFamily: S.sans, marginBottom: 20 }}>
-            O consultório foi pensado para oferecer conforto, privacidade e os recursos necessários para o seu tratamento. Do ambiente ao equipamento, cada detalhe foi cuidado para que você tenha a melhor experiência.
-          </p>
-          <p style={{ color: C.gray600, fontSize: 16, lineHeight: 1.9, fontFamily: S.sans, marginBottom: 32 }}>
-            A estrutura reflete o mesmo cuidado que o Dr. Pablo traz para cada atendimento — organização, atenção e um espaço exclusivo para a sua recuperação.
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {['Ambiente equipado para fisioterapia e quiropraxia', 'Atendimento individual e personalizado', 'Estrutura preparada para sua recuperação'].map((item, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                <div style={{ width: 20, height: 20, borderRadius: '50%', background: C.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: C.gold }} />
+          {/* Image */}
+          <div className="mobile-full" style={{ flex: '0 0 clamp(280px, 46%, 500px)', position: 'relative' }}>
+            <div className="mobile-hide" style={{ position: 'absolute', top: -18, left: -18, width: 72, height: 72, border: `1.5px solid ${T.gold}`, borderRadius: T.rMd, opacity: 0.4, zIndex: 0 }} />
+            <div className="mobile-hide" style={{ position: 'absolute', bottom: -14, right: -14, width: 48, height: 48, background: T.gold, borderRadius: T.rSm, opacity: 0.18, zIndex: 0 }} />
+            <div style={{ borderRadius: T.rXl, overflow: 'hidden', boxShadow: T.shadowLg, position: 'relative', zIndex: 2 }}>
+              <img src="/consultorio.jpg" alt="Consultório Dr. Pablo Andrade"
+                style={{ width: '100%', height: 'clamp(240px, 42vw, 480px)', objectFit: 'cover', objectPosition: 'center 42%', display: 'block' }} />
+            </div>
+          </div>
+
+          {/* Text */}
+          <div className="mobile-full" style={{ flex: 1, minWidth: 0 }}>
+            <span style={eyebrow}>Estrutura</span>
+            <h2 style={{ color: T.navy, fontSize: 'clamp(22px, 3.5vw, 36px)', fontWeight: 400, margin: '0 0 18px', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
+              Um ambiente preparado<br />para o seu atendimento
+            </h2>
+            <p style={{ color: C.gray600, fontSize: 'clamp(14px,1.6vw,16px)', lineHeight: 1.9, fontFamily: T.sans, marginBottom: 26 }}>
+              O consultório foi projetado para oferecer conforto, privacidade e todos os recursos necessários. Cada detalhe reflete o mesmo cuidado que o Dr. Pablo dedica ao tratamento de cada paciente.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {points.map((pt, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <div style={{ width: 20, height: 20, borderRadius: '50%', background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: T.gold }} />
+                  </div>
+                  <span style={{ fontSize: 'clamp(13px,1.4vw,15px)', color: C.gray700, fontFamily: T.sans, lineHeight: 1.65 }}>{pt}</span>
                 </div>
-                <span style={{ fontSize: 15, color: C.gray700, fontFamily: S.sans, lineHeight: 1.6 }}>{item}</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -218,77 +323,105 @@ function Clinic() {
   )
 }
 
+/* ══════════════════════════════════════════════
+   ABOUT — fisioterapeuta
+══════════════════════════════════════════════ */
 function About({ onLogin }) {
+  const specialties = ['Reabilitação Ortopédica', 'Quiropraxia', 'Fisioterapia Esportiva', 'Coluna e Postura', 'Pós-Operatório']
   return (
-    <section style={{ padding: 'clamp(72px, 10vw, 110px) clamp(1.5rem, 5vw, 4rem)', background: C.navy, position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '40%', opacity: 0.07, pointerEvents: 'none' }}>
+    <section style={{ padding: 'clamp(64px, 10vw, 112px) clamp(1.25rem, 5vw, 4rem)', background: T.navy, position: 'relative', overflow: 'hidden' }}>
+      <div className="mobile-hide" style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '36%', opacity: 0.06, pointerEvents: 'none' }}>
         <img src="/consultorio.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'left center' }} />
       </div>
 
-      <div style={{ maxWidth: 1000, margin: '0 auto', display: 'flex', gap: 'clamp(40px, 7vw, 80px)', alignItems: 'center', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>
-        <div style={{ flex: '0 0 auto', textAlign: 'center' }}>
-          <div style={{ position: 'relative', display: 'inline-block' }}>
-            <div style={{ width: 'clamp(200px, 28vw, 260px)', height: 'clamp(250px, 35vw, 330px)', borderRadius: 20, overflow: 'hidden', border: `3px solid ${C.gold}`, boxShadow: '0 24px 64px rgba(0,0,0,0.4)' }}>
-              <img src="/pablo.jpg" alt="Dr. Pablo Andrade" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%', display: 'block' }} />
-            </div>
-            <div style={{ position: 'absolute', bottom: -10, right: -10, width: 32, height: 32, borderRadius: '50%', background: C.gold, opacity: 0.55 }} />
-          </div>
-          <div style={{ marginTop: 20 }}>
-            <div style={{ color: C.gold, fontWeight: 700, fontSize: 17, fontFamily: S.sans }}>Dr. Pablo Andrade</div>
-            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, fontFamily: S.sans, marginTop: 4 }}>Fisioterapeuta · Quiropraxista</div>
-          </div>
-        </div>
+      <div style={{ maxWidth: 1040, margin: '0 auto', position: 'relative', zIndex: 2 }}>
+        <div className="two-col" style={{ display: 'flex', gap: 'clamp(36px, 6vw, 80px)', alignItems: 'center', flexWrap: 'wrap' }}>
 
-        <div style={{ flex: 1, minWidth: 260 }}>
-          <span style={{ color: C.gold, fontSize: 11, fontFamily: S.sans, letterSpacing: '2.5px', textTransform: 'uppercase' }}>Quem vai acompanhar seu tratamento</span>
-          <h2 style={{ color: C.white, fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 400, margin: '12px 0 22px', lineHeight: 1.25, letterSpacing: '-0.3px' }}>
-            Cuidado com propósito<br />e precisão
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 16, lineHeight: 1.9, fontFamily: S.sans, marginBottom: 18 }}>
-            Especializado em fisioterapia ortopédica e quiropraxia, com foco no acompanhamento individualizado de cada paciente. Acredito que um tratamento de excelência vai além da clínica — ele deve fazer parte da rotina do paciente.
-          </p>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, lineHeight: 1.9, fontFamily: S.sans, marginBottom: 32, fontStyle: 'italic', borderLeft: `3px solid ${C.gold}`, paddingLeft: 20 }}>
-            "Seu acompanhamento será conduzido com atenção, clareza e foco em um plano organizado para a sua evolução."
-          </p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
-            {['Reabilitação Ortopédica', 'Quiropraxia', 'Fisioterapia Esportiva', 'Coluna e Postura', 'Pós-Operatório'].map(esp => (
-              <div key={esp} style={{ background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.28)', borderRadius: 20, padding: '5px 13px', color: C.gold, fontSize: 12, fontFamily: S.sans }}>{esp}</div>
-            ))}
+          {/* Photo — centered on mobile */}
+          <div className="mobile-full mobile-center" style={{ flex: '0 0 auto', textAlign: 'center' }}>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <div style={{ position: 'absolute', inset: -5, borderRadius: 22, border: '1px solid rgba(201,168,76,0.22)', zIndex: 0 }} />
+              <div style={{ width: 'clamp(180px, 24vw, 248px)', height: 'clamp(230px, 30vw, 316px)', borderRadius: 18, overflow: 'hidden', border: `2.5px solid ${T.gold}`, boxShadow: '0 24px 64px rgba(0,0,0,0.4)', position: 'relative', zIndex: 1 }}>
+                <img src="/pablo.jpg" alt="Dr. Pablo Andrade"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 12%', display: 'block' }} />
+              </div>
+              <div style={{ position: 'absolute', bottom: -8, right: -8, width: 26, height: 26, borderRadius: '50%', background: T.gold, opacity: 0.6, zIndex: 2 }} />
+            </div>
+            <div style={{ marginTop: 18, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: T.rMd, padding: '11px 18px', display: 'inline-block' }}>
+              <div style={{ color: T.gold, fontWeight: 700, fontSize: 14.5, fontFamily: T.sans }}>Dr. Pablo Andrade</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11.5, fontFamily: T.sans, marginTop: 2 }}>Fisioterapeuta · Quiropraxista</div>
+            </div>
           </div>
-          <button onClick={onLogin} style={{ background: C.gold, color: C.navy, border: 'none', padding: '13px 32px', borderRadius: 9, fontSize: 15, fontWeight: 700, fontFamily: S.sans, cursor: 'pointer' }}>
-            Acessar Minha Área
-          </button>
+
+          {/* Text */}
+          <div className="mobile-full" style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ ...eyebrow, color: T.gold }}>Quem vai acompanhar seu tratamento</span>
+            <h2 style={{ color: '#fff', fontSize: 'clamp(22px, 3.5vw, 36px)', fontWeight: 400, margin: '0 0 18px', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
+              Cuidado com propósito<br />e precisão
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 'clamp(14px,1.5vw,15.5px)', lineHeight: 1.9, fontFamily: T.sans, marginBottom: 20 }}>
+              Especializado em fisioterapia ortopédica e quiropraxia, com foco no acompanhamento individualizado. Acredito que um tratamento de excelência vai além da clínica — ele deve fazer parte da rotina do paciente.
+            </p>
+            <blockquote style={{ margin: '0 0 26px', padding: '14px 18px', borderLeft: `3px solid ${T.gold}`, background: 'rgba(201,168,76,0.06)', borderRadius: `0 ${T.rSm}px ${T.rSm}px 0` }}>
+              <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(13px,1.4vw,15px)', lineHeight: 1.85, fontFamily: T.serif, fontStyle: 'italic', margin: 0 }}>
+                "Seu acompanhamento será conduzido com atenção, clareza e foco em um plano organizado para a sua evolução."
+              </p>
+            </blockquote>
+            <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 28 }}>
+              {specialties.map(esp => (
+                <span key={esp} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 20, padding: '5px 12px', color: T.gold, fontSize: 11.5, fontFamily: T.sans }}>{esp}</span>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+              <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: '12px 30px', borderRadius: T.rMd, fontSize: 14, fontWeight: 700, fontFamily: T.sans, cursor: 'pointer', boxShadow: T.shadowGold }}>
+                Acessar Minha Área
+              </button>
+              <a href={`tel:+5535998732804`} style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, fontFamily: T.sans, textDecoration: 'none' }}>
+                {T.phone}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
+/* ══════════════════════════════════════════════
+   LOCATION
+══════════════════════════════════════════════ */
 function Location() {
   return (
-    <section style={{ padding: 'clamp(72px, 10vw, 110px) clamp(1.5rem, 5vw, 4rem)', background: '#f4f2ec' }}>
-      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <span style={{ color: C.gold, fontSize: 11, fontFamily: S.sans, letterSpacing: '2.5px', textTransform: 'uppercase' }}>Localização</span>
-          <h2 style={{ color: C.navy, fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: 400, margin: '10px 0 14px', letterSpacing: '-0.3px' }}>Onde nos encontrar</h2>
-          <p style={{ color: C.gray500, fontSize: 16, fontFamily: S.sans }}>Dr. Pablo Andrade | Fisioterapia e Quiropraxia — Três Pontas, MG</p>
+    <section style={{ padding: 'clamp(64px, 10vw, 112px) clamp(1.25rem, 5vw, 4rem)', background: T.cream }}>
+      <div style={{ maxWidth: 1040, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 44 }}>
+          <span style={eyebrow}>Localização</span>
+          <h2 style={{ color: T.navy, fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: 400, margin: '0 0 10px', letterSpacing: '-0.3px' }}>Onde nos encontrar</h2>
+          <p style={{ color: C.gray500, fontSize: 'clamp(14px,1.6vw,16px)', fontFamily: T.sans }}>Dr. Pablo Andrade · Fisioterapia e Quiropraxia · Três Pontas, MG</p>
         </div>
-        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 32 }}>
-          {[['Localização', 'Três Pontas, MG'], ['Telefone', '(35) 9 9999-9999'], ['Especialidade', 'Fisioterapia e Quiropraxia']].map(([label, info]) => (
-            <div key={label} style={{ background: C.white, padding: '16px 28px', borderRadius: 14, boxShadow: '0 2px 16px rgba(26,39,68,0.07)', textAlign: 'center', minWidth: 190, border: `1px solid ${C.gray200}` }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: C.gold, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 7, fontFamily: S.sans }}>{label}</div>
-              <div style={{ color: C.navy, fontFamily: S.sans, fontSize: 15, fontWeight: 600 }}>{info}</div>
+        <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 28 }}>
+          {[['Localização', 'Três Pontas, MG'], ['Telefone', T.phone], ['Especialidade', 'Fisioterapia e Quiropraxia']].map(([label, info]) => (
+            <div key={label} style={{ background: C.white, padding: 'clamp(14px,2vw,18px) clamp(18px,3vw,28px)', borderRadius: T.rLg, boxShadow: T.shadowSm, textAlign: 'center', minWidth: 0, flex: '1 1 160px', maxWidth: 240, border: `1px solid ${C.gray200}` }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: T.gold, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6, fontFamily: T.sans }}>{label}</div>
+              {label === 'Telefone'
+                ? <a href={`tel:+5535998732804`} style={{ color: T.navy, fontFamily: T.sans, fontSize: 'clamp(13px,1.4vw,15px)', fontWeight: 600, textDecoration: 'none' }}>{info}</a>
+                : <div style={{ color: T.navy, fontFamily: T.sans, fontSize: 'clamp(13px,1.4vw,15px)', fontWeight: 600 }}>{info}</div>
+              }
             </div>
           ))}
         </div>
-        <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 12px 40px rgba(26,39,68,0.14)', border: `1px solid ${C.gray200}` }}>
+        <div style={{ borderRadius: T.rXl, overflow: 'hidden', boxShadow: T.shadowLg, border: `1px solid ${C.gray200}` }}>
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3756.3!2d-45.5!3d-21.37!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6b373ad9a0cbf4ee!2sDr.+Pablo+Andrade+%7C+Fisioterapia+e+Quiropraxia+em+Tr%C3%AAs+Pontas!5e0!3m2!1spt-BR!2sbr!4v1"
-            width="100%" height="400" style={{ border: 0, display: 'block' }} allowFullScreen="" loading="lazy" title="Dr. Pablo Andrade — Localização" />
+            width="100%" height="380" style={{ border: 0, display: 'block' }} allowFullScreen="" loading="lazy" title="Localização Dr. Pablo Andrade" />
         </div>
-        <div style={{ textAlign: 'center', marginTop: 24 }}>
+        <div style={{ textAlign: 'center', marginTop: 24, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <a href="https://www.google.com/maps/place/Dr.+Pablo+Andrade+%7C+Fisioterapia+e+Quiropraxia+em+Tr%C3%AAs+Pontas/data=!4m2!3m1!1s0x0:0x6b373ad9a0cbf4ee" target="_blank" rel="noreferrer"
-            style={{ display: 'inline-block', background: C.navy, color: C.white, padding: '12px 32px', borderRadius: 9, fontSize: 14, fontFamily: S.sans, fontWeight: 600 }}>
+            style={{ display: 'inline-block', background: T.navy, color: '#fff', padding: '12px 28px', borderRadius: T.rMd, fontSize: 14, fontFamily: T.sans, fontWeight: 600, boxShadow: T.shadowMd, textDecoration: 'none' }}>
             Abrir no Google Maps
+          </a>
+          <a href={`tel:+5535998732804`}
+            style={{ display: 'inline-block', background: T.gold, color: T.navy, padding: '12px 28px', borderRadius: T.rMd, fontSize: 14, fontFamily: T.sans, fontWeight: 700, boxShadow: T.shadowGold, textDecoration: 'none' }}>
+            Ligar: {T.phone}
           </a>
         </div>
       </div>
@@ -296,27 +429,37 @@ function Location() {
   )
 }
 
+/* ══════════════════════════════════════════════
+   CTA FINAL
+══════════════════════════════════════════════ */
 function CTA({ onLogin }) {
   return (
     <section style={{ position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0 }}>
-        <img src="/pablo.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(16,25,52,0.96) 0%, rgba(20,32,64,0.90) 60%, rgba(26,39,68,0.95) 100%)' }} />
+        <img src="/pablo.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%', filter: 'brightness(0.42)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(10,16,36,0.94) 0%, rgba(14,22,40,0.86) 55%, rgba(18,28,52,0.94) 100%)' }} />
       </div>
-      <div style={{ position: 'relative', zIndex: 2, padding: 'clamp(72px, 10vw, 110px) clamp(1.5rem, 5vw, 4rem)', textAlign: 'center' }}>
-        <div style={{ maxWidth: 640, margin: '0 auto' }}>
-          <span style={{ color: C.gold, fontSize: 11, fontFamily: S.sans, letterSpacing: '2.5px', textTransform: 'uppercase' }}>Área do Paciente</span>
-          <h2 style={{ color: C.white, fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 400, margin: '12px 0 20px', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(to right, transparent, ${T.gold}, transparent)`, opacity: 0.5 }} />
+
+      <div style={{ position: 'relative', zIndex: 2, padding: 'clamp(72px, 10vw, 112px) clamp(1.25rem, 5vw, 4rem)', textAlign: 'center' }}>
+        <div style={{ maxWidth: 580, margin: '0 auto' }}>
+          <span style={{ ...eyebrow, marginBottom: 14 }}>Área do Paciente</span>
+          <h2 style={{ color: '#fff', fontSize: 'clamp(26px, 5vw, 44px)', fontWeight: 400, margin: '0 0 18px', lineHeight: 1.15, letterSpacing: '-0.4px' }}>
             Acesse sua área exclusiva
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 17, lineHeight: 1.85, fontFamily: S.sans, marginBottom: 40 }}>
-            Seus exercícios, orientações e materiais estão disponíveis. Acesse com o login e senha fornecidos pelo Dr. Pablo.
+          <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(14px,1.8vw,17px)', lineHeight: 1.85, fontFamily: T.sans, marginBottom: 40 }}>
+            Seus exercícios e orientações estão disponíveis. Acesse com o login e senha fornecidos pelo Dr. Pablo.
           </p>
-          <button onClick={onLogin} style={{ background: C.gold, color: C.navy, border: 'none', padding: '16px 48px', borderRadius: 10, fontSize: 17, fontWeight: 700, fontFamily: S.sans, cursor: 'pointer', boxShadow: '0 8px 32px rgba(201,168,76,0.3)' }}>
-            Entrar na Minha Área
-          </button>
-          <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13, fontFamily: S.sans, marginTop: 20 }}>
-            Acesso criado pelo fisioterapeuta. Não possui acesso? Entre em contato.
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: 'clamp(13px,2vw,17px) clamp(28px,5vw,52px)', borderRadius: T.rMd, fontSize: 'clamp(14px,1.8vw,17px)', fontWeight: 700, fontFamily: T.sans, cursor: 'pointer', boxShadow: '0 12px 40px rgba(201,168,76,0.4)' }}>
+              Entrar na Minha Área
+            </button>
+            <a href={`tel:+5535998732804`} style={{ display: 'inline-flex', alignItems: 'center', background: 'rgba(255,255,255,0.08)', color: '#fff', border: '1px solid rgba(255,255,255,0.25)', padding: 'clamp(13px,2vw,17px) clamp(20px,3vw,32px)', borderRadius: T.rMd, fontSize: 'clamp(13px,1.5vw,15px)', fontFamily: T.sans, textDecoration: 'none', backdropFilter: 'blur(6px)' }}>
+              {T.phone}
+            </a>
+          </div>
+          <p style={{ color: 'rgba(255,255,255,0.28)', fontSize: 12, fontFamily: T.sans, marginTop: 20 }}>
+            Não possui acesso? Ligue ou entre em contato com o fisioterapeuta.
           </p>
         </div>
       </div>
@@ -324,12 +467,22 @@ function CTA({ onLogin }) {
   )
 }
 
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
 function Footer() {
   return (
-    <footer style={{ background: '#0e1628', padding: '44px clamp(1.5rem, 5vw, 4rem)', textAlign: 'center', borderTop: '1px solid rgba(201,168,76,0.12)' }}>
-      <div style={{ color: C.gold, fontWeight: 700, fontSize: 17, fontFamily: S.sans, marginBottom: 8 }}>Dr. Pablo Andrade</div>
-      <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, fontFamily: S.sans }}>Fisioterapia e Quiropraxia · Três Pontas, MG</div>
-      <div style={{ color: 'rgba(255,255,255,0.22)', fontSize: 12, fontFamily: S.sans, marginTop: 20 }}>© 2025 Dr. Pablo Andrade. Todos os direitos reservados.</div>
+    <footer style={{ background: T.navyDeep, padding: 'clamp(32px,5vw,48px) clamp(1.25rem, 5vw, 4rem)', borderTop: `1px solid rgba(201,168,76,0.14)` }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
+        <div>
+          <div style={{ color: T.gold, fontWeight: 700, fontSize: 15, fontFamily: T.sans, marginBottom: 4 }}>Dr. Pablo Andrade</div>
+          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12.5, fontFamily: T.sans }}>Fisioterapia e Quiropraxia · Três Pontas, MG</div>
+          <a href={`tel:+5535998732804`} style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, fontFamily: T.sans, textDecoration: 'none', marginTop: 4, display: 'block' }}>{T.phone}</a>
+        </div>
+        <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 11.5, fontFamily: T.sans, textAlign: 'right' }}>
+          © 2025 Dr. Pablo Andrade.<br />Todos os direitos reservados.
+        </div>
+      </div>
     </footer>
   )
 }
