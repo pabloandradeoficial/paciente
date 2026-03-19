@@ -172,16 +172,27 @@ function Hero({ onLogin }) {
           <em style={{ color: T.gold, fontStyle: 'italic' }}>acompanhado com precisão</em>
         </h1>
 
-        <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 'clamp(15px, 2vw, 18px)', maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.9, fontFamily: T.sans }}>
+        <p style={{ color: 'rgba(255,255,255,0.88)', fontSize: 'clamp(15px, 2vw, 18px)', maxWidth: 480, margin: '0 auto 52px', lineHeight: 1.9, fontFamily: T.sans }}>
           Uma área exclusiva e personalizada para cada paciente — exercícios, orientações e materiais sempre atualizados.
         </p>
 
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: 'clamp(13px,2vw,16px) clamp(28px,5vw,44px)', borderRadius: T.rMd, fontSize: 'clamp(14px,1.8vw,16px)', fontWeight: 700, fontFamily: T.sans, cursor: 'pointer', boxShadow: T.shadowGold }}>
-            Acessar Minha Área
+        {/* CTA principal — mais forte, mais espaçoso */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+          <button onClick={onLogin} style={{
+            background: T.gold, color: T.navy, border: 'none',
+            padding: 'clamp(16px,2.5vw,20px) clamp(40px,7vw,64px)',
+            borderRadius: T.rMd, fontSize: 'clamp(16px,2vw,18px)',
+            fontWeight: 800, fontFamily: T.sans, cursor: 'pointer', letterSpacing: '0.3px',
+            boxShadow: '0 12px 40px rgba(201,168,76,0.45), 0 4px 12px rgba(0,0,0,0.2)',
+            transition: 'transform 0.15s, box-shadow 0.15s',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 18px 48px rgba(201,168,76,0.55), 0 6px 16px rgba(0,0,0,0.25)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(201,168,76,0.45), 0 4px 12px rgba(0,0,0,0.2)' }}>
+            Acessar Minha Área →
           </button>
-          <a href={`tel:+5535998732804`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: '#fff', border: '1px solid rgba(255,255,255,0.28)', padding: 'clamp(13px,2vw,16px) clamp(20px,3vw,32px)', borderRadius: T.rMd, fontSize: 'clamp(13px,1.6vw,15px)', fontFamily: T.sans, cursor: 'pointer', textDecoration: 'none', backdropFilter: 'blur(6px)' }}>
-            {T.phone}
+          <a href={`tel:+5535998732804`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(13px,1.6vw,14px)', fontFamily: T.sans, textDecoration: 'none' }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.68 19.79 19.79 0 01.06 1.1 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+            Ligar: {T.phone}
           </a>
         </div>
 
@@ -451,7 +462,13 @@ function CTA({ onLogin }) {
             Seus exercícios e orientações estão disponíveis. Acesse com o login e senha fornecidos pelo Dr. Pablo.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button onClick={onLogin} style={{ background: T.gold, color: T.navy, border: 'none', padding: 'clamp(13px,2vw,17px) clamp(28px,5vw,52px)', borderRadius: T.rMd, fontSize: 'clamp(14px,1.8vw,17px)', fontWeight: 700, fontFamily: T.sans, cursor: 'pointer', boxShadow: '0 12px 40px rgba(201,168,76,0.4)' }}>
+            <button onClick={onLogin} style={{
+            background: T.gold, color: T.navy, border: 'none',
+            padding: 'clamp(16px,2.5vw,20px) clamp(44px,7vw,68px)',
+            borderRadius: T.rMd, fontSize: 'clamp(15px,2vw,18px)',
+            fontWeight: 800, fontFamily: T.sans, cursor: 'pointer', letterSpacing: '0.3px',
+            boxShadow: '0 12px 40px rgba(201,168,76,0.45)',
+          }}>
               Entrar na Minha Área
             </button>
             <a href={`tel:+5535998732804`} style={{ display: 'inline-flex', alignItems: 'center', background: 'rgba(255,255,255,0.08)', color: '#fff', border: '1px solid rgba(255,255,255,0.25)', padding: 'clamp(13px,2vw,17px) clamp(20px,3vw,32px)', borderRadius: T.rMd, fontSize: 'clamp(13px,1.5vw,15px)', fontFamily: T.sans, textDecoration: 'none', backdropFilter: 'blur(6px)' }}>
