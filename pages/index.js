@@ -155,7 +155,7 @@ function Hero({ onLogin }) {
   return (
     <div style={{ minHeight: '100svh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(96px, 14vw, 140px) clamp(1.25rem, 5vw, 4rem) clamp(56px, 8vw, 96px)' }}>
       <div style={{ position: 'absolute', inset: 0 }}>
-        <img src="/consultorio.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', filter: 'brightness(0.52)' }} />
+        <img src="/consultorio.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 70%', filter: 'brightness(0.52)' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(110deg, rgba(10,16,36,0.88) 0%, rgba(14,22,40,0.80) 50%, rgba(18,28,52,0.60) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(to top, rgba(10,16,36,0.7) 0%, transparent 100%)' }} />
       </div>
