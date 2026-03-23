@@ -51,7 +51,7 @@ export default function Login() {
           {/* Overlay content */}
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '48px' }}>
             <div style={{ color: T.green, fontSize: 10.5, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 12 }}>Portal Exclusivo</div>
-            <h2 style={{ color: T.white, fontSize: 28, fontWeight: 400, lineHeight: 1.25, marginBottom: 16, fontFamily: T.serif }}>
+            <h2 style={{ color: T.white, fontSize: 28, fontWeight: 800, lineHeight: 1.25, marginBottom: 16, fontFamily: T.serif }}>
               Seu acompanhamento<br /><em style={{ color: T.green, fontStyle: 'italic' }}>organizado e acessível</em>
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 14, lineHeight: 1.8, maxWidth: 320 }}>
@@ -78,8 +78,8 @@ export default function Login() {
 
           {/* Heading */}
           <div style={{ marginBottom: 36 }}>
-            <h1 style={{ color: T.white, fontSize: 'clamp(22px,4vw,28px)', fontWeight: 400, fontFamily: T.serif, lineHeight: 1.2, marginBottom: 10 }}>
-              Bem-vindo ao<br /><em style={{ color: T.green }}>seu portal</em>
+            <h1 style={{ color: T.white, fontSize: 'clamp(22px,4vw,28px)', fontWeight: 800, fontFamily: T.serif, lineHeight: 1.2, marginBottom: 10 }}>
+              Bem-vindo ao<br /><em style={{ color: T.green, fontWeight: 800 }}>seu portal</em>
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13.5, lineHeight: 1.7 }}>
               Acesse sua área exclusiva com os dados fornecidos pelo fisioterapeuta.
@@ -89,7 +89,7 @@ export default function Login() {
           {/* Form */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <div>
-              <label style={{ display: 'block', color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: 600, marginBottom: 8, letterSpacing: '0.5px', textTransform: 'uppercase' }}>Usuário</label>
+              <label style={{ display: 'block', color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: 700, marginBottom: 8, letterSpacing: '0.5px', textTransform: 'uppercase' }}>Usuário</label>
               <input value={username} onChange={e => setUsername(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()}
                 placeholder="Seu login" autoComplete="username"
                 style={{ width: '100%', padding: '14px 16px', background: 'rgba(255,255,255,0.07)', border: `1px solid ${error ? T.red : 'rgba(255,255,255,0.15)'}`, borderRadius: 10, fontSize: 15, color: T.white, outline: 'none', transition: 'border-color 0.2s', fontFamily: T.sans, minHeight: 50 }}
@@ -99,7 +99,7 @@ export default function Login() {
             </div>
 
             <div>
-              <label style={{ display: 'block', color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: 600, marginBottom: 8, letterSpacing: '0.5px', textTransform: 'uppercase' }}>Senha</label>
+              <label style={{ display: 'block', color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: 700, marginBottom: 8, letterSpacing: '0.5px', textTransform: 'uppercase' }}>Senha</label>
               <div style={{ position: 'relative' }}>
                 <input value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()}
                   type={showPass ? 'text' : 'password'} placeholder="••••••••" autoComplete="current-password"
@@ -126,10 +126,12 @@ export default function Login() {
             marginTop: 28, width: '100%', background: loading ? 'rgba(34,197,94,0.6)' : T.green,
             color: T.navy, border: 'none', padding: '16px', borderRadius: 12,
             fontSize: 17, fontWeight: 800, cursor: loading ? 'not-allowed' : 'pointer',
-            letterSpacing: '0.3px', transition: 'all 0.2s ease', fontFamily: T.sans,
+            letterSpacing: '0.3px', transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)', fontFamily: T.sans,
             boxShadow: loading ? 'none' : '0 4px 20px rgba(34,197,94,0.35)',
             minHeight: 52,
-          }}>
+          }}
+            onMouseEnter={e => { if (!loading) e.currentTarget.style.transform = 'translateY(-2px)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'none' }}>
             {loading ? 'Verificando...' : 'Entrar na minha área'}
           </button>
 

@@ -89,7 +89,7 @@ export default function AdminDashboard() {
                 <span style={{ color: T.navy, fontSize: 22, fontWeight: 700, lineHeight: 1 }}>+</span>
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: T.white, fontFamily: T.sans }}>Novo Paciente</div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: T.white, fontFamily: T.sans }}>Novo Paciente</div>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 2, fontFamily: T.sans }}>Cadastrar agora</div>
               </div>
             </button>
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
             <div style={{ background: T.white, borderRadius: 16, border: `1px solid ${T.gray200}`, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
               <div style={{ padding: '18px 22px', borderBottom: `1px solid ${T.gray100}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: T.navy, fontFamily: T.sans }}>Pacientes Recentes</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: T.navy, fontFamily: T.sans }}>Pacientes Recentes</div>
                   <div style={{ fontSize: 11, color: T.gray400, marginTop: 2, fontFamily: T.sans }}>Ordenados por última atualização</div>
                 </div>
                 <button onClick={() => router.push('/admin/pacientes')} style={{ background: T.goldLight, border: `1px solid ${T.goldBorder}`, color: T.gold, fontSize: 12, cursor: 'pointer', padding: '5px 12px', borderRadius: 8, fontWeight: 600, fontFamily: T.sans }}>
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
               <div style={{ background: `linear-gradient(135deg, ${T.navy}, ${T.navyMid})`, padding: '18px 22px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: T.white, fontFamily: T.sans }}>Mensagem da Semana</div>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: T.white, fontFamily: T.sans }}>Mensagem da Semana</div>
                     <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 2, fontFamily: T.sans }}>Aparece para todos os pacientes no portal</div>
                   </div>
                   <div style={{ width: 36, height: 36, borderRadius: 10, background: T.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -229,7 +229,7 @@ export default function AdminDashboard() {
                 { label: '+ Novo Paciente',     href: '/admin/pacientes/novo', primary: true  },
                 { label: 'Ver Todos os Pacientes', href: '/admin/pacientes',      primary: false },
               ].map(a => (
-                <button key={a.label} onClick={() => router.push(a.href)} style={{ padding: '9px 20px', background: a.primary ? T.navy : T.gray50, color: a.primary ? T.white : T.gray700, border: `1px solid ${a.primary ? T.navy : T.gray200}`, borderRadius: 9, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: T.sans }}>
+                <button key={a.label} onClick={() => router.push(a.href)} style={{ padding: '9px 20px', background: a.primary ? T.navy : T.gray50, color: a.primary ? T.white : T.gray700, border: `1px solid ${a.primary ? T.navy : T.gray200}`, borderRadius: 9, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: T.sans, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}>
                   {a.label}
                 </button>
               ))}

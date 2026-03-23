@@ -115,7 +115,7 @@ export default function PatientList() {
                   <td style={{ padding: '16px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{ width: 34, height: 34, borderRadius: '50%', background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', color: T.gold, fontWeight: 700, fontSize: 12, flexShrink: 0 }}>{initials(p.full_name)}</div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: T.gray800, fontFamily: T.sans }}>{p.full_name}</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: T.gray800, fontFamily: T.sans }}>{p.full_name}</div>
                     </div>
                   </td>
                   <td style={{ padding: '16px 16px', fontSize: 13, color: T.gray500, fontFamily: T.sans }}>@{p.username}</td>
@@ -124,9 +124,9 @@ export default function PatientList() {
                   <td style={{ padding: '16px 16px', fontSize: 12, color: T.gray400, fontFamily: T.sans }}>{p.updated_at?.slice(0, 10) || '—'}</td>
                   <td style={{ padding: '16px 16px' }}>
                     <div style={{ display: 'flex', gap: 7 }}>
-                      <button onClick={() => router.push(`/admin/pacientes/${p.id}`)} style={{ padding: '6px 12px', background: T.navy, color: T.white, border: 'none', borderRadius: 7, fontSize: 12, cursor: 'pointer', fontFamily: T.sans }}>Ver</button>
-                      <button onClick={() => toggleStatus(p)} style={{ padding: '6px 10px', background: p.is_active ? T.amberLight : T.greenLight, color: p.is_active ? T.amberDark : T.greenDark, border: 'none', borderRadius: 7, fontSize: 12, cursor: 'pointer', fontFamily: T.sans }}>{p.is_active ? 'Inativar' : 'Ativar'}</button>
-                      <button onClick={() => deletePatient(p)} style={{ padding: '6px 10px', background: T.redLight, color: T.red, border: 'none', borderRadius: 7, fontSize: 12, cursor: 'pointer', fontFamily: T.sans }}>Excluir</button>
+                      <button onClick={() => router.push(`/admin/pacientes/${p.id}`)} style={{ padding: '6px 12px', background: T.navy, color: T.white, border: 'none', borderRadius: 7, fontSize: 12, cursor: 'pointer', fontFamily: T.sans, transition: 'all 0.2s ease' }}>Ver</button>
+                      <button onClick={() => toggleStatus(p)} style={{ padding: '6px 10px', background: p.is_active ? T.amberLight : T.greenLight, color: p.is_active ? T.amberDark : T.greenDark, border: 'none', borderRadius: 7, fontSize: 12, cursor: 'pointer', fontFamily: T.sans, transition: 'all 0.2s ease' }}>{p.is_active ? 'Inativar' : 'Ativar'}</button>
+                      <button onClick={() => deletePatient(p)} style={{ padding: '6px 10px', background: T.redLight, color: T.red, border: 'none', borderRadius: 7, fontSize: 12, cursor: 'pointer', fontFamily: T.sans, transition: 'all 0.2s ease' }}>Excluir</button>
                     </div>
                   </td>
                 </tr>

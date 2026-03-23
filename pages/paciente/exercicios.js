@@ -84,7 +84,7 @@ export default function PatientExercicios() {
                   border: open ? `2px solid ${T.green}` : `1.5px solid ${T.border}`,
                   overflow: 'hidden',
                   boxShadow: open ? '0 6px 24px rgba(34,197,94,0.14)' : '0 1px 3px rgba(0,0,0,0.06)',
-                  transition: 'border-color 0.2s, box-shadow 0.2s',
+                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}>
 
                   {/* ── HEADER — sempre visível, toque para expandir ── */}
@@ -93,14 +93,15 @@ export default function PatientExercicios() {
                     padding: 'clamp(15px,2.5vw,20px) clamp(16px,3vw,22px)',
                     background: open ? T.navy : T.card,
                     border: 'none', cursor: 'pointer', textAlign: 'left',
+                    borderRadius: open ? '20px 20px 0 0' : 0,
                     transition: 'background 0.22s',
                     minHeight: 52,
                   }}>
                     {/* Número */}
                     <div style={{
                       width: 40, height: 40, borderRadius: 11, flexShrink: 0,
-                      background: open ? T.green : T.metaBg,
-                      border: open ? 'none' : `1.5px solid ${T.border}`,
+                      background: open ? T.green : '#f0fdf4',
+                      border: open ? 'none' : '1.5px solid #22c55e',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       transition: 'all 0.22s',
                     }}>
@@ -145,19 +146,19 @@ export default function PatientExercicios() {
                           { label: 'Frequência', value: ex.frequency },
                         ].filter(item => item.value).map(item => (
                           <div key={item.label} style={{
-                            background: T.metaBg, borderRadius: 10,
-                            padding: '12px 24px', textAlign: 'center',
-                            border: `1.5px solid ${T.border}`, minWidth: 90,
+                            background: 'rgba(34,197,94,0.15)', borderRadius: 12,
+                            padding: '12px 20px', textAlign: 'center',
+                            border: '1.5px solid rgba(34,197,94,0.4)', minWidth: 90,
                           }}>
-                            <div style={{ fontSize: 10, color: T.hint, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4, fontFamily: T.sans, fontWeight: 700 }}>{item.label}</div>
-                            <div style={{ fontSize: 'clamp(20px,3vw,26px)', fontWeight: 900, color: T.navy, fontFamily: T.sans, letterSpacing: '-0.5px' }}>{item.value}</div>
+                            <div style={{ fontSize: 10, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4, fontFamily: T.sans, fontWeight: 700 }}>{item.label}</div>
+                            <div style={{ fontSize: 'clamp(20px,3vw,26px)', fontWeight: 900, color: '#111827', fontFamily: T.sans, letterSpacing: '-0.5px' }}>{item.value}</div>
                           </div>
                         ))}
                       </div>
 
                       {/* Como realizar */}
                       {ex.description && (
-                        <div style={{ marginBottom: 16, padding: '14px 16px', background: '#f8fafc', borderRadius: 10, border: `1px solid #e2e8f0` }}>
+                        <div style={{ marginBottom: 16, padding: '14px 16px', background: '#f0fdf4', borderRadius: 10, border: '1px solid #bbf7d0' }}>
                           <div style={{ fontSize: 10, color: T.hint, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 7, fontFamily: T.sans, fontWeight: 700 }}>Como realizar</div>
                           <p style={{ fontSize: 'clamp(14px,1.8vw,15.5px)', color: T.body, lineHeight: 1.9, margin: 0, fontFamily: T.sans, fontWeight: 450 }}>
                             {ex.description}
@@ -169,14 +170,14 @@ export default function PatientExercicios() {
                       {ex.observations && (
                         <div style={{ background: T.amberBg, borderRadius: 10, padding: '13px 16px', borderLeft: `4px solid ${T.amberBorder}`, marginBottom: 16 }}>
                           <div style={{ fontSize: 10, color: T.amberText, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6, fontFamily: T.sans, fontWeight: 800 }}>Atenção</div>
-                          <p style={{ fontSize: 'clamp(13.5px,1.7vw,15px)', color: T.amberText, lineHeight: 1.85, margin: 0, fontFamily: T.sans, fontWeight: 500 }}>{ex.observations}</p>
+                          <p style={{ fontSize: 'clamp(14px,1.8vw,15.5px)', color: T.amberText, lineHeight: 1.85, margin: 0, fontFamily: T.sans, fontWeight: 500 }}>{ex.observations}</p>
                         </div>
                       )}
 
                       {/* Vídeo */}
                       {ex.video_url && (
                         <a href={ex.video_url} target="_blank" rel="noreferrer"
-                          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blueBg, color: T.blueText, padding: '13px 24px', borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: 'none', fontFamily: T.sans, border: `1.5px solid ${T.blueBorder}`, minHeight: 48 }}>
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blueBg, color: T.blueText, padding: '13px 24px', borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: 'none', fontFamily: T.sans, border: `1.5px solid ${T.blueBorder}`, minHeight: 48, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill={T.blueText}><polygon points="5,3 19,12 5,21"/></svg>
                           Ver vídeo demonstrativo
                         </a>
@@ -190,7 +191,7 @@ export default function PatientExercicios() {
         )}
 
         {!loading && exercises.length > 0 && (
-          <div style={{ marginTop: 22, padding: 'clamp(13px,2.5vw,17px)', background: T.card, borderRadius: 12, border: `1.5px solid ${T.border}`, textAlign: 'center', borderLeft: '3px solid #22c55e' }}>
+          <div style={{ marginTop: 22, padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,22px)', background: '#f0fdf4', borderRadius: 16, border: '1.5px solid #bbf7d0', textAlign: 'center' }}>
             <p style={{ fontSize: 13.5, color: T.muted, fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
               Dúvidas sobre algum exercício?{' '}
               <a href="tel:+5535998732804" style={{ color: T.green, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>

@@ -44,7 +44,7 @@ export default function PatientMateriais() {
 
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 7, fontFamily: T.sans }}>Conteúdo de apoio</div>
-          <h1 style={{ fontSize: 'clamp(22px,4vw,28px)', fontWeight: 700, color: T.h1, margin: '0 0 8px', fontFamily: T.serif, letterSpacing: '-0.3px' }}>
+          <h1 style={{ fontSize: 'clamp(22px,4vw,28px)', fontWeight: 800, color: T.h1, margin: '0 0 8px', fontFamily: T.serif, letterSpacing: '-0.3px' }}>
             Materiais Complementares
             {!loading && materials.length > 0 && (
               <span style={{ fontSize: 14, color: T.hint, fontFamily: T.sans, fontWeight: 400, marginLeft: 10 }}>({materials.length})</span>
@@ -63,7 +63,7 @@ export default function PatientMateriais() {
               const Icon = cfg.icon
               return (
                 <a key={m.id} href={url} target="_blank" rel="noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,20px)', background: T.card, borderRadius: 14, border: `1.5px solid ${T.border}`, textDecoration: 'none', transition: 'all 0.18s', boxShadow: '0 1px 4px rgba(0,0,0,0.05)', minHeight: 72 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,20px)', background: T.card, borderRadius: 14, border: `1.5px solid ${T.border}`, textDecoration: 'none', transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)', boxShadow: '0 1px 4px rgba(0,0,0,0.05)', minHeight: 72 }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = T.navy; e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.14)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.05)'; e.currentTarget.style.transform = 'none' }}>
 
@@ -83,8 +83,8 @@ export default function PatientMateriais() {
                   </div>
 
                   {/* Seta */}
-                  <div style={{ width: 36, height: 36, borderRadius: 9, background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.navy} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <div style={{ width: 36, height: 36, borderRadius: 9, background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/>
                     </svg>
                   </div>

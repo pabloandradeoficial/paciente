@@ -140,12 +140,12 @@ function SidebarContent({ active, navigate, logout }) {
             <span style={{ color: T.navy, fontWeight: 800, fontSize: 13 }}>PA</span>
           </div>
           <div>
-            <div style={{ color: T.gold, fontWeight: 700, fontSize: 13.5, lineHeight: 1.2 }}>Dr. Pablo Andrade</div>
+            <div style={{ color: T.gold, fontWeight: 800, fontSize: 13.5, lineHeight: 1.2 }}>Dr. Pablo Andrade</div>
             <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 10.5, marginTop: 2 }}>Fisioterapia e Quiropraxia</div>
           </div>
         </div>
         <div style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 8, padding: '4px 12px', display: 'inline-block' }}>
-          <span style={{ color: T.gold, fontSize: 10, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Painel Admin</span>
+          <span style={{ color: T.gold, fontSize: 10, letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 700 }}>Painel Admin</span>
         </div>
       </div>
 
@@ -162,7 +162,8 @@ function SidebarContent({ active, navigate, logout }) {
               borderLeft: isActive ? '3px solid #c9a84c' : '3px solid transparent',
               borderRadius: 10, cursor: 'pointer', marginBottom: 4,
               color: isActive ? T.gold : 'rgba(255,255,255,0.6)',
-              fontSize: 14, textAlign: 'left', fontFamily: T.sans, minHeight: 48,
+              fontSize: 14, fontWeight: isActive ? 700 : 500, textAlign: 'left', fontFamily: T.sans, minHeight: 48,
+              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
             }}>
               {item.icon(isActive)}
               {item.label}
@@ -178,6 +179,7 @@ function SidebarContent({ active, navigate, logout }) {
           border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10,
           color: 'rgba(255,255,255,0.35)', fontSize: 13.5, cursor: 'pointer',
           textAlign: 'left', display: 'flex', alignItems: 'center', gap: 10, fontFamily: T.sans, minHeight: 44,
+          transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
         }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>

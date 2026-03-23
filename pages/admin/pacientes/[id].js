@@ -80,6 +80,7 @@ export default function PatientDetail() {
               cursor: 'pointer', fontSize: 13, fontWeight: tab === t.id ? 700 : 400, whiteSpace: 'nowrap', flexShrink: 0,
               background: tab === t.id ? C.navy : C.white,
               color: tab === t.id ? C.white : C.gray500,
+              transition: 'all 0.2s ease',
             }}>{t.label}</button>
           ))}
         </div>
@@ -111,12 +112,12 @@ function TabDados({ patient, onSave, showToast }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Dados do Paciente</h3>
+        <h3 style={{ margin: 0, color: C.navy, fontSize: 16, fontWeight: 800 }}>Dados do Paciente</h3>
         {!editing
-          ? <button onClick={() => setEditing(true)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>Editar</button>
+          ? <button onClick={() => setEditing(true)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44, transition: 'all 0.2s ease' }}>Editar</button>
           : <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>Cancelar</button>
-              <button onClick={save} style={{ padding: '8px 20px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700, minHeight: 44 }}>Salvar</button>
+              <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44, transition: 'all 0.2s ease' }}>Cancelar</button>
+              <button onClick={save} style={{ padding: '8px 20px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700, minHeight: 44, transition: 'all 0.2s ease' }}>Salvar</button>
             </div>
         }
       </div>
@@ -159,12 +160,12 @@ function TabPlano({ patient, activePlan, onSave, showToast }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Plano de Tratamento</h3>
+        <h3 style={{ margin: 0, color: C.navy, fontSize: 16, fontWeight: 800 }}>Plano de Tratamento</h3>
         {!editing
-          ? <button onClick={() => setEditing(true)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>{activePlan ? 'Editar Plano' : 'Criar Plano'}</button>
+          ? <button onClick={() => setEditing(true)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44, transition: 'all 0.2s ease' }}>{activePlan ? 'Editar Plano' : 'Criar Plano'}</button>
           : <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>Cancelar</button>
-              <button onClick={save} style={{ padding: '8px 20px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700, minHeight: 44 }}>Salvar</button>
+              <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44, transition: 'all 0.2s ease' }}>Cancelar</button>
+              <button onClick={save} style={{ padding: '8px 20px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700, minHeight: 44, transition: 'all 0.2s ease' }}>Salvar</button>
             </div>
         }
       </div>
@@ -232,8 +233,8 @@ function TabExercicios({ activePlan, onSave, showToast }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Exercícios Prescritos ({exercises.length})</h3>
-        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>+ Adicionar</button>
+        <h3 style={{ margin: 0, color: C.navy, fontSize: 16, fontWeight: 800 }}>Exercícios Prescritos ({exercises.length})</h3>
+        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44, transition: 'all 0.2s ease' }}>+ Adicionar</button>
       </div>
 
       {showForm && (
@@ -251,8 +252,8 @@ function TabExercicios({ activePlan, onSave, showToast }) {
           {inp('Observações', 'observations')}
           <div style={{ marginTop: 12, marginBottom: 16 }}>{inp('Link do Vídeo (opcional)', 'video_url')}</div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={add} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700, minHeight: 44 }}>Salvar Exercício</button>
-            <button onClick={() => setShowForm(false)} style={{ padding: '10px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, minHeight: 44 }}>Cancelar</button>
+            <button onClick={add} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700, minHeight: 44, transition: 'all 0.2s ease' }}>Salvar Exercício</button>
+            <button onClick={() => setShowForm(false)} style={{ padding: '10px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, minHeight: 44, transition: 'all 0.2s ease' }}>Cancelar</button>
           </div>
         </div>
       )}
@@ -308,8 +309,8 @@ function TabOrientacoes({ activePlan, onSave, showToast }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Orientações do Dia a Dia ({guidelines.length})</h3>
-        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>+ Adicionar</button>
+        <h3 style={{ margin: 0, color: C.navy, fontSize: 16, fontWeight: 800 }}>Orientações do Dia a Dia ({guidelines.length})</h3>
+        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44, transition: 'all 0.2s ease' }}>+ Adicionar</button>
       </div>
 
       {showForm && (
@@ -364,8 +365,8 @@ function TabMateriais({ activePlan, onSave, showToast }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Materiais Complementares ({materials.length})</h3>
-        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>+ Adicionar</button>
+        <h3 style={{ margin: 0, color: C.navy, fontSize: 16, fontWeight: 800 }}>Materiais Complementares ({materials.length})</h3>
+        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44, transition: 'all 0.2s ease' }}>+ Adicionar</button>
       </div>
 
       {showForm && (
@@ -428,7 +429,7 @@ function TabNotas({ patient, onSave, showToast }) {
 
   return (
     <div>
-      <h3 style={{ margin: '0 0 24px', color: C.navy, fontSize: 16 }}>Notas Internas (visíveis apenas para você)</h3>
+      <h3 style={{ margin: '0 0 24px', color: C.navy, fontSize: 16, fontWeight: 800 }}>Notas Internas (visíveis apenas para você)</h3>
       <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
         <textarea value={note} onChange={e => setNote(e.target.value)} placeholder="Adicionar nota clínica interna..." rows={3} style={{ flex: 1, padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, resize: 'vertical', outline: 'none', minHeight: 100 }} />
         <button onClick={add} style={{ padding: '10px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, alignSelf: 'flex-end', whiteSpace: 'nowrap', minHeight: 44 }}>Salvar</button>
@@ -458,7 +459,7 @@ function TabAcesso({ patient, onSave, showToast }) {
 
   return (
     <div>
-      <h3 style={{ margin: '0 0 24px', color: C.navy, fontSize: 16 }}>Gerenciamento de Acesso</h3>
+      <h3 style={{ margin: '0 0 24px', color: C.navy, fontSize: 16, fontWeight: 800 }}>Gerenciamento de Acesso</h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 24 }}>
         <div style={{ background: C.gray50, borderRadius: 12, padding: 24, border: `1px solid ${C.gray200}` }}>
           <div style={{ fontSize: 15, fontWeight: 700, color: C.navy, marginBottom: 16 }}>Credenciais Atuais</div>

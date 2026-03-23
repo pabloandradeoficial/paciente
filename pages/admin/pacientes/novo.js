@@ -43,7 +43,7 @@ export default function NewPatient() {
     <ProtectedRoute requiredRole="admin">
       <Head><title>Novo Paciente — Admin</title></Head>
       {toast && <Toast msg={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
-      <AdminLayout title="Novo Paciente" subtitle="Cadastrar novo paciente no sistema">
+      <AdminLayout title="Novo Paciente" subtitle="Preencha os dados para cadastrar um novo paciente">
         <button onClick={() => router.back()} style={{ background: 'none', border: 'none', color: C.navy, fontSize: 14, cursor: 'pointer', marginBottom: 24 }}>← Voltar</button>
         <div style={{ background: C.white, borderRadius: 12, border: `1px solid ${C.gray200}`, padding: 32 }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 20, marginBottom: 20 }}>
@@ -68,7 +68,9 @@ export default function NewPatient() {
           </div>
 
           <div style={{ display: 'flex', gap: 12 }}>
-            <button onClick={handleSave} disabled={loading} style={{ padding: '12px 32px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 16, fontWeight: 700, opacity: loading ? 0.7 : 1, minHeight: 52 }}>
+            <button onClick={handleSave} disabled={loading} style={{ padding: '12px 32px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 16, fontWeight: 700, opacity: loading ? 0.7 : 1, minHeight: 52, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}
+              onMouseEnter={e => { if (!loading) e.currentTarget.style.transform = 'translateY(-1px)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'none' }}>
               {loading ? 'Cadastrando...' : 'Cadastrar Paciente'}
             </button>
             <button onClick={() => router.back()} style={{ padding: '12px 24px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 15, minHeight: 52 }}>Cancelar</button>

@@ -53,7 +53,7 @@ export default function PatientLayout({ children }) {
                 <span style={{ color: T.navy, fontWeight: 800, fontSize: 12 }}>PA</span>
               </div>
               <div>
-                <div style={{ color: T.white, fontWeight: 700, fontSize: 13, lineHeight: 1.2 }}>Dr. Pablo Andrade</div>
+                <div style={{ color: T.white, fontWeight: 800, fontSize: 13, lineHeight: 1.2 }}>Dr. Pablo Andrade</div>
                 <div style={{ color: T.green, fontSize: 10, letterSpacing: '0.3px' }}>Fisioterapia e Quiropraxia</div>
               </div>
             </div>
@@ -80,9 +80,9 @@ export default function PatientLayout({ children }) {
                   display: 'flex', alignItems: 'center', gap: 7, padding: '10px 18px',
                   background: 'none', border: 'none', cursor: 'pointer',
                   color: on ? T.green : 'rgba(255,255,255,0.5)',
-                  fontSize: 13.5, fontWeight: on ? 700 : 400,
+                  fontSize: 13.5, fontWeight: on ? 700 : 500,
                   borderBottom: on ? `2px solid ${T.green}` : '2px solid transparent',
-                  transition: 'all 0.15s', fontFamily: T.sans, minHeight: 44,
+                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)', fontFamily: T.sans, minHeight: 44,
                 }}>
                   <t.icon size={14} color={on ? T.green : 'rgba(255,255,255,0.45)'} />
                   {t.label}
@@ -133,9 +133,10 @@ export default function PatientLayout({ children }) {
               background: 'none', border: 'none', cursor: 'pointer',
               padding: '8px 16px', borderRadius: 10, flex: 1, minHeight: 60,
               color: on ? T.green : 'rgba(255,255,255,0.4)', fontFamily: T.sans,
+              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
             }}>
               <t.icon size={20} color={on ? T.green : 'rgba(255,255,255,0.4)'} />
-              <span style={{ fontSize: 10.5, fontWeight: on ? 700 : 400, letterSpacing: '0.2px' }}>{t.label}</span>
+              <span style={{ fontSize: 10.5, fontWeight: on ? 700 : 500, letterSpacing: '0.2px' }}>{t.label}</span>
             </button>
           )
         })}

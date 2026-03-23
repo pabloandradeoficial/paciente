@@ -44,7 +44,7 @@ export default function PatientOrientacoes() {
 
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 6, fontFamily: T.sans }}>Orientações</div>
-          <h1 style={{ fontSize: 'clamp(20px,4vw,26px)', fontWeight: 700, color: T.textPrimary, margin: '0 0 8px', fontFamily: T.serif }}>
+          <h1 style={{ fontSize: 'clamp(20px,4vw,26px)', fontWeight: 800, color: T.textPrimary, margin: '0 0 8px', fontFamily: T.serif }}>
             Orientações do Dia a Dia
             {!loading && guidelines.length > 0 && (
               <span style={{ fontSize: 14, color: T.textMuted, fontFamily: T.sans, fontWeight: 400, marginLeft: 10 }}>({guidelines.length})</span>
@@ -64,6 +64,7 @@ export default function PatientOrientacoes() {
                   background: T.bgCard, borderRadius: 16, padding: 'clamp(20px,3.5vw,28px)',
                   border: `1px solid ${T.border}`, borderLeft: `4px solid ${ac.border}`,
                   boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}>
                   {/* Category */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
