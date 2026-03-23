@@ -46,7 +46,7 @@ export default function PatientLayout({ children }) {
       {/* ── Top bar ── */}
       <div style={{ background: T.navyDeep, position: 'sticky', top: 0, zIndex: 100, borderBottom: '1px solid rgba(34,197,94,0.15)' }}>
         <div style={{ maxWidth: 820, margin: '0 auto', padding: '0 clamp(1rem, 3vw, 1.5rem)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
             {/* Brand */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ width: 34, height: 34, borderRadius: '50%', background: T.green, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -82,7 +82,7 @@ export default function PatientLayout({ children }) {
                   color: on ? T.green : 'rgba(255,255,255,0.5)',
                   fontSize: 13.5, fontWeight: on ? 700 : 400,
                   borderBottom: on ? `2px solid ${T.green}` : '2px solid transparent',
-                  transition: 'all 0.15s', fontFamily: T.sans,
+                  transition: 'all 0.15s', fontFamily: T.sans, minHeight: 44,
                 }}>
                   <t.icon size={14} color={on ? T.green : 'rgba(255,255,255,0.45)'} />
                   {t.label}
@@ -103,7 +103,7 @@ export default function PatientLayout({ children }) {
         target="_blank" rel="noreferrer"
         title="Falar com Dr. Pablo no WhatsApp"
         style={{
-          position: 'fixed', bottom: 84, right: 20, zIndex: 150,
+          position: 'fixed', bottom: 90, right: 20, zIndex: 150,
           width: 52, height: 52, borderRadius: '50%',
           background: '#25d366',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -123,7 +123,7 @@ export default function PatientLayout({ children }) {
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100,
         background: T.navyDeep, borderTop: '1px solid rgba(34,197,94,0.15)',
         display: 'none', justifyContent: 'space-around', alignItems: 'center',
-        height: 68, paddingBottom: 'env(safe-area-inset-bottom)',
+        height: 72, paddingBottom: 'env(safe-area-inset-bottom)',
       }}>
         {tabs.map(t => {
           const on = active === t.href
@@ -131,7 +131,7 @@ export default function PatientLayout({ children }) {
             <button key={t.href} onClick={() => router.push(t.href)} style={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
               background: 'none', border: 'none', cursor: 'pointer',
-              padding: '8px 16px', borderRadius: 10, flex: 1,
+              padding: '8px 16px', borderRadius: 10, flex: 1, minHeight: 60,
               color: on ? T.green : 'rgba(255,255,255,0.4)', fontFamily: T.sans,
             }}>
               <t.icon size={20} color={on ? T.green : 'rgba(255,255,255,0.4)'} />

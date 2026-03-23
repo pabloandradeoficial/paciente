@@ -94,6 +94,7 @@ export default function PatientExercicios() {
                     background: open ? T.navy : T.card,
                     border: 'none', cursor: 'pointer', textAlign: 'left',
                     transition: 'background 0.22s',
+                    minHeight: 52,
                   }}>
                     {/* Número */}
                     <div style={{
@@ -145,11 +146,11 @@ export default function PatientExercicios() {
                         ].filter(item => item.value).map(item => (
                           <div key={item.label} style={{
                             background: T.metaBg, borderRadius: 10,
-                            padding: '10px 20px', textAlign: 'center',
-                            border: `1.5px solid ${T.border}`, minWidth: 84,
+                            padding: '12px 24px', textAlign: 'center',
+                            border: `1.5px solid ${T.border}`, minWidth: 90,
                           }}>
                             <div style={{ fontSize: 10, color: T.hint, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4, fontFamily: T.sans, fontWeight: 700 }}>{item.label}</div>
-                            <div style={{ fontSize: 'clamp(17px,2.5vw,20px)', fontWeight: 900, color: T.navy, fontFamily: T.sans, letterSpacing: '-0.5px' }}>{item.value}</div>
+                            <div style={{ fontSize: 'clamp(20px,3vw,26px)', fontWeight: 900, color: T.navy, fontFamily: T.sans, letterSpacing: '-0.5px' }}>{item.value}</div>
                           </div>
                         ))}
                       </div>
@@ -175,7 +176,7 @@ export default function PatientExercicios() {
                       {/* Vídeo */}
                       {ex.video_url && (
                         <a href={ex.video_url} target="_blank" rel="noreferrer"
-                          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blueBg, color: T.blueText, padding: '11px 20px', borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: 'none', fontFamily: T.sans, border: `1.5px solid ${T.blueBorder}` }}>
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blueBg, color: T.blueText, padding: '13px 24px', borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: 'none', fontFamily: T.sans, border: `1.5px solid ${T.blueBorder}`, minHeight: 48 }}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill={T.blueText}><polygon points="5,3 19,12 5,21"/></svg>
                           Ver vídeo demonstrativo
                         </a>
@@ -189,7 +190,7 @@ export default function PatientExercicios() {
         )}
 
         {!loading && exercises.length > 0 && (
-          <div style={{ marginTop: 22, padding: 'clamp(13px,2.5vw,17px)', background: T.card, borderRadius: 12, border: `1.5px solid ${T.border}`, textAlign: 'center' }}>
+          <div style={{ marginTop: 22, padding: 'clamp(13px,2.5vw,17px)', background: T.card, borderRadius: 12, border: `1.5px solid ${T.border}`, textAlign: 'center', borderLeft: '3px solid #22c55e' }}>
             <p style={{ fontSize: 13.5, color: T.muted, fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
               Dúvidas sobre algum exercício?{' '}
               <a href="tel:+5535998732804" style={{ color: T.green, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>

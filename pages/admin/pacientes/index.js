@@ -77,18 +77,18 @@ export default function PatientList() {
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20, gap: 12, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', gap: 10, flex: 1, flexWrap: 'wrap' }}>
             <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar por nome ou login..."
-              style={{ padding: '10px 14px', border: `1px solid ${T.gray200}`, borderRadius: 9, fontSize: 14, minWidth: 0, flex: 1, outline: 'none', fontFamily: T.sans, color: T.gray800 }}
+              style={{ padding: '10px 14px', border: `1px solid ${T.gray200}`, borderRadius: 9, fontSize: 14, minWidth: 0, flex: 1, outline: 'none', fontFamily: T.sans, color: T.gray800, minHeight: 48 }}
               onFocus={e => e.target.style.borderColor = T.gold}
               onBlur={e => e.target.style.borderColor = T.gray200} />
             <select value={filter} onChange={e => setFilter(e.target.value)}
-              style={{ padding: '10px 14px', border: `1px solid ${T.gray200}`, borderRadius: 9, fontSize: 14, background: T.white, cursor: 'pointer', outline: 'none', fontFamily: T.sans, color: T.gray700 }}>
+              style={{ padding: '10px 14px', border: `1px solid ${T.gray200}`, borderRadius: 9, fontSize: 14, background: T.white, cursor: 'pointer', outline: 'none', fontFamily: T.sans, color: T.gray700, minHeight: 48 }}>
               <option value="all">Todos</option>
               <option value="active">Ativos</option>
               <option value="inactive">Inativos</option>
             </select>
           </div>
           <button onClick={() => router.push('/admin/pacientes/novo')}
-            style={{ padding: '10px 20px', background: T.navy, color: T.white, border: 'none', borderRadius: 9, fontSize: 14, cursor: 'pointer', fontWeight: 600, whiteSpace: 'nowrap', fontFamily: T.sans }}>
+            style={{ padding: '10px 20px', background: T.navy, color: T.white, border: 'none', borderRadius: 9, fontSize: 14, cursor: 'pointer', fontWeight: 600, whiteSpace: 'nowrap', fontFamily: T.sans, minHeight: 48 }}>
             + Novo
           </button>
         </div>
@@ -110,19 +110,19 @@ export default function PatientList() {
                 <tr><td colSpan={6} style={{ padding: 40, textAlign: 'center', color: T.gray400, fontFamily: T.sans }}>Nenhum paciente encontrado.</td></tr>
               ) : filtered.map(p => (
                 <tr key={p.id} style={{ borderBottom: `1px solid ${T.gray100}`, cursor: 'pointer', transition: 'background 0.15s' }}
-                  onMouseEnter={e => e.currentTarget.style.background = T.gray50}
+                  onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                  <td style={{ padding: '13px 16px' }}>
+                  <td style={{ padding: '16px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{ width: 34, height: 34, borderRadius: '50%', background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', color: T.gold, fontWeight: 700, fontSize: 12, flexShrink: 0 }}>{initials(p.full_name)}</div>
                       <div style={{ fontSize: 14, fontWeight: 600, color: T.gray800, fontFamily: T.sans }}>{p.full_name}</div>
                     </div>
                   </td>
-                  <td style={{ padding: '13px 16px', fontSize: 13, color: T.gray500, fontFamily: T.sans }}>@{p.username}</td>
-                  <td style={{ padding: '13px 16px', fontSize: 13, color: T.gray500, fontFamily: T.sans }}>{p.phone || '—'}</td>
-                  <td style={{ padding: '13px 16px' }}><StatusBadge active={p.is_active} /></td>
-                  <td style={{ padding: '13px 16px', fontSize: 12, color: T.gray400, fontFamily: T.sans }}>{p.updated_at?.slice(0, 10) || '—'}</td>
-                  <td style={{ padding: '13px 16px' }}>
+                  <td style={{ padding: '16px 16px', fontSize: 13, color: T.gray500, fontFamily: T.sans }}>@{p.username}</td>
+                  <td style={{ padding: '16px 16px', fontSize: 13, color: T.gray500, fontFamily: T.sans }}>{p.phone || '—'}</td>
+                  <td style={{ padding: '16px 16px' }}><StatusBadge active={p.is_active} /></td>
+                  <td style={{ padding: '16px 16px', fontSize: 12, color: T.gray400, fontFamily: T.sans }}>{p.updated_at?.slice(0, 10) || '—'}</td>
+                  <td style={{ padding: '16px 16px' }}>
                     <div style={{ display: 'flex', gap: 7 }}>
                       <button onClick={() => router.push(`/admin/pacientes/${p.id}`)} style={{ padding: '6px 12px', background: T.navy, color: T.white, border: 'none', borderRadius: 7, fontSize: 12, cursor: 'pointer', fontFamily: T.sans }}>Ver</button>
                       <button onClick={() => toggleStatus(p)} style={{ padding: '6px 10px', background: p.is_active ? T.amberLight : T.greenLight, color: p.is_active ? T.amberDark : T.greenDark, border: 'none', borderRadius: 7, fontSize: 12, cursor: 'pointer', fontFamily: T.sans }}>{p.is_active ? 'Inativar' : 'Ativar'}</button>
@@ -154,13 +154,13 @@ export default function PatientList() {
               </div>
               {/* Actions */}
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={() => router.push(`/admin/pacientes/${p.id}`)} style={{ flex: 1, padding: '10px 0', background: T.navy, color: T.white, border: 'none', borderRadius: 9, fontSize: 13, cursor: 'pointer', fontWeight: 600, fontFamily: T.sans }}>
+                <button onClick={() => router.push(`/admin/pacientes/${p.id}`)} style={{ flex: 1, padding: '10px 0', background: T.navy, color: T.white, border: 'none', borderRadius: 9, fontSize: 13, cursor: 'pointer', fontWeight: 600, fontFamily: T.sans, minHeight: 48 }}>
                   Ver paciente
                 </button>
-                <button onClick={() => toggleStatus(p)} style={{ padding: '10px 14px', background: p.is_active ? T.amberLight : T.greenLight, color: p.is_active ? T.amberDark : T.greenDark, border: 'none', borderRadius: 9, fontSize: 13, cursor: 'pointer', fontFamily: T.sans }}>
+                <button onClick={() => toggleStatus(p)} style={{ padding: '10px 14px', background: p.is_active ? T.amberLight : T.greenLight, color: p.is_active ? T.amberDark : T.greenDark, border: 'none', borderRadius: 9, fontSize: 13, cursor: 'pointer', fontFamily: T.sans, minHeight: 48 }}>
                   {p.is_active ? 'Inativar' : 'Ativar'}
                 </button>
-                <button onClick={() => deletePatient(p)} style={{ padding: '10px 14px', background: T.redLight, color: T.red, border: 'none', borderRadius: 9, fontSize: 13, cursor: 'pointer', fontFamily: T.sans }}>
+                <button onClick={() => deletePatient(p)} style={{ padding: '10px 14px', background: T.redLight, color: T.red, border: 'none', borderRadius: 9, fontSize: 13, cursor: 'pointer', fontFamily: T.sans, minHeight: 48 }}>
                   Excluir
                 </button>
               </div>

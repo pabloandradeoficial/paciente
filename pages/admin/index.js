@@ -73,12 +73,12 @@ export default function AdminDashboard() {
               { label: 'Ativos',    value: active,          color: T.green, bg: T.greenLight,  icon: '✓'  },
               { label: 'Inativos',  value: inactive,        color: T.gray500, bg: T.gray100,   icon: '○'  },
             ].map(card => (
-              <div key={card.label} style={{ background: T.white, borderRadius: 14, padding: '20px 22px', border: `1px solid ${T.gray200}`, display: 'flex', alignItems: 'center', gap: 14, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+              <div key={card.label} style={{ background: T.white, borderRadius: 14, padding: '20px 22px', border: `1px solid ${T.gray200}`, display: 'flex', alignItems: 'center', gap: 14, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
                 <div style={{ width: 44, height: 44, borderRadius: 12, background: card.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
                   {card.icon}
                 </div>
                 <div>
-                  <div style={{ fontSize: 28, fontWeight: 800, color: card.color, lineHeight: 1, fontFamily: T.sans }}>{loading ? '—' : card.value}</div>
+                  <div style={{ fontSize: 32, fontWeight: 800, color: card.color, lineHeight: 1, fontFamily: T.sans }}>{loading ? '—' : card.value}</div>
                   <div style={{ fontSize: 12, color: T.gray400, marginTop: 3, fontFamily: T.sans }}>{card.label}</div>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function AdminDashboard() {
               ) : recent.map((p, i) => (
                 <div key={p.id} onClick={() => router.push(`/admin/pacientes/${p.id}`)}
                   style={{ padding: '13px 22px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', borderBottom: i < recent.length - 1 ? `1px solid ${T.gray50}` : 'none', transition: 'background 0.15s' }}
-                  onMouseEnter={e => e.currentTarget.style.background = T.gray50}
+                  onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ width: 36, height: 36, borderRadius: '50%', background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', color: T.gold, fontWeight: 800, fontSize: 12, flexShrink: 0, fontFamily: T.sans }}>
@@ -184,7 +184,7 @@ export default function AdminDashboard() {
                       <textarea value={msgText} onChange={e => setMsgText(e.target.value)}
                         placeholder="Ex: Esta semana o foco é consistência. Realize os exercícios no horário planejado e respeite os intervalos de recuperação."
                         rows={5}
-                        style={{ width: '100%', padding: '12px 14px', border: `1px solid ${T.gray200}`, borderRadius: 9, fontSize: 14, outline: 'none', resize: 'vertical', lineHeight: 1.65, color: T.gray800, fontFamily: T.sans, background: T.gray50, boxSizing: 'border-box' }}
+                        style={{ width: '100%', padding: '12px 14px', border: `1px solid ${T.gray200}`, borderRadius: 9, fontSize: 14, outline: 'none', resize: 'vertical', lineHeight: 1.65, color: T.gray800, fontFamily: T.sans, background: T.gray50, boxSizing: 'border-box', minHeight: 120 }}
                         onFocus={e => e.target.style.borderColor = T.gold}
                         onBlur={e => e.target.style.borderColor = T.gray200}
                       />
@@ -193,7 +193,7 @@ export default function AdminDashboard() {
                       <button onClick={saveMessage} disabled={savingMsg || !msgText.trim()} style={{
                         flex: 1, padding: '11px 0', background: msgText.trim() ? T.gold : T.gray200, color: msgText.trim() ? T.navy : T.gray400,
                         border: 'none', borderRadius: 9, fontSize: 14, fontWeight: 700, cursor: msgText.trim() ? 'pointer' : 'not-allowed', fontFamily: T.sans,
-                        boxShadow: msgText.trim() ? '0 4px 16px rgba(201,168,76,0.3)' : 'none',
+                        boxShadow: msgText.trim() ? '0 4px 16px rgba(201,168,76,0.3)' : 'none', minHeight: 48,
                       }}>
                         {savingMsg ? 'Publicando...' : 'Publicar para todos'}
                       </button>

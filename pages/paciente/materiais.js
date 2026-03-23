@@ -6,7 +6,7 @@ import { getSession } from '../../lib/auth'
 
 const T = {
   sans:  "'Montserrat', system-ui, sans-serif",
-  serif: "'Georgia', serif",
+  serif: "'Montserrat', sans-serif",
   navy:  '#111827', green: '#22c55e', white: '#ffffff',
   h1:    '#111827', body: '#1f2937', meta: '#374151',
   muted: '#4b5563', hint: '#6b7280',
@@ -63,12 +63,12 @@ export default function PatientMateriais() {
               const Icon = cfg.icon
               return (
                 <a key={m.id} href={url} target="_blank" rel="noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,20px)', background: T.card, borderRadius: 14, border: `1.5px solid ${T.border}`, textDecoration: 'none', transition: 'all 0.18s', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.navy; e.currentTarget.style.boxShadow = '0 6px 22px rgba(17,24,39,0.12)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,20px)', background: T.card, borderRadius: 14, border: `1.5px solid ${T.border}`, textDecoration: 'none', transition: 'all 0.18s', boxShadow: '0 1px 4px rgba(0,0,0,0.05)', minHeight: 72 }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.navy; e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.14)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.05)'; e.currentTarget.style.transform = 'none' }}>
 
                   {/* Ícone colorido */}
-                  <div style={{ width: 50, height: 50, borderRadius: 13, background: cfg.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <div style={{ width: 54, height: 54, borderRadius: 13, background: cfg.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Icon size={22} color="#fff" />
                   </div>
 

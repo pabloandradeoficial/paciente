@@ -92,7 +92,7 @@ export default function Login() {
               <label style={{ display: 'block', color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: 600, marginBottom: 8, letterSpacing: '0.5px', textTransform: 'uppercase' }}>Usuário</label>
               <input value={username} onChange={e => setUsername(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()}
                 placeholder="Seu login" autoComplete="username"
-                style={{ width: '100%', padding: '14px 16px', background: 'rgba(255,255,255,0.07)', border: `1px solid ${error ? T.red : 'rgba(255,255,255,0.15)'}`, borderRadius: 10, fontSize: 15, color: T.white, outline: 'none', transition: 'border-color 0.2s', fontFamily: T.sans }}
+                style={{ width: '100%', padding: '14px 16px', background: 'rgba(255,255,255,0.07)', border: `1px solid ${error ? T.red : 'rgba(255,255,255,0.15)'}`, borderRadius: 10, fontSize: 15, color: T.white, outline: 'none', transition: 'border-color 0.2s', fontFamily: T.sans, minHeight: 50 }}
                 onFocus={e => e.target.style.borderColor = T.green}
                 onBlur={e => e.target.style.borderColor = error ? T.red : 'rgba(255,255,255,0.15)'}
               />
@@ -103,7 +103,7 @@ export default function Login() {
               <div style={{ position: 'relative' }}>
                 <input value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()}
                   type={showPass ? 'text' : 'password'} placeholder="••••••••" autoComplete="current-password"
-                  style={{ width: '100%', padding: '14px 48px 14px 16px', background: 'rgba(255,255,255,0.07)', border: `1px solid ${error ? T.red : 'rgba(255,255,255,0.15)'}`, borderRadius: 10, fontSize: 15, color: T.white, outline: 'none', transition: 'border-color 0.2s', fontFamily: T.sans, boxSizing: 'border-box' }}
+                  style={{ width: '100%', padding: '14px 48px 14px 16px', background: 'rgba(255,255,255,0.07)', border: `1px solid ${error ? T.red : 'rgba(255,255,255,0.15)'}`, borderRadius: 10, fontSize: 15, color: T.white, outline: 'none', transition: 'border-color 0.2s', fontFamily: T.sans, boxSizing: 'border-box', minHeight: 50 }}
                   onFocus={e => e.target.style.borderColor = T.green}
                   onBlur={e => e.target.style.borderColor = error ? T.red : 'rgba(255,255,255,0.15)'}
                 />
@@ -125,9 +125,10 @@ export default function Login() {
           <button onClick={handleLogin} disabled={loading} style={{
             marginTop: 28, width: '100%', background: loading ? 'rgba(34,197,94,0.6)' : T.green,
             color: T.navy, border: 'none', padding: '16px', borderRadius: 12,
-            fontSize: 16, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer',
-            letterSpacing: '0.3px', transition: 'opacity 0.2s', fontFamily: T.sans,
-            boxShadow: loading ? 'none' : '0 8px 32px rgba(34,197,94,0.3)',
+            fontSize: 17, fontWeight: 800, cursor: loading ? 'not-allowed' : 'pointer',
+            letterSpacing: '0.3px', transition: 'all 0.2s ease', fontFamily: T.sans,
+            boxShadow: loading ? 'none' : '0 4px 20px rgba(34,197,94,0.35)',
+            minHeight: 52,
           }}>
             {loading ? 'Verificando...' : 'Entrar na minha área'}
           </button>

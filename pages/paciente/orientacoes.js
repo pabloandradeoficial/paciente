@@ -6,7 +6,7 @@ import { getSession } from '../../lib/auth'
 
 const T = {
   sans: "'Montserrat', system-ui, sans-serif",
-  serif: "'Georgia', serif",
+  serif: "'Montserrat', sans-serif",
   navy: '#111827', green: '#22c55e', white: '#ffffff',
   textPrimary: '#111827', textSecondary: '#374151', textTertiary: '#4b5563', textMuted: '#6b7280',
   bg: '#f5f5f0', bgCard: '#ffffff', border: '#e5e7eb', borderLight: '#f3f4f6',
@@ -61,9 +61,9 @@ export default function PatientOrientacoes() {
               const ac = ACCENT_COLORS[i % ACCENT_COLORS.length]
               return (
                 <div key={g.id} style={{
-                  background: T.bgCard, borderRadius: 16, padding: 'clamp(18px,3vw,24px)',
+                  background: T.bgCard, borderRadius: 16, padding: 'clamp(20px,3.5vw,28px)',
                   border: `1px solid ${T.border}`, borderLeft: `4px solid ${ac.border}`,
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
                 }}>
                   {/* Category */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
@@ -79,7 +79,7 @@ export default function PatientOrientacoes() {
         )}
 
         {!loading && guidelines.length > 0 && (
-          <div style={{ marginTop: 24, padding: 'clamp(16px,3vw,20px)', background: '#fffbeb', borderRadius: 12, border: '1px solid rgba(34,197,94,0.25)', textAlign: 'center' }}>
+          <div style={{ marginTop: 24, padding: 'clamp(16px,3vw,20px)', background: '#fffbeb', borderRadius: 12, border: '1px solid rgba(34,197,94,0.25)', textAlign: 'center', borderLeft: '3px solid #22c55e', paddingLeft: 'clamp(18px,3vw,24px)' }}>
             <p style={{ fontSize: 13.5, color: '#78350f', fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
               Estas orientações foram definidas para o seu caso. Siga com atenção e ligue se tiver dúvidas:{' '}
               <a href="tel:+5535998732804" style={{ color: T.green, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>

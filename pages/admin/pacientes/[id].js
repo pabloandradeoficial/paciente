@@ -113,10 +113,10 @@ function TabDados({ patient, onSave, showToast }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
         <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Dados do Paciente</h3>
         {!editing
-          ? <button onClick={() => setEditing(true)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>Editar</button>
+          ? <button onClick={() => setEditing(true)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>Editar</button>
           : <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>Cancelar</button>
-              <button onClick={save} style={{ padding: '8px 20px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>Salvar</button>
+              <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>Cancelar</button>
+              <button onClick={save} style={{ padding: '8px 20px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700, minHeight: 44 }}>Salvar</button>
             </div>
         }
       </div>
@@ -125,7 +125,7 @@ function TabDados({ patient, onSave, showToast }) {
           <div key={key}>
             <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{lbl}</label>
             {editing
-              ? <input value={form[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none' }} />
+              ? <input value={form[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48 }} />
               : <div style={{ fontSize: 14, color: C.gray700, padding: '10px 0', borderBottom: `1px solid ${C.gray100}` }}>{form[key] || '—'}</div>
             }
           </div>
@@ -134,7 +134,7 @@ function TabDados({ patient, onSave, showToast }) {
       <div style={{ marginTop: 20 }}>
         <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Observações Clínicas</label>
         {editing
-          ? <textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} rows={4} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', resize: 'vertical', outline: 'none' }} />
+          ? <textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} rows={4} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', resize: 'vertical', outline: 'none', minHeight: 100 }} />
           : <div style={{ fontSize: 14, color: C.gray700, lineHeight: 1.7 }}>{form.notes || '—'}</div>
         }
       </div>
@@ -161,10 +161,10 @@ function TabPlano({ patient, activePlan, onSave, showToast }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
         <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Plano de Tratamento</h3>
         {!editing
-          ? <button onClick={() => setEditing(true)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>{activePlan ? 'Editar Plano' : 'Criar Plano'}</button>
+          ? <button onClick={() => setEditing(true)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>{activePlan ? 'Editar Plano' : 'Criar Plano'}</button>
           : <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>Cancelar</button>
-              <button onClick={save} style={{ padding: '8px 20px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>Salvar</button>
+              <button onClick={() => setEditing(false)} style={{ padding: '8px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>Cancelar</button>
+              <button onClick={save} style={{ padding: '8px 20px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700, minHeight: 44 }}>Salvar</button>
             </div>
         }
       </div>
@@ -173,7 +173,7 @@ function TabPlano({ patient, activePlan, onSave, showToast }) {
           {[['Título do Plano', 'title'], ['Mensagem de Boas-vindas ao Paciente', 'welcome_message']].map(([lbl, key]) => (
             <div key={key}>
               <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>{lbl}</label>
-              <input value={form[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none' }} />
+              <input value={form[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48 }} />
             </div>
           ))}
           <div>
@@ -225,7 +225,7 @@ function TabExercicios({ activePlan, onSave, showToast }) {
   const inp = (lbl, key, type = 'text') => (
     <div key={key}>
       <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>{lbl}</label>
-      <input type={type} value={form[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none' }} />
+      <input type={type} value={form[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48 }} />
     </div>
   )
 
@@ -233,7 +233,7 @@ function TabExercicios({ activePlan, onSave, showToast }) {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
         <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Exercícios Prescritos ({exercises.length})</h3>
-        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>+ Adicionar</button>
+        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>+ Adicionar</button>
       </div>
 
       {showForm && (
@@ -246,13 +246,13 @@ function TabExercicios({ activePlan, onSave, showToast }) {
           </div>
           <div style={{ marginBottom: 12 }}>
             <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>Descrição</label>
-            <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', resize: 'vertical', outline: 'none' }} />
+            <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', resize: 'vertical', outline: 'none', minHeight: 100 }} />
           </div>
           {inp('Observações', 'observations')}
           <div style={{ marginTop: 12, marginBottom: 16 }}>{inp('Link do Vídeo (opcional)', 'video_url')}</div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={add} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700 }}>Salvar Exercício</button>
-            <button onClick={() => setShowForm(false)} style={{ padding: '10px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14 }}>Cancelar</button>
+            <button onClick={add} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700, minHeight: 44 }}>Salvar Exercício</button>
+            <button onClick={() => setShowForm(false)} style={{ padding: '10px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, minHeight: 44 }}>Cancelar</button>
           </div>
         </div>
       )}
@@ -260,12 +260,12 @@ function TabExercicios({ activePlan, onSave, showToast }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {exercises.map((ex, i) => (
           <div key={ex.id} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, overflow: 'hidden' }}>
-            <div style={{ background: C.navy, padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ background: C.navy, padding: '16px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{ width: 28, height: 28, borderRadius: 6, background: C.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.navy, fontWeight: 700, fontSize: 13 }}>{i + 1}</div>
                 <div style={{ fontSize: 15, fontWeight: 700, color: C.white }}>{ex.title}</div>
               </div>
-              <button onClick={() => remove(ex.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}>Remover</button>
+              <button onClick={() => remove(ex.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 44 }}>Remover</button>
             </div>
             <div style={{ padding: '16px 20px' }}>
               <div style={{ display: 'flex', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
@@ -309,32 +309,32 @@ function TabOrientacoes({ activePlan, onSave, showToast }) {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
         <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Orientações do Dia a Dia ({guidelines.length})</h3>
-        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>+ Adicionar</button>
+        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>+ Adicionar</button>
       </div>
 
       {showForm && (
         <div style={{ background: C.gray50, borderRadius: 12, padding: 24, marginBottom: 24, border: `1px solid ${C.gray200}` }}>
           <div style={{ marginBottom: 12 }}>
             <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>Categoria</label>
-            <input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Ex: Postura no trabalho" style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none' }} />
+            <input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Ex: Postura no trabalho" style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48 }} />
           </div>
           <div style={{ marginBottom: 16 }}>
             <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>Orientação</label>
-            <textarea value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} rows={4} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', resize: 'vertical', outline: 'none' }} />
+            <textarea value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} rows={4} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', resize: 'vertical', outline: 'none', minHeight: 100 }} />
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={add} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700 }}>Salvar</button>
-            <button onClick={() => setShowForm(false)} style={{ padding: '10px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14 }}>Cancelar</button>
+            <button onClick={add} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700, minHeight: 44 }}>Salvar</button>
+            <button onClick={() => setShowForm(false)} style={{ padding: '10px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, minHeight: 44 }}>Cancelar</button>
           </div>
         </div>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {guidelines.map(g => (
-          <div key={g.id} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, padding: '18px 20px', borderLeft: `4px solid ${C.gold}` }}>
+          <div key={g.id} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, padding: '18px 22px', borderLeft: `4px solid ${C.gold}` }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: C.navy, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{g.category}</div>
-              <button onClick={() => remove(g.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}>Remover</button>
+              <button onClick={() => remove(g.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 44 }}>Remover</button>
             </div>
             <div style={{ fontSize: 14, color: C.gray600, lineHeight: 1.8 }}>{g.content}</div>
           </div>
@@ -365,7 +365,7 @@ function TabMateriais({ activePlan, onSave, showToast }) {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
         <h3 style={{ margin: 0, color: C.navy, fontSize: 16 }}>Materiais Complementares ({materials.length})</h3>
-        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>+ Adicionar</button>
+        <button onClick={() => setShowForm(!showForm)} style={{ padding: '8px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 13, minHeight: 44 }}>+ Adicionar</button>
       </div>
 
       {showForm && (
@@ -373,11 +373,11 @@ function TabMateriais({ activePlan, onSave, showToast }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 16, marginBottom: 16 }}>
             <div>
               <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>Título</label>
-              <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none' }} />
+              <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48 }} />
             </div>
             <div>
               <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>Tipo</label>
-              <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, background: C.white, outline: 'none' }}>
+              <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, background: C.white, outline: 'none', minHeight: 48 }}>
                 <option value="pdf">PDF</option>
                 <option value="video">Vídeo</option>
                 <option value="image">Imagem</option>
@@ -387,18 +387,18 @@ function TabMateriais({ activePlan, onSave, showToast }) {
           </div>
           <div style={{ marginBottom: 16 }}>
             <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: C.gray500, marginBottom: 6 }}>URL / Link</label>
-            <input value={form.external_url} onChange={e => setForm({ ...form, external_url: e.target.value })} placeholder="https://..." style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none' }} />
+            <input value={form.external_url} onChange={e => setForm({ ...form, external_url: e.target.value })} placeholder="https://..." style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48 }} />
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={add} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700 }}>Salvar</button>
-            <button onClick={() => setShowForm(false)} style={{ padding: '10px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14 }}>Cancelar</button>
+            <button onClick={add} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700, minHeight: 44 }}>Salvar</button>
+            <button onClick={() => setShowForm(false)} style={{ padding: '10px 16px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, minHeight: 44 }}>Cancelar</button>
           </div>
         </div>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {materials.map(m => (
-          <div key={m.id} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div key={m.id} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, padding: '18px 22px', display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ width: 44, height: 44, borderRadius: 10, background: C.navy, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ color: C.gold, fontSize: 11, fontWeight: 700 }}>{m.type.toUpperCase()}</span>
             </div>
@@ -406,7 +406,7 @@ function TabMateriais({ activePlan, onSave, showToast }) {
               <div style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{m.title}</div>
               <div style={{ fontSize: 12, color: C.gray400, marginTop: 2 }}>{m.external_url || m.file_url || '—'}</div>
             </div>
-            <button onClick={() => remove(m.id)} style={{ padding: '6px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}>Remover</button>
+            <button onClick={() => remove(m.id)} style={{ padding: '6px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 44 }}>Remover</button>
           </div>
         ))}
         {materials.length === 0 && !showForm && <div style={{ textAlign: 'center', padding: 40, color: C.gray400 }}>Nenhum material cadastrado.</div>}
@@ -430,8 +430,8 @@ function TabNotas({ patient, onSave, showToast }) {
     <div>
       <h3 style={{ margin: '0 0 24px', color: C.navy, fontSize: 16 }}>Notas Internas (visíveis apenas para você)</h3>
       <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-        <textarea value={note} onChange={e => setNote(e.target.value)} placeholder="Adicionar nota clínica interna..." rows={3} style={{ flex: 1, padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, resize: 'vertical', outline: 'none' }} />
-        <button onClick={add} style={{ padding: '10px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, alignSelf: 'flex-end', whiteSpace: 'nowrap' }}>Salvar</button>
+        <textarea value={note} onChange={e => setNote(e.target.value)} placeholder="Adicionar nota clínica interna..." rows={3} style={{ flex: 1, padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, resize: 'vertical', outline: 'none', minHeight: 100 }} />
+        <button onClick={add} style={{ padding: '10px 20px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, alignSelf: 'flex-end', whiteSpace: 'nowrap', minHeight: 44 }}>Salvar</button>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {notes.map(n => (
@@ -471,7 +471,7 @@ function TabAcesso({ patient, onSave, showToast }) {
         </div>
         <div style={{ background: C.gray50, borderRadius: 12, padding: 24, border: `1px solid ${C.gray200}` }}>
           <div style={{ fontSize: 15, fontWeight: 700, color: C.navy, marginBottom: 16 }}>Redefinir Senha</div>
-          <input type="password" value={newPass} onChange={e => setNewPass(e.target.value)} placeholder="Nova senha..." style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', marginBottom: 12, outline: 'none' }} />
+          <input type="password" value={newPass} onChange={e => setNewPass(e.target.value)} placeholder="Nova senha..." style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', marginBottom: 12, outline: 'none', minHeight: 48 }} />
           <button onClick={reset} style={{ width: '100%', padding: 10, background: C.amber, color: '#78350f', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 700 }}>Redefinir Senha</button>
         </div>
       </div>

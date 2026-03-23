@@ -21,7 +21,7 @@ export default function NewPatient() {
         <input
           type={type} value={form[key]}
           onChange={e => setForm({ ...form, [key]: e.target.value })}
-          style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none' }}
+          style={{ width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48 }}
         />
       </div>
     )
@@ -61,17 +61,17 @@ export default function NewPatient() {
           </div>
 
           <div style={{ marginBottom: 28 }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 14, color: C.gray700 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 15, color: C.gray700 }}>
               <input type="checkbox" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} style={{ width: 16, height: 16 }} />
               Paciente ativo (pode fazer login)
             </label>
           </div>
 
           <div style={{ display: 'flex', gap: 12 }}>
-            <button onClick={handleSave} disabled={loading} style={{ padding: '12px 32px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 15, fontWeight: 700, opacity: loading ? 0.7 : 1 }}>
+            <button onClick={handleSave} disabled={loading} style={{ padding: '12px 32px', background: C.navy, color: C.white, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 16, fontWeight: 700, opacity: loading ? 0.7 : 1, minHeight: 52 }}>
               {loading ? 'Cadastrando...' : 'Cadastrar Paciente'}
             </button>
-            <button onClick={() => router.back()} style={{ padding: '12px 24px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 15 }}>Cancelar</button>
+            <button onClick={() => router.back()} style={{ padding: '12px 24px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 15, minHeight: 52 }}>Cancelar</button>
           </div>
         </div>
       </AdminLayout>

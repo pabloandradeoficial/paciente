@@ -97,7 +97,7 @@ export default function AdminLayout({ children, title, subtitle }) {
         </div>
 
         {/* Mobile topbar */}
-        <div className="admin-mob-bar" style={{ display: 'none', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', height: 60, background: T.navyDeep, borderBottom: '1px solid rgba(201,168,76,0.15)', flexShrink: 0, position: 'sticky', top: 0, zIndex: 100 }}>
+        <div className="admin-mob-bar" style={{ display: 'none', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', height: 64, background: T.navyDeep, borderBottom: '1px solid rgba(201,168,76,0.15)', flexShrink: 0, position: 'sticky', top: 0, zIndex: 100 }}>
           <button onClick={() => setMobileOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, display: 'flex', flexDirection: 'column', gap: 5 }}>
             {[0,1,2].map(i => <div key={i} style={{ width: 22, height: 2, background: T.white, borderRadius: 2 }} />)}
           </button>
@@ -159,9 +159,10 @@ function SidebarContent({ active, navigate, logout }) {
               width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px',
               background: isActive ? 'rgba(201,168,76,0.12)' : 'transparent',
               border: isActive ? '1px solid rgba(201,168,76,0.2)' : '1px solid transparent',
+              borderLeft: isActive ? '3px solid #c9a84c' : '3px solid transparent',
               borderRadius: 10, cursor: 'pointer', marginBottom: 4,
               color: isActive ? T.gold : 'rgba(255,255,255,0.6)',
-              fontSize: 14, textAlign: 'left', fontFamily: T.sans,
+              fontSize: 14, textAlign: 'left', fontFamily: T.sans, minHeight: 48,
             }}>
               {item.icon(isActive)}
               {item.label}
@@ -176,7 +177,7 @@ function SidebarContent({ active, navigate, logout }) {
           width: '100%', padding: '11px 14px', background: 'transparent',
           border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10,
           color: 'rgba(255,255,255,0.35)', fontSize: 13.5, cursor: 'pointer',
-          textAlign: 'left', display: 'flex', alignItems: 'center', gap: 10, fontFamily: T.sans,
+          textAlign: 'left', display: 'flex', alignItems: 'center', gap: 10, fontFamily: T.sans, minHeight: 44,
         }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>

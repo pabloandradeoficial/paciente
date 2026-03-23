@@ -167,7 +167,7 @@ function Hero({ onLogin }) {
           <span style={{ color: T.green, fontSize: 10, fontFamily: T.sans, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Fisioterapia · Quiropraxia · Três Pontas, MG</span>
         </div>
 
-        <h1 style={{ color: '#fff', fontSize: 'clamp(2rem, 7vw, 4.2rem)', lineHeight: 1.1, margin: '0 0 20px', fontWeight: 400, letterSpacing: '-0.5px' }}>
+        <h1 style={{ color: '#fff', fontSize: 'clamp(2.2rem, 8vw, 4.5rem)', lineHeight: 1.1, margin: '0 0 20px', fontWeight: 400, letterSpacing: '-0.5px' }}>
           Seu tratamento,<br />
           <em style={{ color: T.green, fontStyle: 'italic' }}>acompanhado com precisão</em>
         </h1>
@@ -183,11 +183,12 @@ function Hero({ onLogin }) {
             padding: 'clamp(16px,2.5vw,20px) clamp(40px,7vw,64px)',
             borderRadius: T.rMd, fontSize: 'clamp(16px,2vw,18px)',
             fontWeight: 800, fontFamily: T.sans, cursor: 'pointer', letterSpacing: '0.3px',
-            boxShadow: '0 12px 40px rgba(34,197,94,0.45), 0 4px 12px rgba(0,0,0,0.2)',
-            transition: 'transform 0.15s, box-shadow 0.15s',
+            boxShadow: '0 12px 48px rgba(34,197,94,0.5)',
+            transition: 'all 0.2s ease',
+            minHeight: 56, width: 'clamp(200px, 80%, 400px)',
           }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 18px 48px rgba(34,197,94,0.55), 0 6px 16px rgba(0,0,0,0.25)' }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(34,197,94,0.45), 0 4px 12px rgba(0,0,0,0.2)' }}>
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 18px 56px rgba(34,197,94,0.65)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 12px 48px rgba(34,197,94,0.5)' }}>
             Acessar Minha Área →
           </button>
           <a href={`tel:+5535998732804`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(13px,1.6vw,14px)', fontFamily: T.sans, textDecoration: 'none' }}>
@@ -230,7 +231,9 @@ function HowItWorks() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))', gap: 20 }}>
           {steps.map((s, i) => (
-            <div key={i} style={{ padding: 'clamp(28px,4vw,44px) clamp(20px,3vw,32px)', background: C.white, borderRadius: T.rLg, boxShadow: T.shadowSm, border: '1px solid rgba(17,24,39,0.05)' }}>
+            <div key={i} style={{ padding: 'clamp(28px,4vw,44px) clamp(20px,3vw,32px)', background: C.white, borderRadius: T.rLg, boxShadow: T.shadowSm, border: '1px solid rgba(17,24,39,0.05)', borderTop: '3px solid #22c55e', transition: 'all 0.2s ease' }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = T.shadowSm }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: '50%', background: T.navy, marginBottom: 20 }}>
                 <span style={{ color: T.green, fontWeight: 700, fontSize: 15, fontFamily: T.sans }}>{s.num}</span>
               </div>
@@ -266,7 +269,9 @@ function PatientArea() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))', gap: 18 }}>
           {items.map((item, i) => (
-            <div key={i} style={{ padding: 'clamp(22px,3vw,30px) clamp(18px,2.5vw,28px)', border: `1px solid ${C.gray200}`, borderRadius: T.rLg, background: C.white }}>
+            <div key={i} style={{ padding: 'clamp(22px,3vw,30px) clamp(18px,2.5vw,28px)', border: `1px solid ${C.gray200}`, borderRadius: T.rLg, background: C.white, transition: 'all 0.2s ease' }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
                 <div style={{ width: 34, height: 34, borderRadius: T.rSm, background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ color: T.green, fontFamily: T.sans, fontWeight: 700, fontSize: 11 }}>{item.num}</span>
@@ -309,7 +314,7 @@ function Clinic() {
           </div>
 
           {/* Text */}
-          <div className="mobile-full" style={{ flex: 1, minWidth: 0 }}>
+          <div className="mobile-full" style={{ flex: 1, minWidth: 0, paddingTop: 4 }}>
             <span style={eyebrow}>Estrutura</span>
             <h2 style={{ color: T.navy, fontSize: 'clamp(22px, 3.5vw, 36px)', fontWeight: 400, margin: '0 0 18px', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
               Um ambiente preparado<br />para o seu atendimento
@@ -373,7 +378,7 @@ function About({ onLogin }) {
             <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 'clamp(14px,1.5vw,15.5px)', lineHeight: 1.9, fontFamily: T.sans, marginBottom: 20 }}>
               Especializado em fisioterapia ortopédica e quiropraxia, com foco no acompanhamento individualizado. Acredito que um tratamento de excelência vai além da clínica — ele deve fazer parte da rotina do paciente.
             </p>
-            <blockquote style={{ margin: '0 0 26px', padding: '14px 18px', borderLeft: `3px solid ${T.green}`, background: 'rgba(34,197,94,0.06)', borderRadius: `0 ${T.rSm}px ${T.rSm}px 0` }}>
+            <blockquote style={{ margin: '0 0 26px', padding: '18px 22px', borderLeft: `3px solid ${T.green}`, background: 'rgba(34,197,94,0.08)', borderRadius: `0 ${T.rSm}px ${T.rSm}px 0` }}>
               <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(13px,1.4vw,15px)', lineHeight: 1.85, fontFamily: T.serif, fontStyle: 'italic', margin: 0 }}>
                 "Seu acompanhamento será conduzido com atenção, clareza e foco em um plano organizado para a sua evolução."
               </p>
@@ -465,10 +470,13 @@ function CTA({ onLogin }) {
             <button onClick={onLogin} style={{
             background: T.green, color: T.navy, border: 'none',
             padding: 'clamp(16px,2.5vw,20px) clamp(44px,7vw,68px)',
-            borderRadius: T.rMd, fontSize: 'clamp(15px,2vw,18px)',
+            borderRadius: T.rMd, fontSize: 'clamp(16px,2vw,20px)',
             fontWeight: 800, fontFamily: T.sans, cursor: 'pointer', letterSpacing: '0.3px',
             boxShadow: '0 12px 40px rgba(34,197,94,0.45)',
-          }}>
+            minHeight: 60, transition: 'all 0.2s ease',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 18px 56px rgba(34,197,94,0.6)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(34,197,94,0.45)' }}>
               Entrar na Minha Área
             </button>
             <a href={`tel:+5535998732804`} style={{ display: 'inline-flex', alignItems: 'center', background: 'rgba(255,255,255,0.08)', color: '#fff', border: '1px solid rgba(255,255,255,0.25)', padding: 'clamp(13px,2vw,17px) clamp(20px,3vw,32px)', borderRadius: T.rMd, fontSize: 'clamp(13px,1.5vw,15px)', fontFamily: T.sans, textDecoration: 'none', backdropFilter: 'blur(6px)' }}>
