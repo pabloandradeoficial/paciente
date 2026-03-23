@@ -260,30 +260,103 @@ function TabExercicios({ activePlan, onSave, showToast }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {exercises.map((ex, i) => (
-          <div key={ex.id} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, overflow: 'hidden' }}>
-            <div style={{ background: C.navy, padding: '16px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 28, height: 28, borderRadius: 6, background: C.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.navy, fontWeight: 700, fontSize: 13 }}>{i + 1}</div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: C.white }}>{ex.title}</div>
-              </div>
-              <button onClick={() => remove(ex.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 44 }}>Remover</button>
-            </div>
-            <div style={{ padding: '16px 20px' }}>
-              <div style={{ display: 'flex', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
-                {[['Séries', ex.sets], ['Repetições', ex.reps], ['Frequência', ex.frequency]].map(([l, v]) => (
-                  <div key={l} style={{ background: C.gray50, borderRadius: 8, padding: '6px 12px', border: `1px solid ${C.gray200}` }}>
-                    <div style={{ fontSize: 10, color: C.gray400, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 2 }}>{l}</div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: C.navy }}>{v}</div>
-                  </div>
-                ))}
-              </div>
-              {ex.description && <p style={{ fontSize: 13, color: C.gray600, lineHeight: 1.7, margin: '0 0 8px' }}>{ex.description}</p>}
-              {ex.observations && <div style={{ fontSize: 12, color: C.gray400, fontStyle: 'italic' }}>Obs: {ex.observations}</div>}
-            </div>
-          </div>
+          <ExerciseCard key={ex.id} ex={ex} index={i} onRemove={remove} onSave={onSave} showToast={showToast} />
         ))}
         {exercises.length === 0 && !showForm && (
           <div style={{ textAlign: 'center', padding: 40, color: C.gray400 }}>Nenhum exercício cadastrado.</div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function ExerciseCard({ ex, index, onRemove, onSave, showToast }) {
+  const [editing, setEditing] = useState(false)
+  const [saving, setSaving]   = useState(false)
+  const [editForm, setEditForm] = useState({
+    title: ex.title || '', description: ex.description || '',
+    sets: ex.sets || '', reps: ex.reps || '',
+    frequency: ex.frequency || '', observations: ex.observations || '',
+    video_url: ex.video_url || '',
+  })
+
+  function cancel() { setEditForm({ title: ex.title || '', description: ex.description || '', sets: ex.sets || '', reps: ex.reps || '', frequency: ex.frequency || '', observations: ex.observations || '', video_url: ex.video_url || '' }); setEditing(false) }
+
+  async function save() {
+    setSaving(true)
+    await fetch(`/api/exercises/${ex.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editForm) })
+    setSaving(false); setEditing(false); onSave(); showToast('Exercício atualizado!')
+  }
+
+  const inputStyle = { width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48, fontFamily: 'inherit' }
+  const focusGreen = e => { e.target.style.borderColor = C.green }
+  const blurGray   = e => { e.target.style.borderColor = C.gray200 }
+
+  return (
+    <div style={{ border: `1px solid ${editing ? C.green : C.gray200}`, borderRadius: 12, overflow: 'hidden', transition: 'border-color 0.2s ease' }}>
+      {/* Header */}
+      <div style={{ background: C.navy, padding: '16px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ width: 28, height: 28, borderRadius: 6, background: C.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.navy, fontWeight: 700, fontSize: 13 }}>{index + 1}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: C.white }}>{ex.title}</div>
+        </div>
+        <div style={{ display: 'flex', gap: 6 }}>
+          {!editing && (
+            <button onClick={() => setEditing(true)} style={{ padding: '4px 14px', background: 'rgba(34,197,94,0.15)', color: '#4ade80', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 6, cursor: 'pointer', fontSize: 12, fontWeight: 600, minHeight: 36, transition: 'all 0.2s ease' }}>
+              Editar
+            </button>
+          )}
+          <button onClick={() => onRemove(ex.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 36 }}>Remover</button>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div style={{ padding: '18px 22px' }}>
+        {editing ? (
+          <div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 14, marginBottom: 14 }}>
+              {[['Título *', 'title', 'text'], ['Frequência', 'frequency', 'text'], ['Séries', 'sets', 'number'], ['Repetições', 'reps', 'text']].map(([lbl, key, type]) => (
+                <div key={key}>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{lbl}</label>
+                  <input type={type} value={editForm[key]} onChange={e => setEditForm({ ...editForm, [key]: e.target.value })} style={inputStyle} onFocus={focusGreen} onBlur={blurGray} />
+                </div>
+              ))}
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Descrição</label>
+              <textarea value={editForm.description} onChange={e => setEditForm({ ...editForm, description: e.target.value })} rows={3} style={{ ...inputStyle, resize: 'vertical', minHeight: 80 }} onFocus={focusGreen} onBlur={blurGray} />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 14, marginBottom: 18 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Observações</label>
+                <input value={editForm.observations} onChange={e => setEditForm({ ...editForm, observations: e.target.value })} style={inputStyle} onFocus={focusGreen} onBlur={blurGray} />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Link do Vídeo</label>
+                <input value={editForm.video_url} onChange={e => setEditForm({ ...editForm, video_url: e.target.value })} placeholder="https://..." style={inputStyle} onFocus={focusGreen} onBlur={blurGray} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={save} disabled={saving} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14, fontWeight: 700, minHeight: 44, opacity: saving ? 0.7 : 1, transition: 'all 0.2s ease' }}>
+                {saving ? 'Salvando...' : 'Salvar alterações'}
+              </button>
+              <button onClick={cancel} style={{ padding: '10px 18px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, minHeight: 44, transition: 'all 0.2s ease' }}>Cancelar</button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div style={{ display: 'flex', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
+              {[['Séries', ex.sets], ['Repetições', ex.reps], ['Frequência', ex.frequency]].map(([l, v]) => v ? (
+                <div key={l} style={{ background: C.gray50, borderRadius: 8, padding: '6px 12px', border: `1px solid ${C.gray200}` }}>
+                  <div style={{ fontSize: 10, color: C.gray400, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 2 }}>{l}</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: C.navy }}>{v}</div>
+                </div>
+              ) : null)}
+            </div>
+            {ex.description && <p style={{ fontSize: 13, color: C.gray600, lineHeight: 1.7, margin: '0 0 8px' }}>{ex.description}</p>}
+            {ex.observations && <div style={{ fontSize: 12, color: C.gray400, fontStyle: 'italic' }}>Obs: {ex.observations}</div>}
+            {ex.video_url && <a href={ex.video_url} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: C.green, display: 'inline-block', marginTop: 6 }}>Ver vídeo →</a>}
+          </div>
         )}
       </div>
     </div>
@@ -332,16 +405,69 @@ function TabOrientacoes({ activePlan, onSave, showToast }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {guidelines.map(g => (
-          <div key={g.id} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, padding: '18px 22px', borderLeft: `4px solid ${C.gold}` }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.navy, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{g.category}</div>
-              <button onClick={() => remove(g.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 44 }}>Remover</button>
-            </div>
-            <div style={{ fontSize: 14, color: C.gray600, lineHeight: 1.8 }}>{g.content}</div>
-          </div>
+          <GuidelineCard key={g.id} g={g} onRemove={remove} onSave={onSave} showToast={showToast} />
         ))}
         {guidelines.length === 0 && !showForm && <div style={{ textAlign: 'center', padding: 40, color: C.gray400 }}>Nenhuma orientação cadastrada.</div>}
       </div>
+    </div>
+  )
+}
+
+function GuidelineCard({ g, onRemove, onSave, showToast }) {
+  const [editing, setEditing]   = useState(false)
+  const [saving, setSaving]     = useState(false)
+  const [editForm, setEditForm] = useState({ category: g.category || '', content: g.content || '' })
+
+  function cancel() { setEditForm({ category: g.category || '', content: g.content || '' }); setEditing(false) }
+
+  async function save() {
+    setSaving(true)
+    await fetch(`/api/guidelines/${g.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editForm) })
+    setSaving(false); setEditing(false); onSave(); showToast('Orientação atualizada!')
+  }
+
+  const inputStyle = { width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }
+  const focusGreen = e => { e.target.style.borderColor = C.green }
+  const blurGray   = e => { e.target.style.borderColor = C.gray200 }
+
+  return (
+    <div style={{ border: `1px solid ${editing ? C.green : C.gray200}`, borderRadius: 12, padding: '18px 22px', borderLeft: `4px solid ${C.gold}`, transition: 'border-color 0.2s ease' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: editing ? 14 : 0, flexWrap: 'wrap', gap: 8 }}>
+        {editing ? (
+          <div style={{ fontSize: 11, fontWeight: 700, color: C.gold, textTransform: 'uppercase', letterSpacing: '0.5px', paddingTop: 4 }}>Editando orientação</div>
+        ) : (
+          <div style={{ fontSize: 12, fontWeight: 700, color: C.navy, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{g.category}</div>
+        )}
+        <div style={{ display: 'flex', gap: 6 }}>
+          {!editing && (
+            <button onClick={() => setEditing(true)} style={{ padding: '4px 14px', background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe', borderRadius: 6, cursor: 'pointer', fontSize: 12, fontWeight: 600, minHeight: 36, transition: 'all 0.2s ease' }}>
+              Editar
+            </button>
+          )}
+          <button onClick={() => onRemove(g.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 36 }}>Remover</button>
+        </div>
+      </div>
+
+      {editing ? (
+        <div>
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Categoria</label>
+            <input value={editForm.category} onChange={e => setEditForm({ ...editForm, category: e.target.value })} style={{ ...inputStyle, minHeight: 48 }} onFocus={focusGreen} onBlur={blurGray} />
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Orientação</label>
+            <textarea value={editForm.content} onChange={e => setEditForm({ ...editForm, content: e.target.value })} rows={4} style={{ ...inputStyle, resize: 'vertical', minHeight: 100 }} onFocus={focusGreen} onBlur={blurGray} />
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button onClick={save} disabled={saving} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14, fontWeight: 700, minHeight: 44, opacity: saving ? 0.7 : 1, transition: 'all 0.2s ease' }}>
+              {saving ? 'Salvando...' : 'Salvar alterações'}
+            </button>
+            <button onClick={cancel} style={{ padding: '10px 18px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, minHeight: 44 }}>Cancelar</button>
+          </div>
+        </div>
+      ) : (
+        <div style={{ fontSize: 14, color: C.gray600, lineHeight: 1.8 }}>{g.content}</div>
+      )}
     </div>
   )
 }
@@ -399,19 +525,79 @@ function TabMateriais({ activePlan, onSave, showToast }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {materials.map(m => (
-          <div key={m.id} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, padding: '18px 22px', display: 'flex', alignItems: 'center', gap: 16 }}>
-            <div style={{ width: 44, height: 44, borderRadius: 10, background: C.navy, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ color: C.gold, fontSize: 11, fontWeight: 700 }}>{m.type.toUpperCase()}</span>
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{m.title}</div>
-              <div style={{ fontSize: 12, color: C.gray400, marginTop: 2 }}>{m.external_url || m.file_url || '—'}</div>
-            </div>
-            <button onClick={() => remove(m.id)} style={{ padding: '6px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 44 }}>Remover</button>
-          </div>
+          <MaterialCard key={m.id} m={m} onRemove={remove} onSave={onSave} showToast={showToast} />
         ))}
         {materials.length === 0 && !showForm && <div style={{ textAlign: 'center', padding: 40, color: C.gray400 }}>Nenhum material cadastrado.</div>}
       </div>
+    </div>
+  )
+}
+
+function MaterialCard({ m, onRemove, onSave, showToast }) {
+  const [editing, setEditing]   = useState(false)
+  const [saving, setSaving]     = useState(false)
+  const [editForm, setEditForm] = useState({ title: m.title || '', type: m.type || 'pdf', external_url: m.external_url || '' })
+
+  function cancel() { setEditForm({ title: m.title || '', type: m.type || 'pdf', external_url: m.external_url || '' }); setEditing(false) }
+
+  async function save() {
+    setSaving(true)
+    await fetch(`/api/materials/${m.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editForm) })
+    setSaving(false); setEditing(false); onSave(); showToast('Material atualizado!')
+  }
+
+  const inputStyle = { width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48, fontFamily: 'inherit' }
+  const focusGreen = e => { e.target.style.borderColor = C.green }
+  const blurGray   = e => { e.target.style.borderColor = C.gray200 }
+
+  return (
+    <div style={{ border: `1px solid ${editing ? C.green : C.gray200}`, borderRadius: 12, padding: '18px 22px', transition: 'border-color 0.2s ease' }}>
+      {editing ? (
+        <div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: C.gray500, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 14 }}>Editando material</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 14, marginBottom: 14 }}>
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Título</label>
+              <input value={editForm.title} onChange={e => setEditForm({ ...editForm, title: e.target.value })} style={inputStyle} onFocus={focusGreen} onBlur={blurGray} />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Tipo</label>
+              <select value={editForm.type} onChange={e => setEditForm({ ...editForm, type: e.target.value })} style={{ ...inputStyle, background: C.white, cursor: 'pointer' }}>
+                <option value="pdf">PDF</option>
+                <option value="video">Vídeo</option>
+                <option value="image">Imagem</option>
+                <option value="link">Link</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: C.gray500, marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>URL / Link</label>
+            <input value={editForm.external_url} onChange={e => setEditForm({ ...editForm, external_url: e.target.value })} placeholder="https://..." style={inputStyle} onFocus={focusGreen} onBlur={blurGray} />
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button onClick={save} disabled={saving} style={{ padding: '10px 24px', background: C.green, color: C.white, border: 'none', borderRadius: 8, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14, fontWeight: 700, minHeight: 44, opacity: saving ? 0.7 : 1, transition: 'all 0.2s ease' }}>
+              {saving ? 'Salvando...' : 'Salvar alterações'}
+            </button>
+            <button onClick={cancel} style={{ padding: '10px 18px', background: C.gray100, color: C.gray600, border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, minHeight: 44 }}>Cancelar</button>
+          </div>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: C.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <span style={{ color: C.gold, fontSize: 11, fontWeight: 700 }}>{m.type.toUpperCase()}</span>
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{m.title}</div>
+            <div style={{ fontSize: 12, color: C.gray400, marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.external_url || m.file_url || '—'}</div>
+          </div>
+          <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+            <button onClick={() => setEditing(true)} style={{ padding: '6px 14px', background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe', borderRadius: 6, cursor: 'pointer', fontSize: 12, fontWeight: 600, minHeight: 36, transition: 'all 0.2s ease' }}>
+              Editar
+            </button>
+            <button onClick={() => onRemove(m.id)} style={{ padding: '6px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 36 }}>Remover</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
