@@ -45,7 +45,7 @@ export default function PatientOrientacoes() {
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 6, fontFamily: T.sans }}>Orientações</div>
           <h1 style={{ fontSize: 'clamp(20px,4vw,26px)', fontWeight: 700, color: T.textPrimary, margin: '0 0 8px', fontFamily: T.serif }}>
-            Do Dia a Dia
+            Orientações do Dia a Dia
             {!loading && guidelines.length > 0 && (
               <span style={{ fontSize: 14, color: T.textMuted, fontFamily: T.sans, fontWeight: 400, marginLeft: 10 }}>({guidelines.length})</span>
             )}

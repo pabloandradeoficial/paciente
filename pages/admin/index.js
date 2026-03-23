@@ -227,7 +227,7 @@ export default function AdminDashboard() {
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               {[
                 { label: '+ Novo Paciente',     href: '/admin/pacientes/novo', primary: true  },
-                { label: 'Ver Todos Pacientes', href: '/admin/pacientes',      primary: false },
+                { label: 'Ver Todos os Pacientes', href: '/admin/pacientes',      primary: false },
               ].map(a => (
                 <button key={a.label} onClick={() => router.push(a.href)} style={{ padding: '9px 20px', background: a.primary ? T.navy : T.gray50, color: a.primary ? T.white : T.gray700, border: `1px solid ${a.primary ? T.navy : T.gray200}`, borderRadius: 9, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: T.sans }}>
                   {a.label}
