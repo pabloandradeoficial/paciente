@@ -17,12 +17,25 @@ const T = {
   blue: '#2563eb',
 }
 
+function relTime(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const d = Math.floor(diff / 86400000)
+  if (d === 0) return 'hoje'
+  if (d === 1) return 'ontem'
+  if (d < 7)  return `há ${d} dias`
+  if (d < 14) return 'há 1 semana'
+  if (d < 30) return `há ${Math.floor(d/7)} semanas`
+  return `há ${Math.floor(d/30)} meses`
+}
+
 export default function PatientHome() {
   const router = useRouter()
   const [patient, setPatient] = useState(null)
   const [loading, setLoading] = useState(true)
   const [weeklyMessage, setWeeklyMessage] = useState(null)
   const [descExpanded, setDescExpanded] = useState(false)
+  const [planHistory, setPlanHistory] = useState([])
+  const [todayChecks, setTodayChecks] = useState(0)
 
   useEffect(() => {
     const session = getSession()
@@ -33,6 +46,9 @@ export default function PatientHome() {
     fetch('/api/weekly-message')
       .then(r => r.json())
       .then(data => { if (data?.message) setWeeklyMessage(data) })
+    fetch(`/api/plan-history?patient_id=${session.id}&limit=10`)
+      .then(r => r.json())
+      .then(data => { if (Array.isArray(data)) setPlanHistory(data) })
   }, [])
 
   const activePlan = patient?.plans?.find(p => p.is_active) || patient?.plans?.[0]
@@ -51,6 +67,15 @@ export default function PatientHome() {
     const days = Math.floor((now - start) / (1000 * 60 * 60 * 24))
     return Math.max(1, Math.ceil((days + 1) / 7))
   })()
+
+  useEffect(() => {
+    if (exercises.length === 0) return
+    try {
+      const today = new Date().toISOString().slice(0, 10)
+      const count = exercises.filter(e => localStorage.getItem(`check_exercicio_${e.id}_${today}`) === '1').length
+      setTodayChecks(count)
+    } catch {}
+  }, [exercises.length])
 
   return (
     <ProtectedRoute requiredRole="patient">
@@ -154,6 +179,21 @@ export default function PatientHome() {
                   ))}
                 </div>
 
+                {/* Today's exercise progress */}
+                {exercises.length > 0 && (
+                  <div style={{ padding: '10px clamp(16px,3vw,20px)', borderTop: `1px solid ${T.gray100}`, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    {todayChecks === exercises.length ? (
+                      <span style={{ fontSize: 12.5, color: '#15803d', fontFamily: T.sans, fontWeight: 700 }}>
+                        🎉 Todos os exercícios feitos hoje!
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: 12.5, color: T.gray500, fontFamily: T.sans }}>
+                        <strong style={{ color: todayChecks > 0 ? '#22c55e' : T.gray600 }}>{todayChecks}</strong> de <strong>{exercises.length}</strong> exercícios feitos hoje
+                      </span>
+                    )}
+                  </div>
+                )}
+
                 {/* Last update row */}
                 {activePlan.updated_at && (
                   <div style={{ padding: '10px clamp(16px,3vw,20px)', display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -256,6 +296,11 @@ export default function PatientHome() {
               </div>
             )}
 
+            {/* ══ HISTÓRICO DO PLANO ══ */}
+            {planHistory.length > 0 && (
+              <PlanHistoryCard history={planHistory} />
+            )}
+
             {/* ══ 5. MATERIAIS (preview) ══ */}
             {materials.length > 0 && (
               <div style={{ background: T.white, borderRadius: 16, padding: 'clamp(16px,3vw,20px)', border: `1px solid ${T.gray200}` }}>
@@ -327,6 +372,20 @@ export default function PatientHome() {
               </div>
             </div>
 
+            {/* ══ MENSAGEM RÁPIDA ══ */}
+            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb', padding: 'clamp(16px,3vw,22px)', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: '#25d366', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', fontFamily: "'Montserrat', system-ui, sans-serif" }}>Fale com Dr. Pablo</div>
+                  <div style={{ fontSize: 11, color: '#6b7280', fontFamily: "'Montserrat', system-ui, sans-serif" }}>Tire dúvidas ou relate um sintoma</div>
+                </div>
+              </div>
+              <QuickMessage />
+            </div>
+
             {/* ══ 8. INDICAÇÃO ══ */}
             <div style={{ borderRadius: 14, padding: 'clamp(14px,2.5vw,18px)', background: T.white, border: `1px solid ${T.gray200}`, display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
               <div style={{ flex: 1, minWidth: 200 }}>
@@ -359,6 +418,111 @@ function Skeleton() {
       {[150, 100, 130, 80].map((h, i) => (
         <div key={i} style={{ height: h, background: '#e5e7eb', borderRadius: 16, animation: `pulse 1.6s ${i*0.12}s ease-in-out infinite` }} />
       ))}
+    </div>
+  )
+}
+
+function QuickMessage() {
+  const [msg, setMsg] = useState('')
+  const send = () => {
+    if (!msg.trim()) return
+    const text = encodeURIComponent(`Olá Dr. Pablo, ${msg.trim()}`)
+    window.open(`https://wa.me/5535998732804?text=${text}`, '_blank')
+    setMsg('')
+  }
+  return (
+    <div>
+      <textarea
+        value={msg}
+        onChange={e => setMsg(e.target.value)}
+        placeholder="Tire uma dúvida, relate um sintoma ou deixe um recado..."
+        rows={3}
+        style={{
+          width: '100%', boxSizing: 'border-box',
+          padding: '12px 14px', border: '1.5px solid #e5e7eb',
+          borderRadius: 10, fontSize: 14, resize: 'none',
+          fontFamily: "'Montserrat', system-ui, sans-serif",
+          color: '#111827', outline: 'none', lineHeight: 1.6,
+          transition: 'border-color 0.2s ease',
+        }}
+        onFocus={e => e.target.style.borderColor = '#22c55e'}
+        onBlur={e => e.target.style.borderColor = '#e5e7eb'}
+      />
+      <button
+        onClick={send}
+        disabled={!msg.trim()}
+        style={{
+          marginTop: 10, width: '100%', padding: '13px 0',
+          background: msg.trim() ? '#25d366' : '#e5e7eb',
+          color: msg.trim() ? '#fff' : '#9ca3af',
+          border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700,
+          cursor: msg.trim() ? 'pointer' : 'not-allowed',
+          fontFamily: "'Montserrat', system-ui, sans-serif",
+          minHeight: 48, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: msg.trim() ? '0 4px 16px rgba(37,211,102,0.35)' : 'none',
+        }}
+      >
+        Enviar pelo WhatsApp →
+      </button>
+    </div>
+  )
+}
+
+function PlanHistoryCard({ history }) {
+  const [expanded, setExpanded] = useState(false)
+  const recentDays = 3
+  const hasRecent = history.some(h => (Date.now() - new Date(h.created_at).getTime()) < recentDays * 86400000)
+  const shown = expanded ? history : history.slice(0, 3)
+
+  const actionLabel = (action) => {
+    const map = {
+      exercise_added: '💪 Exercício adicionado',
+      exercise_removed: '🗑 Exercício removido',
+      exercise_updated: '✏️ Exercício atualizado',
+      guideline_added: '📋 Orientação adicionada',
+      guideline_updated: '✏️ Orientação atualizada',
+      plan_updated: '📝 Plano atualizado',
+    }
+    return map[action] || '🔄 Atualização'
+  }
+
+  return (
+    <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb', overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
+      <div style={{ padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,20px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #f3f4f6' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ fontSize: 10, color: '#22c55e', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: "'Montserrat', system-ui, sans-serif", fontWeight: 600 }}>
+            Atualizações do plano
+          </div>
+          {hasRecent && (
+            <>
+              <style>{`@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}`}</style>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block', animation: 'blink 2s ease-in-out infinite' }} />
+            </>
+          )}
+        </div>
+      </div>
+      <div style={{ padding: 'clamp(12px,2vw,16px) clamp(16px,3vw,20px)', display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {shown.map(h => (
+          <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '10px 0', borderBottom: '1px solid #f9fafb' }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#111827', fontFamily: "'Montserrat', system-ui, sans-serif", marginBottom: 2 }}>
+                {actionLabel(h.action)}
+              </div>
+              <div style={{ fontSize: 12, color: '#6b7280', fontFamily: "'Montserrat', system-ui, sans-serif", lineHeight: 1.5 }}>
+                {h.description}
+              </div>
+            </div>
+            <div style={{ fontSize: 11, color: '#9ca3af', fontFamily: "'Montserrat', system-ui, sans-serif", whiteSpace: 'nowrap', flexShrink: 0, marginTop: 2 }}>
+              {relTime(h.created_at)}
+            </div>
+          </div>
+        ))}
+        {history.length > 3 && (
+          <button onClick={() => setExpanded(e => !e)} style={{ background: 'none', border: 'none', color: '#22c55e', fontSize: 12.5, fontWeight: 700, cursor: 'pointer', padding: '4px 0', fontFamily: "'Montserrat', system-ui, sans-serif", textAlign: 'left' }}>
+            {expanded ? 'Ver menos ↑' : `Ver mais ${history.length - 3} atualizações ↓`}
+          </button>
+        )}
+      </div>
     </div>
   )
 }

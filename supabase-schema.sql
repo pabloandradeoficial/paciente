@@ -138,3 +138,13 @@ create table if not exists weekly_messages (
   is_active boolean default true,
   created_at timestamptz default now()
 );
+
+-- Histórico de atualizações do plano
+CREATE TABLE IF NOT EXISTS plan_history (
+  id uuid primary key default gen_random_uuid(),
+  patient_id uuid references patients(id) on delete cascade,
+  plan_id uuid references plans(id) on delete cascade,
+  action text not null,
+  description text not null,
+  created_at timestamptz default now()
+);

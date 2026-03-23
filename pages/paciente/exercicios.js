@@ -34,10 +34,27 @@ const T = {
   blueBorder: '#bfdbfe',
 }
 
+const todayKey = () => new Date().toISOString().slice(0, 10) // YYYY-MM-DD
+function getDoneKey(id) { return `check_exercicio_${id}_${todayKey()}` }
+function isChecked(id) { try { return localStorage.getItem(getDoneKey(id)) === '1' } catch { return false } }
+function toggleCheck(id) {
+  try {
+    if (isChecked(id)) localStorage.removeItem(getDoneKey(id))
+    else localStorage.setItem(getDoneKey(id), '1')
+  } catch {}
+}
+
 export default function PatientExercicios() {
   const [exercises, setExercises] = useState([])
   const [loading, setLoading]     = useState(true)
   const [expanded, setExpanded]   = useState(null)
+  const [checkedMap, setCheckedMap] = useState({})
+
+  function refreshChecks(ids) {
+    const map = {}
+    ids.forEach(id => { map[id] = isChecked(id) })
+    setCheckedMap(map)
+  }
 
   useEffect(() => {
     const session = getSession()
@@ -49,9 +66,16 @@ export default function PatientExercicios() {
         const sorted = (plan?.exercises || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
         setExercises(sorted)
         setLoading(false)
-        if (sorted.length > 0) setExpanded(sorted[0].id)
+        if (sorted.length > 0) {
+          setExpanded(sorted[0].id)
+          refreshChecks(sorted.map(e => e.id))
+        }
       })
   }, [])
+
+  useEffect(() => {
+    if (exercises.length > 0) refreshChecks(exercises.map(e => e.id))
+  }, [exercises.length])
 
   const toggle = (id) => setExpanded(p => p === id ? null : id)
 
@@ -78,10 +102,15 @@ export default function PatientExercicios() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {exercises.map((ex, i) => {
               const open = expanded === ex.id
+              const done = checkedMap[ex.id]
               return (
                 <div key={ex.id} style={{
                   background: T.card, borderRadius: 16,
-                  border: open ? `2px solid ${T.green}` : `1.5px solid ${T.border}`,
+                  border: open
+                    ? `2px solid ${T.green}`
+                    : done
+                      ? '2px solid #22c55e'
+                      : `1.5px solid ${T.border}`,
                   overflow: 'hidden',
                   boxShadow: open ? '0 6px 24px rgba(34,197,94,0.14)' : '0 1px 3px rgba(0,0,0,0.06)',
                   transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -109,18 +138,21 @@ export default function PatientExercicios() {
                     </div>
 
                     {/* Título + preview */}
-                    <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                       <div style={{
                         fontSize: 'clamp(15px,2.2vw,17px)',
                         fontWeight: 800,
                         fontFamily: T.sans,
-                        color: open ? T.white : T.h1,   /* escuro quando fechado */
+                        color: open ? T.white : T.h1,
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                         letterSpacing: '-0.1px',
                         lineHeight: 1.3,
                       }}>{ex.title}</div>
+                      {!open && done && (
+                        <span style={{ fontSize: 10, fontWeight: 700, color: '#22c55e', background: 'rgba(34,197,94,0.15)', padding: '2px 8px', borderRadius: 10, marginLeft: 8, whiteSpace: 'nowrap' }}>✓ Feito</span>
+                      )}
                       {!open && (
-                        <div style={{ fontSize: 12.5, color: T.muted, fontFamily: T.sans, marginTop: 3, fontWeight: 500 }}>
+                        <div style={{ width: '100%', fontSize: 12.5, color: T.muted, fontFamily: T.sans, marginTop: 3, fontWeight: 500 }}>
                           {[ex.sets && `${ex.sets} séries`, ex.reps && `${ex.reps} reps`, ex.frequency].filter(Boolean).join(' · ')}
                         </div>
                       )}
@@ -182,6 +214,29 @@ export default function PatientExercicios() {
                           Ver vídeo demonstrativo
                         </a>
                       )}
+
+                      {/* ── Fiz hoje ── */}
+                      <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${T.border}` }}>
+                        <button
+                          onClick={() => { toggleCheck(ex.id); setCheckedMap(prev => ({ ...prev, [ex.id]: !prev[ex.id] })) }}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: 8,
+                            padding: '12px 22px', borderRadius: 10,
+                            background: checkedMap[ex.id] ? '#22c55e' : 'transparent',
+                            border: checkedMap[ex.id] ? 'none' : '2px solid #d1d5db',
+                            color: checkedMap[ex.id] ? '#fff' : '#374151',
+                            fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                            fontFamily: "'Montserrat', system-ui, sans-serif",
+                            minHeight: 48, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                            boxShadow: checkedMap[ex.id] ? '0 4px 16px rgba(34,197,94,0.35)' : 'none',
+                          }}
+                        >
+                          {checkedMap[ex.id]
+                            ? <><span>✓</span> Feito hoje!</>
+                            : <><span style={{ fontSize: 16 }}>○</span> Marcar como feito hoje</>
+                          }
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>

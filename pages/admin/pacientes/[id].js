@@ -7,6 +7,16 @@ import StatusBadge from '../../../components/shared/StatusBadge'
 import Toast from '../../../components/shared/Toast'
 import { C } from '../../../lib/colors'
 
+async function logHistory(patient_id, plan_id, action, description) {
+  try {
+    await fetch('/api/plan-history', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ patient_id, plan_id, action, description }),
+    })
+  } catch {}
+}
+
 export default function PatientDetail() {
   const router   = useRouter()
   const { id }   = router.query
@@ -87,9 +97,9 @@ export default function PatientDetail() {
 
         <div style={{ background: C.white, borderRadius: 12, border: `1px solid ${C.gray200}`, padding: 'clamp(18px,3vw,28px)' }}>
           {tab === 'dados'       && <TabDados       patient={patient} onSave={loadPatient} showToast={showToast} />}
-          {tab === 'plano'       && <TabPlano       patient={patient} activePlan={activePlan} onSave={loadPatient} showToast={showToast} />}
-          {tab === 'exercicios'  && <TabExercicios  activePlan={activePlan} onSave={loadPatient} showToast={showToast} />}
-          {tab === 'orientacoes' && <TabOrientacoes activePlan={activePlan} onSave={loadPatient} showToast={showToast} />}
+          {tab === 'plano'       && <TabPlano       patient={patient} activePlan={activePlan} patientId={patient.id} onSave={loadPatient} showToast={showToast} />}
+          {tab === 'exercicios'  && <TabExercicios  activePlan={activePlan} patientId={patient.id} onSave={loadPatient} showToast={showToast} />}
+          {tab === 'orientacoes' && <TabOrientacoes activePlan={activePlan} patientId={patient.id} onSave={loadPatient} showToast={showToast} />}
           {tab === 'materiais'   && <TabMateriais   activePlan={activePlan} onSave={loadPatient} showToast={showToast} />}
           {tab === 'notas'       && <TabNotas       patient={patient} onSave={loadPatient} showToast={showToast} />}
           {tab === 'acesso'      && <TabAcesso      patient={patient} onSave={loadPatient} showToast={showToast} />}
@@ -144,7 +154,7 @@ function TabDados({ patient, onSave, showToast }) {
 }
 
 // ── TAB: Plano ─────────────────────────────────────────────
-function TabPlano({ patient, activePlan, onSave, showToast }) {
+function TabPlano({ patient, activePlan, patientId, onSave, showToast }) {
   const [editing, setEditing] = useState(false)
   const [form, setForm] = useState({ title: activePlan?.title || '', description: activePlan?.description || '', welcome_message: activePlan?.welcome_message || '' })
 
@@ -155,6 +165,7 @@ function TabPlano({ patient, activePlan, onSave, showToast }) {
       await fetch('/api/plans', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ patient_id: patient.id, ...form }) })
     }
     setEditing(false); onSave(); showToast('Plano salvo!')
+    logHistory(patientId, activePlan?.id || '', 'plan_updated', 'Plano atualizado pelo fisioterapeuta')
   }
 
   return (
@@ -204,7 +215,7 @@ function TabPlano({ patient, activePlan, onSave, showToast }) {
 }
 
 // ── TAB: Exercícios ────────────────────────────────────────
-function TabExercicios({ activePlan, onSave, showToast }) {
+function TabExercicios({ activePlan, patientId, onSave, showToast }) {
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({ title: '', description: '', sets: 3, reps: '', frequency: 'Diária', observations: '', video_url: '' })
 
@@ -216,11 +227,13 @@ function TabExercicios({ activePlan, onSave, showToast }) {
     setShowForm(false)
     setForm({ title: '', description: '', sets: 3, reps: '', frequency: 'Diária', observations: '', video_url: '' })
     onSave(); showToast('Exercício adicionado!')
+    logHistory(patientId, activePlan.id, 'exercise_added', `Exercício adicionado: ${form.title}`)
   }
 
-  async function remove(exId) {
+  async function remove(exId, exTitle) {
     await fetch(`/api/exercises/${exId}`, { method: 'DELETE' })
     onSave(); showToast('Exercício removido.')
+    logHistory(patientId, activePlan.id, 'exercise_removed', `Exercício removido: ${exTitle || 'exercício'}`)
   }
 
   const inp = (lbl, key, type = 'text') => (
@@ -260,7 +273,7 @@ function TabExercicios({ activePlan, onSave, showToast }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {exercises.map((ex, i) => (
-          <ExerciseCard key={ex.id} ex={ex} index={i} onRemove={remove} onSave={onSave} showToast={showToast} />
+          <ExerciseCard key={ex.id} ex={ex} index={i} onRemove={remove} onSave={onSave} showToast={showToast} patientId={patientId} />
         ))}
         {exercises.length === 0 && !showForm && (
           <div style={{ textAlign: 'center', padding: 40, color: C.gray400 }}>Nenhum exercício cadastrado.</div>
@@ -270,7 +283,7 @@ function TabExercicios({ activePlan, onSave, showToast }) {
   )
 }
 
-function ExerciseCard({ ex, index, onRemove, onSave, showToast }) {
+function ExerciseCard({ ex, index, onRemove, onSave, showToast, patientId }) {
   const [editing, setEditing] = useState(false)
   const [saving, setSaving]   = useState(false)
   const [editForm, setEditForm] = useState({
@@ -286,6 +299,7 @@ function ExerciseCard({ ex, index, onRemove, onSave, showToast }) {
     setSaving(true)
     await fetch(`/api/exercises/${ex.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editForm) })
     setSaving(false); setEditing(false); onSave(); showToast('Exercício atualizado!')
+    logHistory(patientId, ex.plan_id || '', 'exercise_updated', `Exercício atualizado: ${editForm.title}`)
   }
 
   const inputStyle = { width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', minHeight: 48, fontFamily: 'inherit' }
@@ -306,7 +320,7 @@ function ExerciseCard({ ex, index, onRemove, onSave, showToast }) {
               Editar
             </button>
           )}
-          <button onClick={() => onRemove(ex.id)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 36 }}>Remover</button>
+          <button onClick={() => onRemove(ex.id, ex.title)} style={{ padding: '4px 12px', background: C.redLight, color: C.red, border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12, minHeight: 36 }}>Remover</button>
         </div>
       </div>
 
@@ -364,7 +378,7 @@ function ExerciseCard({ ex, index, onRemove, onSave, showToast }) {
 }
 
 // ── TAB: Orientações ───────────────────────────────────────
-function TabOrientacoes({ activePlan, onSave, showToast }) {
+function TabOrientacoes({ activePlan, patientId, onSave, showToast }) {
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({ category: '', content: '' })
   const guidelines = activePlan?.guidelines || []
@@ -373,6 +387,7 @@ function TabOrientacoes({ activePlan, onSave, showToast }) {
     if (!activePlan) { showToast('Crie um plano primeiro.', 'error'); return }
     await fetch('/api/guidelines', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan_id: activePlan.id, ...form }) })
     setShowForm(false); setForm({ category: '', content: '' }); onSave(); showToast('Orientação adicionada!')
+    logHistory(patientId, activePlan.id, 'guideline_added', `Orientação adicionada: ${form.category}`)
   }
 
   async function remove(gId) {
@@ -405,7 +420,7 @@ function TabOrientacoes({ activePlan, onSave, showToast }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {guidelines.map(g => (
-          <GuidelineCard key={g.id} g={g} onRemove={remove} onSave={onSave} showToast={showToast} />
+          <GuidelineCard key={g.id} g={g} onRemove={remove} onSave={onSave} showToast={showToast} patientId={patientId} />
         ))}
         {guidelines.length === 0 && !showForm && <div style={{ textAlign: 'center', padding: 40, color: C.gray400 }}>Nenhuma orientação cadastrada.</div>}
       </div>
@@ -413,7 +428,7 @@ function TabOrientacoes({ activePlan, onSave, showToast }) {
   )
 }
 
-function GuidelineCard({ g, onRemove, onSave, showToast }) {
+function GuidelineCard({ g, onRemove, onSave, showToast, patientId }) {
   const [editing, setEditing]   = useState(false)
   const [saving, setSaving]     = useState(false)
   const [editForm, setEditForm] = useState({ category: g.category || '', content: g.content || '' })
@@ -424,6 +439,7 @@ function GuidelineCard({ g, onRemove, onSave, showToast }) {
     setSaving(true)
     await fetch(`/api/guidelines/${g.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editForm) })
     setSaving(false); setEditing(false); onSave(); showToast('Orientação atualizada!')
+    logHistory(patientId, g.plan_id || '', 'guideline_updated', `Orientação atualizada: ${editForm.category}`)
   }
 
   const inputStyle = { width: '100%', padding: '10px 14px', border: `1px solid ${C.gray200}`, borderRadius: 8, fontSize: 14, boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }
