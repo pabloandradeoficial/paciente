@@ -4,37 +4,18 @@ import PatientLayout from '../../components/patient/PatientLayout'
 import ProtectedRoute from '../../components/shared/ProtectedRoute'
 import { getSession } from '../../lib/auth'
 
-/* ── LEGIBILIDADE MÁXIMA: todos os textos escuros sobre fundo branco ── */
 const T = {
-  sans:  "'Montserrat', system-ui, sans-serif",
-  serif: "'Montserrat', sans-serif",
-  /* Cores absolutamente fixas — nunca mudar */
+  sans:    "'Montserrat', system-ui, sans-serif",
   navy:    '#111827',
-  gold:    '#22c55e',
+  green:   '#22c55e',
   white:   '#ffffff',
-  /* Hierarquia de texto — sempre escuro */
-  h1:     '#111827',  /* quase preto — títulos de exercícios */
-  body:   '#1f2937',  /* muito escuro — descrições */
-  meta:   '#374151',  /* escuro — labels e metadados */
-  muted:  '#4b5563',  /* médio — textos secundários */
-  hint:   '#6b7280',  /* só para info muito secundária */
-  /* Backgrounds */
-  pageBg: '#f5f5f0',
-  card:   '#ffffff',
-  metaBg: '#f1f5f9',  /* levemente azulado para pills */
-  border: '#d1d5db',  /* borda mais definida */
-  borderFocus: '#22c55e',
-  /* Amber para observações */
-  amberBg:     '#fff7ed',
-  amberBorder: '#f59e0b',
-  amberText:   '#7c2d12',
-  /* Blue para vídeo */
-  blueBg:   '#eff6ff',
-  blueText: '#1d4ed8',
-  blueBorder: '#bfdbfe',
+  border:  '#e5e7eb',
+  muted:   '#6b7280',
+  dark:    '#374151',
+  pillBg:  '#f3f4f6',
 }
 
-const todayKey = () => new Date().toISOString().slice(0, 10) // YYYY-MM-DD
+const todayKey = () => new Date().toISOString().slice(0, 10)
 function getDoneKey(id) { return `check_exercicio_${id}_${todayKey()}` }
 function isChecked(id) { try { return localStorage.getItem(getDoneKey(id)) === '1' } catch { return false } }
 function toggleCheck(id) {
@@ -45,9 +26,9 @@ function toggleCheck(id) {
 }
 
 export default function PatientExercicios() {
-  const [exercises, setExercises] = useState([])
-  const [loading, setLoading]     = useState(true)
-  const [expanded, setExpanded]   = useState(null)
+  const [exercises, setExercises]   = useState([])
+  const [loading, setLoading]       = useState(true)
+  const [expanded, setExpanded]     = useState(null)
   const [checkedMap, setCheckedMap] = useState({})
 
   function refreshChecks(ids) {
@@ -62,7 +43,7 @@ export default function PatientExercicios() {
     fetch(`/api/patients/${session.id}`)
       .then(r => r.json())
       .then(data => {
-        const plan = data?.plans?.find(p => p.is_active) || data?.plans?.[0]
+        const plan   = data?.plans?.find(p => p.is_active) || data?.plans?.[0]
         const sorted = (plan?.exercises || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
         setExercises(sorted)
         setLoading(false)
@@ -84,13 +65,17 @@ export default function PatientExercicios() {
       <Head><title>Exercícios — Dr. Pablo Andrade</title></Head>
       <PatientLayout>
 
-        {/* Section header */}
+        {/* Header */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 7, fontFamily: T.sans }}>Prescrição</div>
-          <h1 style={{ fontSize: 'clamp(22px,4vw,28px)', fontWeight: 700, color: T.h1, margin: '0 0 8px', fontFamily: T.serif, letterSpacing: '-0.3px' }}>
+          <div style={{ fontSize: 10.5, color: T.green, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 7, fontFamily: T.sans, fontWeight: 600 }}>
+            Prescrição
+          </div>
+          <h1 style={{ fontSize: 'clamp(22px,4vw,28px)', fontWeight: 700, color: T.navy, margin: '0 0 8px', fontFamily: T.sans, letterSpacing: '-0.3px' }}>
             Exercícios Prescritos
             {!loading && exercises.length > 0 && (
-              <span style={{ fontSize: 14, color: T.hint, fontFamily: T.sans, fontWeight: 400, marginLeft: 10 }}>({exercises.length})</span>
+              <span style={{ fontSize: 14, color: T.muted, fontFamily: T.sans, fontWeight: 400, marginLeft: 10 }}>
+                ({exercises.length})
+              </span>
             )}
           </h1>
           <p style={{ fontSize: 14, color: T.muted, fontFamily: T.sans, margin: 0, lineHeight: 1.65 }}>
@@ -105,72 +90,75 @@ export default function PatientExercicios() {
               const done = checkedMap[ex.id]
               return (
                 <div key={ex.id} style={{
-                  background: T.card, borderRadius: 16,
+                  background: '#ffffff', borderRadius: 16,
                   border: open
-                    ? `2px solid ${T.green}`
+                    ? '2px solid #22c55e'
                     : done
                       ? '2px solid #22c55e'
-                      : `1.5px solid ${T.border}`,
+                      : '1.5px solid #e5e7eb',
                   overflow: 'hidden',
-                  boxShadow: open ? '0 6px 24px rgba(34,197,94,0.14)' : '0 1px 3px rgba(0,0,0,0.06)',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: open
+                    ? '0 4px 20px rgba(34,197,94,0.12)'
+                    : '0 2px 12px rgba(0,0,0,0.06)',
+                  transition: 'all 0.25s ease',
                 }}>
 
-                  {/* ── HEADER — sempre visível, toque para expandir ── */}
+                  {/* Header — clique para expandir */}
                   <button onClick={() => toggle(ex.id)} style={{
                     width: '100%', display: 'flex', alignItems: 'center', gap: 14,
-                    padding: 'clamp(15px,2.5vw,20px) clamp(16px,3vw,22px)',
-                    background: open ? T.navy : T.card,
+                    padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,22px)',
+                    background: open ? '#111827' : '#ffffff',
                     border: 'none', cursor: 'pointer', textAlign: 'left',
-                    borderRadius: open ? '20px 20px 0 0' : 0,
-                    transition: 'background 0.22s',
-                    minHeight: 52,
+                    transition: 'background 0.2s', minHeight: 52,
                   }}>
                     {/* Número */}
                     <div style={{
-                      width: 40, height: 40, borderRadius: 11, flexShrink: 0,
-                      background: open ? T.green : '#f0fdf4',
-                      border: open ? 'none' : '1.5px solid #22c55e',
+                      width: 38, height: 38, borderRadius: 10, flexShrink: 0,
+                      background: open ? '#22c55e' : '#f5f5f0',
+                      border: open ? 'none' : '1.5px solid #e5e7eb',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      transition: 'all 0.22s',
+                      transition: 'all 0.2s',
                     }}>
-                      <span style={{ fontWeight: 800, fontSize: 16, fontFamily: T.sans, color: open ? T.navy : T.meta }}>{i + 1}</span>
+                      <span style={{
+                        fontWeight: 700, fontSize: 15, fontFamily: T.sans,
+                        color: open ? '#111827' : '#374151',
+                      }}>{i + 1}</span>
                     </div>
 
-                    {/* Título + preview */}
-                    <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                    {/* Título */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{
-                        fontSize: 'clamp(15px,2.2vw,17px)',
-                        fontWeight: 800,
+                        fontSize: 'clamp(14px,2.2vw,16px)', fontWeight: 700,
                         fontFamily: T.sans,
-                        color: open ? T.white : T.h1,
+                        color: open ? '#ffffff' : '#111827',
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                        letterSpacing: '-0.1px',
-                        lineHeight: 1.3,
                       }}>{ex.title}</div>
                       {!open && done && (
-                        <span style={{ fontSize: 10, fontWeight: 700, color: '#22c55e', background: 'rgba(34,197,94,0.15)', padding: '2px 8px', borderRadius: 10, marginLeft: 8, whiteSpace: 'nowrap' }}>✓ Feito</span>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: '#15803d', background: '#f0fdf4', padding: '2px 8px', borderRadius: 10, display: 'inline-block', marginTop: 3 }}>
+                          Feito hoje
+                        </span>
                       )}
-                      {!open && (
-                        <div style={{ width: '100%', fontSize: 12.5, color: T.muted, fontFamily: T.sans, marginTop: 3, fontWeight: 500 }}>
+                      {!open && !done && (
+                        <div style={{ fontSize: 12, color: T.muted, fontFamily: T.sans, marginTop: 3, fontWeight: 400 }}>
                           {[ex.sets && `${ex.sets} séries`, ex.reps && `${ex.reps} reps`, ex.frequency].filter(Boolean).join(' · ')}
                         </div>
                       )}
                     </div>
 
                     {/* Chevron */}
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                      stroke={open ? T.green : T.meta} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                      stroke={open ? '#22c55e' : '#9ca3af'} strokeWidth="2.5"
+                      strokeLinecap="round" strokeLinejoin="round"
                       style={{ flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s' }}>
                       <polyline points="6 9 12 15 18 9"/>
                     </svg>
                   </button>
 
-                  {/* ── CORPO EXPANDIDO — tudo escuro sobre branco ── */}
+                  {/* Corpo expandido */}
                   {open && (
-                    <div style={{ background: T.card, padding: 'clamp(18px,3vw,24px)', borderTop: `1px solid ${T.border}` }}>
+                    <div style={{ background: '#ffffff', padding: 'clamp(18px,3vw,24px)', borderTop: '1px solid #f3f4f6' }}>
 
-                      {/* Pills de prescrição */}
+                      {/* Pills de prescrição — cinza, sem cores vibrantes */}
                       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 20 }}>
                         {[
                           { label: 'Séries',     value: ex.sets      },
@@ -178,62 +166,80 @@ export default function PatientExercicios() {
                           { label: 'Frequência', value: ex.frequency },
                         ].filter(item => item.value).map(item => (
                           <div key={item.label} style={{
-                            background: 'rgba(34,197,94,0.15)', borderRadius: 12,
+                            background: '#f3f4f6', borderRadius: 12,
                             padding: '12px 20px', textAlign: 'center',
-                            border: '1.5px solid rgba(34,197,94,0.4)', minWidth: 90,
+                            border: '1px solid #e5e7eb', minWidth: 90,
                           }}>
-                            <div style={{ fontSize: 10, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4, fontFamily: T.sans, fontWeight: 700 }}>{item.label}</div>
-                            <div style={{ fontSize: 'clamp(20px,3vw,26px)', fontWeight: 900, color: '#111827', fontFamily: T.sans, letterSpacing: '-0.5px' }}>{item.value}</div>
+                            <div style={{ fontSize: 10, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4, fontFamily: T.sans, fontWeight: 600 }}>
+                              {item.label}
+                            </div>
+                            <div style={{ fontSize: 'clamp(18px,3vw,24px)', fontWeight: 700, color: '#111827', fontFamily: T.sans }}>
+                              {item.value}
+                            </div>
                           </div>
                         ))}
                       </div>
 
                       {/* Como realizar */}
                       {ex.description && (
-                        <div style={{ marginBottom: 16, padding: '14px 16px', background: '#f0fdf4', borderRadius: 10, border: '1px solid #bbf7d0' }}>
-                          <div style={{ fontSize: 10, color: T.hint, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 7, fontFamily: T.sans, fontWeight: 700 }}>Como realizar</div>
-                          <p style={{ fontSize: 'clamp(14px,1.8vw,15.5px)', color: T.body, lineHeight: 1.9, margin: 0, fontFamily: T.sans, fontWeight: 450 }}>
+                        <div style={{ marginBottom: 14, padding: '14px 16px', background: '#f9fafb', borderRadius: 10, border: '1px solid #f3f4f6' }}>
+                          <div style={{ fontSize: 10, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 7, fontFamily: T.sans, fontWeight: 600 }}>
+                            Como realizar
+                          </div>
+                          <p style={{ fontSize: 'clamp(14px,1.8vw,15px)', color: '#111827', lineHeight: 1.85, margin: 0, fontFamily: T.sans }}>
                             {ex.description}
                           </p>
                         </div>
                       )}
 
-                      {/* Atenção */}
+                      {/* Atenção / observações */}
                       {ex.observations && (
-                        <div style={{ background: T.amberBg, borderRadius: 10, padding: '13px 16px', borderLeft: `4px solid ${T.amberBorder}`, marginBottom: 16 }}>
-                          <div style={{ fontSize: 10, color: T.amberText, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6, fontFamily: T.sans, fontWeight: 800 }}>Atenção</div>
-                          <p style={{ fontSize: 'clamp(14px,1.8vw,15.5px)', color: T.amberText, lineHeight: 1.85, margin: 0, fontFamily: T.sans, fontWeight: 500 }}>{ex.observations}</p>
+                        <div style={{ marginBottom: 14, padding: '13px 16px', background: '#fff7ed', borderRadius: 10, borderLeft: '3px solid #f59e0b' }}>
+                          <div style={{ fontSize: 10, color: '#92400e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 6, fontFamily: T.sans, fontWeight: 700 }}>
+                            Atenção
+                          </div>
+                          <p style={{ fontSize: 'clamp(14px,1.8vw,15px)', color: '#7c2d12', lineHeight: 1.8, margin: 0, fontFamily: T.sans }}>
+                            {ex.observations}
+                          </p>
                         </div>
                       )}
 
                       {/* Vídeo */}
                       {ex.video_url && (
-                        <a href={ex.video_url} target="_blank" rel="noreferrer"
-                          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: T.blueBg, color: T.blueText, padding: '13px 24px', borderRadius: 10, fontSize: 14, fontWeight: 700, textDecoration: 'none', fontFamily: T.sans, border: `1.5px solid ${T.blueBorder}`, minHeight: 48, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)' }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill={T.blueText}><polygon points="5,3 19,12 5,21"/></svg>
+                        <a href={ex.video_url} target="_blank" rel="noreferrer" style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 8,
+                          background: '#eff6ff', color: '#1d4ed8',
+                          padding: '11px 20px', borderRadius: 10,
+                          fontSize: 13.5, fontWeight: 600, textDecoration: 'none',
+                          fontFamily: T.sans, border: '1px solid #bfdbfe',
+                          marginBottom: 14, minHeight: 44,
+                        }}>
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="#1d4ed8"><polygon points="5,3 19,12 5,21"/></svg>
                           Ver vídeo demonstrativo
                         </a>
                       )}
 
-                      {/* ── Fiz hoje ── */}
-                      <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${T.border}` }}>
+                      {/* Fiz hoje */}
+                      <div style={{ paddingTop: 14, borderTop: '1px solid #f3f4f6' }}>
                         <button
-                          onClick={() => { toggleCheck(ex.id); setCheckedMap(prev => ({ ...prev, [ex.id]: !prev[ex.id] })) }}
+                          onClick={() => {
+                            toggleCheck(ex.id)
+                            setCheckedMap(prev => ({ ...prev, [ex.id]: !prev[ex.id] }))
+                          }}
                           style={{
-                            display: 'flex', alignItems: 'center', gap: 8,
-                            padding: '12px 22px', borderRadius: 10,
+                            display: 'inline-flex', alignItems: 'center', gap: 8,
+                            padding: '11px 20px', borderRadius: 10,
                             background: checkedMap[ex.id] ? '#22c55e' : 'transparent',
-                            border: checkedMap[ex.id] ? 'none' : '2px solid #d1d5db',
-                            color: checkedMap[ex.id] ? '#fff' : '#374151',
+                            border: checkedMap[ex.id] ? 'none' : '1.5px solid #e5e7eb',
+                            color: checkedMap[ex.id] ? '#111827' : '#374151',
                             fontSize: 14, fontWeight: 700, cursor: 'pointer',
-                            fontFamily: "'Montserrat', system-ui, sans-serif",
-                            minHeight: 48, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                            boxShadow: checkedMap[ex.id] ? '0 4px 16px rgba(34,197,94,0.35)' : 'none',
+                            fontFamily: T.sans, minHeight: 44,
+                            transition: 'all 0.2s ease',
                           }}
                         >
                           {checkedMap[ex.id]
-                            ? <><span>✓</span> Feito hoje!</>
-                            : <><span style={{ fontSize: 16 }}>○</span> Marcar como feito hoje</>
+                            ? <>&#10003; Feito hoje!</>
+                            : <>&#9675; Marcar como feito hoje</>
                           }
                         </button>
                       </div>
@@ -245,11 +251,21 @@ export default function PatientExercicios() {
           </div>
         )}
 
+        {/* Nota de rodapé */}
         {!loading && exercises.length > 0 && (
-          <div style={{ marginTop: 22, padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,22px)', background: '#f0fdf4', borderRadius: 16, border: '1.5px solid #bbf7d0', textAlign: 'center' }}>
-            <p style={{ fontSize: 13.5, color: T.muted, fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
+          <div style={{
+            marginTop: 20,
+            padding: 'clamp(13px,2.5vw,16px) clamp(16px,3vw,22px)',
+            background: '#ffffff', borderRadius: 14,
+            border: '1px solid #e5e7eb',
+            borderLeft: '3px solid #22c55e',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+          }}>
+            <p style={{ fontSize: 13.5, color: '#6b7280', fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
               Dúvidas sobre algum exercício?{' '}
-              <a href="tel:+5535998732804" style={{ color: T.green, textDecoration: 'none', fontWeight: 700 }}>(35) 99873-2804</a>
+              <a href="tel:+5535998732804" style={{ color: '#22c55e', textDecoration: 'none', fontWeight: 700 }}>
+                (35) 99873-2804
+              </a>
             </p>
           </div>
         )}
@@ -264,7 +280,7 @@ function Skeleton() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}`}</style>
       {[1, 2, 3].map(i => (
-        <div key={i} style={{ height: 70, background: '#e2e8f0', borderRadius: 14, animation: `pulse 1.5s ${i*0.12}s ease-in-out infinite` }} />
+        <div key={i} style={{ height: 66, background: '#e5e7eb', borderRadius: 14, animation: `pulse 1.5s ${i * 0.12}s ease-in-out infinite` }} />
       ))}
     </div>
   )
@@ -272,12 +288,18 @@ function Skeleton() {
 
 function EmptyState() {
   return (
-    <div style={{ textAlign: 'center', padding: '56px 20px', background: '#fff', borderRadius: 16, border: '1.5px solid #d1d5db' }}>
-      <div style={{ width: 48, height: 48, borderRadius: 14, background: '#f1f5f9', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
+    <div style={{ textAlign: 'center', padding: '56px 20px', background: '#ffffff', borderRadius: 16, border: '1px solid #e5e7eb', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
+      <div style={{ width: 46, height: 46, borderRadius: 12, background: '#f5f5f0', margin: '0 auto 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #e5e7eb' }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round">
+          <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+        </svg>
       </div>
-      <div style={{ fontSize: 15, color: '#1f2937', fontFamily: 'system-ui,sans-serif', fontWeight: 700, marginBottom: 6 }}>Nenhum exercício prescrito ainda</div>
-      <div style={{ fontSize: 13.5, color: '#6b7280', fontFamily: 'system-ui,sans-serif', lineHeight: 1.6 }}>O Dr. Pablo irá adicionar o seu protocolo em breve.</div>
+      <div style={{ fontSize: 15, color: '#111827', fontFamily: "'Montserrat', system-ui, sans-serif", fontWeight: 700, marginBottom: 6 }}>
+        Nenhum exercício prescrito ainda
+      </div>
+      <div style={{ fontSize: 14, color: '#6b7280', fontFamily: "'Montserrat', system-ui, sans-serif", lineHeight: 1.6 }}>
+        O Dr. Pablo irá adicionar o seu protocolo em breve.
+      </div>
     </div>
   )
 }
