@@ -65,11 +65,12 @@ export default function PatientExercicios() {
   const [checkedMap,  setCheckedMap]  = useState({})
 
   // Feedback modal state
-  const [modal,      setModal]      = useState(null)  // { exercise } | null
+  const [modal,      setModal]      = useState(null)  // { exercise, planId } | null
   const [painLevel,  setPainLevel]  = useState(0)
   const [borgLevel,  setBorgLevel]  = useState(null)
   const [notes,      setNotes]      = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [saveError,  setSaveError]  = useState(null)
 
   function refreshChecks(ids) {
     const map = {}
@@ -105,11 +106,14 @@ export default function PatientExercicios() {
     setPainLevel(0)
     setBorgLevel(null)
     setNotes('')
-    setModal({ exercise })
+    setSaveError(null)
+    // Capture planId at open time — avoids stale-state race on submit
+    setModal({ exercise, planId })
   }
 
   function closeModal() {
     if (submitting) return
+    setSaveError(null)
     setModal(null)
   }
 
@@ -118,24 +122,46 @@ export default function PatientExercicios() {
   async function handleSubmit() {
     if (!modal) return
     setSubmitting(true)
+    setSaveError(null)
     const session = getSession()
+
     try {
-      await fetch('/api/logs-exercicios', {
+      const res = await fetch('/api/logs-exercicios', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           patient_id:    session?.id,
           exercicio_id:  modal.exercise.id,
-          plano_id:      planId,
+          plano_id:      modal.planId,   // captured at modal open — never stale
           nivel_dor:     painLevel,
           nivel_esforco: borgLevel,
           observacoes:   notes,
         }),
       })
-    } catch {}
-    // Mark locally regardless of API result
+
+      if (!res.ok) {
+        // Parse and surface the real error from the API
+        let msg = `Erro ${res.status}`
+        try {
+          const body = await res.json()
+          msg = body.error || body.hint || msg
+          console.error('[exercicios] falha ao salvar log:', res.status, body)
+        } catch {}
+        setSaveError(msg)
+        setSubmitting(false)
+        return   // ← keep modal open so user can retry
+      }
+    } catch (err) {
+      console.error('[exercicios] erro de rede:', err)
+      setSaveError('Sem conexão. Verifique sua internet e tente novamente.')
+      setSubmitting(false)
+      return   // ← keep modal open
+    }
+
+    // Only mark as done locally after confirmed server save
     markDone(modal.exercise.id)
     setCheckedMap(prev => ({ ...prev, [modal.exercise.id]: true }))
+    setSaveError(null)
     setModal(null)
     setSubmitting(false)
   }
@@ -348,6 +374,7 @@ export default function PatientExercicios() {
             notes={notes}
             setNotes={setNotes}
             submitting={submitting}
+            saveError={saveError}
             onClose={closeModal}
             onSubmit={handleSubmit}
           />
@@ -424,7 +451,7 @@ function VideoBanner({ ex }) {
 
 // ─── FeedbackModal ────────────────────────────────────────────────────────────
 
-function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLevel, notes, setNotes, submitting, onClose, onSubmit }) {
+function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLevel, notes, setNotes, submitting, saveError, onClose, onSubmit }) {
   const pain = PAIN_SCALE[painLevel]
   const pc   = painColors(painLevel)
 
@@ -568,6 +595,17 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
             />
           </div>
 
+          {/* ── Error message ── */}
+          {saveError && (
+            <div style={{
+              padding: '12px 14px', borderRadius: 10, marginBottom: 4,
+              background: '#fef2f2', border: '1px solid #fca5a5',
+              fontSize: 13, color: '#991b1b', fontFamily: T.sans, lineHeight: 1.5,
+            }}>
+              ⚠️ {saveError}
+            </div>
+          )}
+
           {/* ── Submit ── */}
           <button
             onClick={onSubmit}
@@ -581,7 +619,7 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
               boxShadow: submitting ? 'none' : '0 4px 14px rgba(34,197,94,0.35)',
               transition: 'all 0.2s',
             }}>
-            {submitting ? 'Salvando…' : '✓ Confirmar conclusão'}
+            {submitting ? 'Salvando…' : saveError ? '↻ Tentar novamente' : '✓ Confirmar conclusão'}
           </button>
         </div>
       </div>

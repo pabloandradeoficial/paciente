@@ -160,7 +160,7 @@ create table if not exists logs_exercicios (
   -- Referências
   patient_id    uuid not null references patients(id)  on delete cascade,
   exercicio_id  uuid not null references exercises(id) on delete cascade,
-  plano_id      uuid not null references plans(id)     on delete cascade,
+  plano_id      uuid references plans(id) on delete set null,
 
   -- Adesão
   concluido     boolean not null default true,
@@ -193,3 +193,9 @@ create index if not exists idx_logs_exercicios_plano
 alter table logs_exercicios enable row level security;
 create policy "Service role full access logs_exercicios"
   on logs_exercicios for all using (true);
+
+-- =============================================
+-- MIGRATION — se a tabela logs_exercicios já existir
+-- Execute no SQL Editor do Supabase para tornar plano_id opcional
+-- =============================================
+-- ALTER TABLE logs_exercicios ALTER COLUMN plano_id DROP NOT NULL;
