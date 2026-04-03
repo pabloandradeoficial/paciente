@@ -6,9 +6,9 @@ import { saveSession } from '../lib/auth'
 const T = {
   sans: "'Montserrat', system-ui, sans-serif",
   serif: "'Montserrat', sans-serif",
-  navy: '#111827', navyDeep: '#0d1117', green: '#22c55e',
-  white: '#ffffff', gray200: '#e5e7eb', gray400: '#9ca3af',
-  gray600: '#4b5563', gray700: '#374151',
+  navy: '#1C1410', navyDeep: '#1C1410', green: '#C9A84C',
+  white: '#ffffff', gray200: '#E8DDD0', gray400: '#9ca3af',
+  gray600: '#6B5C4E', gray700: '#4A3728',
   red: '#ef4444', redLight: '#fee2e2',
 }
 
@@ -47,7 +47,7 @@ export default function Login() {
         <div style={{ flex: 1, position: 'relative', display: 'none' }} className="login-left">
           <style>{`.login-left{display:none!important} @media(min-width:900px){.login-left{display:block!important}}`}</style>
           <img src="/consultorio.jpg" alt="Consultório" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,17,23,0.88) 0%, rgba(17,24,39,0.65) 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(20,12,8,0.88) 0%, rgba(28,20,16,0.65) 100%)' }} />
           {/* Overlay content */}
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '48px' }}>
             <div style={{ color: T.green, fontSize: 10.5, letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: 12 }}>Portal Exclusivo</div>
@@ -123,11 +123,11 @@ export default function Login() {
 
           {/* CTA */}
           <button onClick={handleLogin} disabled={loading} style={{
-            marginTop: 28, width: '100%', background: loading ? 'rgba(34,197,94,0.6)' : T.green,
+            marginTop: 28, width: '100%', background: loading ? 'rgba(201,168,76,0.6)' : T.green,
             color: T.navy, border: 'none', padding: '16px', borderRadius: 12,
             fontSize: 17, fontWeight: 800, cursor: loading ? 'not-allowed' : 'pointer',
             letterSpacing: '0.3px', transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)', fontFamily: T.sans,
-            boxShadow: loading ? 'none' : '0 4px 20px rgba(34,197,94,0.35)',
+            boxShadow: loading ? 'none' : '0 4px 20px rgba(201,168,76,0.35)',
             minHeight: 52,
           }}
             onMouseEnter={e => { if (!loading) e.currentTarget.style.transform = 'translateY(-2px)' }}
@@ -141,7 +141,7 @@ export default function Login() {
 
           {/* Footer */}
           <div style={{ marginTop: 'auto', paddingTop: 48, borderTop: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.2)', fontSize: 11.5, lineHeight: 1.6 }}>
-            Acesso exclusivo para pacientes cadastrados.<br />Dúvidas? Ligue: <a href="tel:+5535998732804" style={{ color: 'rgba(34,197,94,0.5)', textDecoration: 'none' }}>(35) 99873-2804</a>
+            Acesso exclusivo para pacientes cadastrados.<br />Dúvidas? Ligue: <a href="tel:+5535998732804" style={{ color: 'rgba(201,168,76,0.5)', textDecoration: 'none' }}>(35) 99873-2804</a>
           </div>
         </div>
       </div>

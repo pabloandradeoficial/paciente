@@ -3,15 +3,15 @@ import { clearSession, getSession } from '../../lib/auth'
 
 const T = {
   sans: "'Montserrat', system-ui, sans-serif",
-  navy: '#111827',
-  navyDeep: '#0d1117',
-  green: '#22c55e',
-  cream: '#f5f5f0',
-  gray50: '#f9fafb',
-  gray100: '#f3f4f6',
-  gray200: '#e5e7eb',
+  navy: '#1C1410',
+  navyDeep: '#2C1810',
+  green: '#C9A84C',
+  cream: '#FAFAF8',
+  gray50: '#FAFAF8',
+  gray100: '#F5F1EB',
+  gray200: '#E8DDD0',
   gray400: '#9ca3af',
-  gray500: '#6b7280',
+  gray500: '#6B5C4E',
   white: '#ffffff',
 }
 
@@ -31,7 +31,7 @@ export default function PatientLayout({ children }) {
   function logout() { clearSession(); router.push('/login') }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f5f0', fontFamily: T.sans }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAF8', fontFamily: T.sans }}>
       <style>{`
         * { box-sizing: border-box; }
         body { margin: 0; }
@@ -45,7 +45,7 @@ export default function PatientLayout({ children }) {
       `}</style>
 
       {/* ── Top bar ── */}
-      <div style={{ background: T.navyDeep, position: 'sticky', top: 0, zIndex: 100, borderBottom: '1px solid rgba(34,197,94,0.15)' }}>
+      <div style={{ background: T.navyDeep, position: 'sticky', top: 0, zIndex: 100, borderBottom: '1px solid rgba(201,168,76,0.2)' }}>
         <div style={{ maxWidth: 820, margin: '0 auto', padding: '0 clamp(1rem, 3vw, 1.5rem)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
             {/* Brand */}
@@ -122,7 +122,7 @@ export default function PatientLayout({ children }) {
       {/* ── Mobile bottom tab bar ── */}
       <div className="patient-bottombar" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100,
-        background: T.navyDeep, borderTop: '1px solid rgba(34,197,94,0.15)',
+        background: T.navyDeep, borderTop: '1px solid rgba(201,168,76,0.2)',
         display: 'none', justifyContent: 'space-around', alignItems: 'center',
         height: 72, paddingBottom: 'env(safe-area-inset-bottom)',
       }}>
