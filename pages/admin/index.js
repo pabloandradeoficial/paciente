@@ -47,7 +47,8 @@ export default function AdminDashboard() {
   const [savingMsg, setSavingMsg]       = useState(false)
   const [msgSaved, setMsgSaved]         = useState(false)
   const [editingMsg, setEditingMsg]     = useState(false)
-  const [tooltip, setTooltip]           = useState(null)  // { x, y, text }
+  const [tooltip, setTooltip]                 = useState(null)   // { x, y, text }
+  const [evolucaoIds, setEvolucaoIds]         = useState([])     // patient_ids prontos para evoluir
 
   useEffect(() => {
     fetch('/api/patients').then(r => r.json()).then(data => { setPatients(data); setLoading(false) })
@@ -62,6 +63,9 @@ export default function AdminDashboard() {
     })
     fetch('/api/admin-pain-alerts').then(r => r.json()).then(data => {
       if (data && !data.error) setPainAlerts(data)
+    })
+    fetch('/api/admin-evolucao-sugestoes').then(r => r.json()).then(data => {
+      if (Array.isArray(data)) setEvolucaoIds(data)
     })
   }, [])
 
@@ -189,6 +193,93 @@ export default function AdminDashboard() {
                       </div>
                     )
                   })}
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* ── Sugestões de Evolução ── */}
+          {(() => {
+            const evolucaoPatients = patients.filter(p => evolucaoIds.includes(p.id))
+            if (!evolucaoPatients.length) return null
+
+            return (
+              <div style={{
+                background: T.white, borderRadius: 16,
+                border: '1px solid #bbf7d0', overflow: 'hidden',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+              }}>
+                {/* Header */}
+                <div style={{
+                  padding: '16px 22px', borderBottom: '1px solid #f0fdf4',
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                }}>
+                  <span style={{ fontSize: 20 }}>🚀</span>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: '#14532d', fontFamily: T.sans }}>
+                      Sugestões de Evolução
+                    </div>
+                    <div style={{ fontSize: 11, color: '#16a34a', fontFamily: T.sans, marginTop: 1 }}>
+                      {evolucaoPatients.length} paciente{evolucaoPatients.length > 1 ? 's' : ''} com 3 sessões seguidas de dor ≤ 2
+                    </div>
+                  </div>
+                </div>
+
+                {/* Rows */}
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  {evolucaoPatients.map((p, i) => (
+                    <div
+                      key={p.id}
+                      style={{
+                        padding: '14px 22px',
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        borderBottom: i < evolucaoPatients.length - 1 ? '1px solid #f0fdf4' : 'none',
+                        borderLeft: '4px solid #22c55e',
+                        background: 'rgba(34,197,94,0.02)',
+                        transition: 'background 0.15s',
+                        gap: 12,
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(34,197,94,0.06)' }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'rgba(34,197,94,0.02)' }}
+                    >
+                      {/* Avatar + texto */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+                        <div style={{
+                          width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+                          background: '#dcfce7', border: '1.5px solid #86efac',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontWeight: 800, fontSize: 12, color: '#14532d', fontFamily: T.sans,
+                        }}>
+                          {p.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                        </div>
+                        <div style={{ minWidth: 0 }}>
+                          <div style={{ fontSize: 13.5, fontWeight: 700, color: T.gray800, fontFamily: T.sans }}>
+                            {p.full_name}
+                          </div>
+                          <div style={{ fontSize: 11.5, color: '#16a34a', marginTop: 2, fontFamily: T.sans }}>
+                            3 sessões com dor ≤ 2 — considere evoluir a carga ou mudar o plano
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Botão */}
+                      <button
+                        onClick={() => router.push(`/admin/pacientes/${p.id}`)}
+                        style={{
+                          padding: '7px 16px', borderRadius: 8, border: '1.5px solid #22c55e',
+                          background: T.white, color: '#15803d',
+                          fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                          fontFamily: T.sans, whiteSpace: 'nowrap', flexShrink: 0,
+                          transition: 'all 0.15s',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = '#22c55e'; e.currentTarget.style.color = '#111827' }}
+                        onMouseLeave={e => { e.currentTarget.style.background = T.white; e.currentTarget.style.color = '#15803d' }}
+                      >
+                        Ver paciente →
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             )
