@@ -68,6 +68,9 @@ export default function PatientHome() {
         {loading ? <Skeleton /> : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
+            {/* ══ 0. MINHA EVOLUÇÃO ══ */}
+            {exercises.length > 0 && <MinhaEvolucao exercises={exercises} />}
+
             {/* ══ 1. SAUDAÇÃO ══ */}
             <div style={{
               background: '#111827', borderRadius: 20,
@@ -363,6 +366,137 @@ export default function PatientHome() {
     </ProtectedRoute>
   )
 }
+
+// ─── MinhaEvolucao ────────────────────────────────────────────────────────────
+
+function buildWeekStats(exercises) {
+  const days = []
+  const now  = new Date()
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now)
+    d.setDate(d.getDate() - i)
+    const dateStr = d.toISOString().slice(0, 10)
+    const dayName = d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '')
+    let done = false
+    try {
+      done = exercises.some(e => localStorage.getItem(`check_exercicio_${e.id}_${dateStr}`) === '1')
+    } catch {}
+    days.push({ dateStr, dayName, done })
+  }
+  return days
+}
+
+function computeStreak(weekDays) {
+  let streak = 0
+  for (let i = weekDays.length - 1; i >= 0; i--) {
+    if (weekDays[i].done) streak++
+    else break
+  }
+  return streak
+}
+
+function MinhaEvolucao({ exercises }) {
+  const [weekDays, setWeekDays] = useState([])
+
+  useEffect(() => {
+    setWeekDays(buildWeekStats(exercises))
+  }, [exercises.length])
+
+  if (weekDays.length === 0) return null
+
+  const doneDays = weekDays.filter(d => d.done).length
+  const progress = Math.round((doneDays / 7) * 100)
+  const streak   = computeStreak(weekDays)
+
+  const barColor =
+    progress >= 67 ? '#22c55e' :
+    progress >= 34 ? '#f59e0b' :
+    progress >   0 ? '#ef4444' : 'rgba(255,255,255,0.1)'
+
+  return (
+    <div style={{
+      background: '#111827', borderRadius: 16,
+      border: '1px solid rgba(34,197,94,0.2)',
+      padding: 'clamp(18px,3.5vw,24px)',
+      position: 'relative', overflow: 'hidden',
+    }}>
+      {/* dot texture */}
+      <div style={{
+        position: 'absolute', inset: 0, opacity: 0.04, pointerEvents: 'none',
+        backgroundImage: 'radial-gradient(circle, #22c55e 1px, transparent 1px)',
+        backgroundSize: '20px 20px',
+      }} />
+
+      <div style={{ position: 'relative', zIndex: 1 }}>
+
+        {/* Cabeçalho */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 15 }}>📈</span>
+            <span style={{ fontSize: 11, color: '#22c55e', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: T.sans, fontWeight: 600 }}>
+              Minha Evolução
+            </span>
+          </div>
+          {/* Streak badge */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            background: streak > 0 ? 'rgba(251,146,60,0.15)' : 'rgba(255,255,255,0.05)',
+            border: `1px solid ${streak > 0 ? 'rgba(251,146,60,0.3)' : 'rgba(255,255,255,0.1)'}`,
+            borderRadius: 20, padding: '5px 12px',
+            fontSize: 12, fontFamily: T.sans, fontWeight: 700,
+            color: streak > 0 ? '#fb923c' : '#6b7280',
+          }}>
+            🔥{' '}
+            {streak > 0
+              ? `${streak} dia${streak > 1 ? 's' : ''} seguido${streak > 1 ? 's' : ''}!`
+              : 'Comece hoje!'}
+          </div>
+        </div>
+
+        {/* Barra de progresso semanal */}
+        <div style={{ marginBottom: 18 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontFamily: T.sans }}>Progresso semanal</span>
+            <span style={{ fontSize: 12, color: '#ffffff', fontFamily: T.sans, fontWeight: 700 }}>{progress}%</span>
+          </div>
+          <div style={{ height: 8, background: 'rgba(255,255,255,0.08)', borderRadius: 4, overflow: 'hidden' }}>
+            <div style={{
+              height: '100%', borderRadius: 4,
+              background: barColor,
+              width: `${progress}%`,
+              transition: 'width 0.7s ease',
+            }} />
+          </div>
+        </div>
+
+        {/* 7 dias */}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {weekDays.map(day => (
+            <div key={day.dateStr} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 7 }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: day.done ? '#22c55e' : 'rgba(255,255,255,0.05)',
+                border: `1px solid ${day.done ? 'transparent' : 'rgba(255,255,255,0.1)'}`,
+                fontSize: 15, fontWeight: 700, color: day.done ? '#111827' : 'transparent',
+                boxShadow: day.done ? '0 0 14px rgba(34,197,94,0.45)' : 'none',
+                transition: 'all 0.3s',
+              }}>
+                ✓
+              </div>
+              <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontFamily: T.sans, textTransform: 'capitalize' }}>
+                {day.dayName}
+              </span>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
 
 function Skeleton() {
   return (

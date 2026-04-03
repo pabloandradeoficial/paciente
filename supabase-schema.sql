@@ -148,3 +148,48 @@ CREATE TABLE IF NOT EXISTS plan_history (
   description text not null,
   created_at timestamptz default now()
 );
+
+-- =============================================
+-- LOGS DE EXERCÍCIOS (PBE / Adesão ao Tratamento)
+-- Registra cada check-in do paciente com métricas clínicas.
+-- Execute no SQL Editor do Supabase
+-- =============================================
+create table if not exists logs_exercicios (
+  id            uuid primary key default gen_random_uuid(),
+
+  -- Referências
+  patient_id    uuid not null references patients(id)  on delete cascade,
+  exercicio_id  uuid not null references exercises(id) on delete cascade,
+  plano_id      uuid not null references plans(id)     on delete cascade,
+
+  -- Adesão
+  concluido     boolean not null default true,
+
+  -- Escala Visual Analógica de dor (EVA 0–10)
+  nivel_dor     integer check (nivel_dor between 0 and 10),
+
+  -- Escala de Borg CR-10 simplificada
+  nivel_esforco text check (
+    nivel_esforco in ('muito_leve', 'leve', 'moderado', 'intenso', 'maximo')
+  ),
+
+  -- Campo livre do paciente
+  observacoes   text,
+
+  registrado_em timestamptz not null default now()
+);
+
+-- Índices para consultas do dashboard do fisioterapeuta
+create index if not exists idx_logs_exercicios_patient
+  on logs_exercicios (patient_id, registrado_em desc);
+
+create index if not exists idx_logs_exercicios_exercicio
+  on logs_exercicios (exercicio_id, registrado_em desc);
+
+create index if not exists idx_logs_exercicios_plano
+  on logs_exercicios (plano_id, registrado_em desc);
+
+-- RLS: mesmo padrão das outras tabelas (acesso via service_role)
+alter table logs_exercicios enable row level security;
+create policy "Service role full access logs_exercicios"
+  on logs_exercicios for all using (true);
