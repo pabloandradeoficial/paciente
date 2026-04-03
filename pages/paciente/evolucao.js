@@ -9,12 +9,12 @@ import { getSession } from '../../lib/auth'
 
 const T = {
   sans:   "'Montserrat', system-ui, sans-serif",
-  navy:   '#111827',
-  green:  '#22c55e',
+  navy:   '#1C1410',
+  green:  '#C9A84C',
   white:  '#ffffff',
-  border: '#e5e7eb',
-  muted:  '#6b7280',
-  bg:     '#f5f5f0',
+  border: '#E8DDD0',
+  muted:  '#6B5C4E',
+  bg:     '#FAFAF8',
 }
 
 // ─── Borg → number ────────────────────────────────────────────────────────────
@@ -39,11 +39,11 @@ const EvolucaoChart = dynamic(() => import('recharts').then(rc => {
       if (!active || !payload?.length) return null
       return (
         <div style={{
-          background: T.white, borderRadius: 10, padding: '10px 14px',
-          border: `1px solid ${T.border}`, boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
-          fontFamily: T.sans, fontSize: 12, minWidth: 140,
+          background: '#ffffff', borderRadius: 10, padding: '10px 14px',
+          border: '1px solid #E8DDD0', boxShadow: '0 4px 16px rgba(28,20,16,0.1)',
+          fontFamily: "'Montserrat', system-ui, sans-serif", fontSize: 12, minWidth: 140,
         }}>
-          <div style={{ fontWeight: 700, color: T.navy, marginBottom: 6 }}>{label}</div>
+          <div style={{ fontWeight: 700, color: '#1C1410', marginBottom: 6 }}>{label}</div>
           {payload.map(p => (
             <div key={p.dataKey} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, color: p.color, marginBottom: 3 }}>
               <span>{p.name}</span>
@@ -64,10 +64,10 @@ const EvolucaoChart = dynamic(() => import('recharts').then(rc => {
     return (
       <ResponsiveContainer width="100%" height={280}>
         <LineChart data={data} margin={{ top: 10, right: 10, left: -22, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#F0EBE3" vertical={false} />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 11, fill: T.muted, fontFamily: T.sans }}
+            tick={{ fontSize: 11, fill: '#6B5C4E', fontFamily: "'Montserrat', system-ui, sans-serif" }}
             axisLine={false}
             tickLine={false}
             interval="preserveStartEnd"
@@ -75,13 +75,13 @@ const EvolucaoChart = dynamic(() => import('recharts').then(rc => {
           <YAxis
             domain={[0, 10]}
             ticks={[0, 2, 4, 6, 8, 10]}
-            tick={{ fontSize: 11, fill: T.muted, fontFamily: T.sans }}
+            tick={{ fontSize: 11, fill: '#6B5C4E', fontFamily: "'Montserrat', system-ui, sans-serif" }}
             axisLine={false}
             tickLine={false}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
-            wrapperStyle={{ fontSize: 12, fontFamily: T.sans, paddingTop: 12 }}
+            wrapperStyle={{ fontSize: 12, fontFamily: "'Montserrat', system-ui, sans-serif", paddingTop: 12 }}
             iconType="circle"
             iconSize={8}
           />
@@ -89,10 +89,10 @@ const EvolucaoChart = dynamic(() => import('recharts').then(rc => {
             type="monotone"
             dataKey="dor"
             name="Nível de dor"
-            stroke="#22c55e"
+            stroke="#C9A84C"
             strokeWidth={2.5}
-            dot={{ r: 4, fill: '#22c55e', strokeWidth: 0 }}
-            activeDot={{ r: 6, fill: '#22c55e' }}
+            dot={{ r: 4, fill: '#C9A84C', strokeWidth: 0 }}
+            activeDot={{ r: 6, fill: '#C9A84C' }}
             connectNulls
           />
           <Line
@@ -174,7 +174,7 @@ export default function Evolucao() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
               {[
                 { label: 'Sessões registradas', value: stats.totalSessoes, unit: '',     color: T.navy  },
-                { label: 'Última dor',           value: stats.lastDor,      unit: '/10',  color: stats.lastDor <= 3 ? '#16a34a' : stats.lastDor <= 6 ? '#d97706' : '#dc2626' },
+                { label: 'Última dor',           value: stats.lastDor,      unit: '/10',  color: stats.lastDor <= 3 ? '#C9A84C' : stats.lastDor <= 6 ? '#d97706' : '#dc2626' },
                 { label: 'Média de dor',          value: stats.avgDor,       unit: '/10',  color: T.muted },
               ].map(card => (
                 <div key={card.label} style={{
@@ -196,7 +196,7 @@ export default function Evolucao() {
             <div style={{
               background: T.white, borderRadius: 16,
               border: `1px solid ${T.border}`,
-              boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+              boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
               padding: 'clamp(16px,3vw,24px)',
               marginBottom: 16,
             }}>
@@ -243,7 +243,7 @@ export default function Evolucao() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {[
-                  { range: '0 – 3', label: 'Dor leve ou ausente', color: '#16a34a' },
+                  { range: '0 – 3', label: 'Dor leve ou ausente', color: '#C9A84C' },
                   { range: '4 – 6', label: 'Dor moderada — atenção', color: '#d97706' },
                   { range: '7 – 10', label: 'Dor intensa — informe seu fisioterapeuta', color: '#dc2626' },
                 ].map(item => (
@@ -272,10 +272,10 @@ function ChartSkeleton() {
       <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}`}</style>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
         {[1,2,3].map(i => (
-          <div key={i} style={{ height: 72, background: '#e5e7eb', borderRadius: 14, animation: `pulse 1.5s ${i*0.1}s infinite` }} />
+          <div key={i} style={{ height: 72, background: '#E8DDD0', borderRadius: 14, animation: `pulse 1.5s ${i*0.1}s infinite` }} />
         ))}
       </div>
-      <div style={{ height: 320, background: '#e5e7eb', borderRadius: 16, animation: 'pulse 1.5s 0.3s infinite' }} />
+      <div style={{ height: 320, background: '#E8DDD0', borderRadius: 16, animation: 'pulse 1.5s 0.3s infinite' }} />
     </div>
   )
 }
@@ -286,7 +286,7 @@ function EmptyState() {
       textAlign: 'center', padding: '56px 20px',
       background: T.white, borderRadius: 16,
       border: `1px solid ${T.border}`,
-      boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+      boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
     }}>
       <div style={{ fontSize: 36, marginBottom: 14 }}>📊</div>
       <div style={{ fontSize: 15, color: T.navy, fontFamily: T.sans, fontWeight: 700, marginBottom: 6 }}>

@@ -5,13 +5,13 @@ import ProtectedRoute from '../../components/shared/ProtectedRoute'
 import { getSession } from '../../lib/auth'
 
 const T = {
-  sans: "'Montserrat', system-ui, sans-serif",
-  green: '#22c55e',
-  greenDark: '#15803d',
-  textPrimary: '#111827',
-  textSecondary: '#6b7280',
-  textDark: '#374151',
-  border: '#e5e7eb',
+  sans:          "'Montserrat', system-ui, sans-serif",
+  green:         '#C9A84C',
+  greenDark:     '#8B6914',
+  textPrimary:   '#1C1410',
+  textSecondary: '#6B5C4E',
+  textDark:      '#4A3728',
+  border:        '#E8DDD0',
 }
 
 export default function PatientOrientacoes() {
@@ -44,7 +44,7 @@ export default function PatientOrientacoes() {
             }}>Orientações</span>
             {!loading && guidelines.length > 0 && (
               <span style={{
-                background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)',
+                background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.3)',
                 color: T.greenDark, fontSize: 10, fontWeight: 700,
                 padding: '2px 9px', borderRadius: 20, fontFamily: T.sans,
               }}>
@@ -83,9 +83,9 @@ export default function PatientOrientacoes() {
             padding: 'clamp(14px,3vw,18px) clamp(18px,3vw,24px)',
             background: '#ffffff',
             borderRadius: 14,
-            border: '1px solid #e5e7eb',
-            borderLeft: '3px solid #22c55e',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+            border: `1px solid ${T.border}`,
+            borderLeft: '3px solid #C9A84C',
+            boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
           }}>
             <p style={{ fontSize: 14, color: T.textDark, fontFamily: T.sans, margin: 0, lineHeight: 1.75 }}>
               Estas orientações foram definidas para o seu caso. Siga com atenção e ligue se tiver dúvidas:{' '}
@@ -106,25 +106,25 @@ function GuidelineCard({ g }) {
     <div style={{
       background: '#ffffff',
       borderRadius: 16,
-      border: '1px solid #e5e7eb',
-      borderLeft: '3px solid #22c55e',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+      border: '1px solid #E8DDD0',
+      borderLeft: '3px solid #C9A84C',
+      boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
       overflow: 'hidden',
     }}>
-      {/* Header limpo */}
+      {/* Header */}
       <div style={{
         padding: 'clamp(13px,2vw,16px) clamp(18px,3vw,24px)',
         display: 'flex', alignItems: 'center', gap: 8,
-        borderBottom: '1px solid #f3f4f6',
+        borderBottom: '1px solid #F0EBE3',
       }}>
         <div style={{
           width: 6, height: 6, borderRadius: '50%',
-          background: '#22c55e', flexShrink: 0,
+          background: '#C9A84C', flexShrink: 0,
         }} />
         <div style={{
-          fontSize: 10.5, fontWeight: 600, color: '#15803d',
+          fontSize: 10.5, fontWeight: 600, color: '#8B6914',
           textTransform: 'uppercase', letterSpacing: '1.5px',
-          fontFamily: T.sans,
+          fontFamily: "'Montserrat', system-ui, sans-serif",
         }}>
           {g.category}
         </div>
@@ -134,10 +134,10 @@ function GuidelineCard({ g }) {
       <div style={{ padding: 'clamp(16px,3vw,22px) clamp(18px,3vw,24px)' }}>
         <p style={{
           fontSize: 'clamp(14px,1.8vw,15px)',
-          color: '#111827',
+          color: '#1C1410',
           lineHeight: 1.85,
           margin: 0,
-          fontFamily: T.sans,
+          fontFamily: "'Montserrat', system-ui, sans-serif",
           fontWeight: 400,
         }}>
           {g.content}
@@ -153,7 +153,7 @@ function Skeleton() {
       <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.45}}`}</style>
       {[110, 90, 130].map((h, i) => (
         <div key={i} style={{
-          height: h, background: '#e5e7eb', borderRadius: 16,
+          height: h, background: '#E8DDD0', borderRadius: 16,
           animation: `pulse 1.5s ${i * 0.12}s ease-in-out infinite`,
         }} />
       ))}
@@ -166,26 +166,26 @@ function EmptyState() {
     <div style={{
       textAlign: 'center', padding: '64px 20px',
       background: '#ffffff', borderRadius: 16,
-      border: '1px solid #e5e7eb',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+      border: '1px solid #E8DDD0',
+      boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
     }}>
       <div style={{
         width: 48, height: 48, borderRadius: 14,
-        background: '#f5f5f0', margin: '0 auto 16px',
+        background: '#F5EDD8', margin: '0 auto 16px',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        border: '1px solid #e5e7eb',
+        border: '1px solid #E8DDD0',
       }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
           <polyline points="14,2 14,8 20,8"/>
           <line x1="16" y1="13" x2="8" y2="13"/>
           <line x1="16" y1="17" x2="8" y2="17"/>
         </svg>
       </div>
-      <div style={{ fontSize: 15, color: '#111827', fontFamily: T.sans, fontWeight: 700, marginBottom: 6 }}>
+      <div style={{ fontSize: 15, color: '#1C1410', fontFamily: "'Montserrat', system-ui, sans-serif", fontWeight: 700, marginBottom: 6 }}>
         Nenhuma orientação cadastrada ainda
       </div>
-      <div style={{ fontSize: 14, color: '#6b7280', fontFamily: T.sans, lineHeight: 1.6 }}>
+      <div style={{ fontSize: 14, color: '#6B5C4E', fontFamily: "'Montserrat', system-ui, sans-serif", lineHeight: 1.6 }}>
         O Dr. Pablo irá adicionar em breve.
       </div>
     </div>

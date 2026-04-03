@@ -8,13 +8,13 @@ import { getSession } from '../../lib/auth'
 
 const T = {
   sans:   "'Montserrat', system-ui, sans-serif",
-  navy:   '#111827',
-  green:  '#22c55e',
+  navy:   '#1C1410',
+  green:  '#C9A84C',
   white:  '#ffffff',
-  border: '#e5e7eb',
-  muted:  '#6b7280',
-  dark:   '#374151',
-  bg:     '#f5f5f0',
+  border: '#E8DDD0',
+  muted:  '#6B5C4E',
+  dark:   '#4A3728',
+  bg:     '#FAFAF8',
 }
 
 // ─── Feedback data ────────────────────────────────────────────────────────────
@@ -42,7 +42,7 @@ const BORG = [
 ]
 
 function painColors(v) {
-  if (v <= 2) return { bg: '#f0fdf4', border: '#22c55e', text: '#15803d' }
+  if (v <= 2) return { bg: '#F5EDD8', border: '#C9A84C', text: '#8B6914' }
   if (v <= 5) return { bg: '#fffbeb', border: '#f59e0b', text: '#92400e' }
   if (v <= 7) return { bg: '#fff7ed', border: '#f97316', text: '#9a3412' }
   return { bg: '#fef2f2', border: '#ef4444', text: '#991b1b' }
@@ -200,12 +200,12 @@ export default function PatientExercicios() {
                 <div key={ex.id} style={{
                   background: T.white, borderRadius: 16,
                   border: open
-                    ? '2px solid #22c55e'
-                    : done ? '2px solid #22c55e' : '1.5px solid #e5e7eb',
+                    ? '2px solid #C9A84C'
+                    : done ? '2px solid #C9A84C' : `1.5px solid ${T.border}`,
                   overflow: 'hidden',
                   boxShadow: open
-                    ? '0 4px 20px rgba(34,197,94,0.12)'
-                    : '0 2px 12px rgba(0,0,0,0.06)',
+                    ? '0 4px 20px rgba(201,168,76,0.15)'
+                    : '0 2px 16px rgba(0,0,0,0.06)',
                   transition: 'all 0.25s ease',
                 }}>
 
@@ -215,19 +215,19 @@ export default function PatientExercicios() {
                     style={{
                       width: '100%', display: 'flex', alignItems: 'center', gap: 14,
                       padding: 'clamp(14px,2.5vw,18px) clamp(16px,3vw,22px)',
-                      background: open ? T.navy : T.white,
+                      background: open ? '#2C1810' : T.white,
                       border: 'none', cursor: 'pointer', textAlign: 'left',
                       transition: 'background 0.2s', minHeight: 52,
                     }}>
                     {/* Número */}
                     <div style={{
                       width: 38, height: 38, borderRadius: 10, flexShrink: 0,
-                      background: open ? T.green : T.bg,
-                      border: open ? 'none' : '1.5px solid #e5e7eb',
+                      background: open ? '#C9A84C' : T.bg,
+                      border: open ? 'none' : `1.5px solid ${T.border}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       transition: 'all 0.2s',
                     }}>
-                      <span style={{ fontWeight: 700, fontSize: 15, fontFamily: T.sans, color: open ? T.navy : T.dark }}>
+                      <span style={{ fontWeight: 700, fontSize: 15, fontFamily: T.sans, color: open ? '#1C1410' : T.dark }}>
                         {i + 1}
                       </span>
                     </div>
@@ -239,7 +239,7 @@ export default function PatientExercicios() {
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                       }}>{ex.title}</div>
                       {!open && done && (
-                        <span style={{ fontSize: 10, fontWeight: 700, color: '#15803d', background: '#f0fdf4', padding: '2px 8px', borderRadius: 10, display: 'inline-block', marginTop: 3 }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: '#8B6914', background: '#F5EDD8', padding: '2px 8px', borderRadius: 10, display: 'inline-block', marginTop: 3 }}>
                           Feito hoje ✓
                         </span>
                       )}
@@ -251,7 +251,7 @@ export default function PatientExercicios() {
                     </div>
                     {/* Chevron */}
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                      stroke={open ? T.green : '#9ca3af'} strokeWidth="2.5"
+                      stroke={open ? '#C9A84C' : '#9ca3af'} strokeWidth="2.5"
                       strokeLinecap="round" strokeLinejoin="round"
                       style={{ flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.25s' }}>
                       <polyline points="6 9 12 15 18 9"/>
@@ -260,7 +260,7 @@ export default function PatientExercicios() {
 
                   {/* ── Corpo expandido ── */}
                   {open && (
-                    <div style={{ background: T.white, padding: 'clamp(18px,3vw,24px)', borderTop: '1px solid #f3f4f6' }}>
+                    <div style={{ background: T.white, padding: 'clamp(18px,3vw,24px)', borderTop: `1px solid ${T.border}` }}>
 
                       {/* Vídeo / Imagem placeholder */}
                       <VideoBanner ex={ex} />
@@ -273,9 +273,9 @@ export default function PatientExercicios() {
                           { label: 'Frequência', value: ex.frequency },
                         ].filter(item => item.value).map(item => (
                           <div key={item.label} style={{
-                            background: '#f3f4f6', borderRadius: 12,
+                            background: '#F5EDD8', borderRadius: 12,
                             padding: '12px 20px', textAlign: 'center',
-                            border: '1px solid #e5e7eb', minWidth: 90,
+                            border: `1px solid ${T.border}`, minWidth: 90,
                           }}>
                             <div style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4, fontFamily: T.sans, fontWeight: 600 }}>
                               {item.label}
@@ -289,7 +289,7 @@ export default function PatientExercicios() {
 
                       {/* Descrição */}
                       {ex.description && (
-                        <div style={{ marginBottom: 14, padding: '14px 16px', background: '#f9fafb', borderRadius: 10, border: '1px solid #f3f4f6' }}>
+                        <div style={{ marginBottom: 14, padding: '14px 16px', background: '#FAFAF8', borderRadius: 10, border: `1px solid ${T.border}` }}>
                           <div style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 7, fontFamily: T.sans, fontWeight: 600 }}>
                             Como realizar
                           </div>
@@ -312,13 +312,13 @@ export default function PatientExercicios() {
                       )}
 
                       {/* Botão de conclusão */}
-                      <div style={{ paddingTop: 14, borderTop: '1px solid #f3f4f6' }}>
+                      <div style={{ paddingTop: 14, borderTop: `1px solid ${T.border}` }}>
                         {done ? (
                           <div style={{
                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                             width: '100%', padding: '14px 20px', borderRadius: 12,
-                            background: '#f0fdf4', border: '1.5px solid #bbf7d0',
-                            fontSize: 14, fontWeight: 700, color: '#15803d', fontFamily: T.sans,
+                            background: '#F5EDD8', border: '1.5px solid #E8CFA0',
+                            fontSize: 14, fontWeight: 700, color: '#8B6914', fontFamily: T.sans,
                           }}>
                             ✓ Concluído hoje — ótimo trabalho!
                           </div>
@@ -328,10 +328,10 @@ export default function PatientExercicios() {
                             style={{
                               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                               width: '100%', padding: '16px 20px', borderRadius: 12,
-                              background: T.green, border: 'none',
-                              color: T.navy, fontSize: 15, fontWeight: 700,
+                              background: '#C9A84C', border: 'none',
+                              color: '#1C1410', fontSize: 15, fontWeight: 700,
                               cursor: 'pointer', fontFamily: T.sans, minHeight: 52,
-                              boxShadow: '0 4px 14px rgba(34,197,94,0.35)',
+                              boxShadow: '0 4px 14px rgba(201,168,76,0.35)',
                               transition: 'all 0.2s ease',
                             }}>
                             ✓ Marcar como Concluído
@@ -351,8 +351,8 @@ export default function PatientExercicios() {
           <div style={{
             marginTop: 20, padding: 'clamp(13px,2.5vw,16px) clamp(16px,3vw,22px)',
             background: T.white, borderRadius: 14,
-            border: '1px solid #e5e7eb', borderLeft: '3px solid #22c55e',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+            border: `1px solid ${T.border}`, borderLeft: '3px solid #C9A84C',
+            boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
           }}>
             <p style={{ fontSize: 13.5, color: T.muted, fontFamily: T.sans, margin: 0, lineHeight: 1.7 }}>
               Dúvidas sobre algum exercício?{' '}
@@ -404,12 +404,12 @@ function VideoBanner({ ex }) {
     <div style={{
       position: 'relative', width: '100%', paddingBottom: '42%',
       borderRadius: 12, overflow: 'hidden', marginBottom: 20,
-      background: 'linear-gradient(135deg, #064e3b 0%, #065f46 50%, #111827 100%)',
+      background: 'linear-gradient(135deg, #2C1810 0%, #3D2415 50%, #1C1410 100%)',
     }}>
       {/* dot grid texture */}
       <div style={{
         position: 'absolute', inset: 0, opacity: 0.07, pointerEvents: 'none',
-        backgroundImage: 'radial-gradient(circle, #22c55e 1px, transparent 1px)',
+        backgroundImage: 'radial-gradient(circle, #C9A84C 1px, transparent 1px)',
         backgroundSize: '18px 18px',
       }} />
       <div style={{
@@ -422,24 +422,24 @@ function VideoBanner({ ex }) {
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
             <div style={{
               width: 52, height: 52, borderRadius: '50%',
-              background: 'rgba(34,197,94,0.2)', border: '2px solid rgba(34,197,94,0.45)',
+              background: 'rgba(201,168,76,0.2)', border: '2px solid rgba(201,168,76,0.45)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#22c55e">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#C9A84C">
                 <polygon points="6,3 20,12 6,21"/>
               </svg>
             </div>
-            <span style={{ fontSize: 12, color: 'rgba(34,197,94,0.8)', fontFamily: T.sans, fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: 'rgba(201,168,76,0.8)', fontFamily: "'Montserrat', system-ui, sans-serif", fontWeight: 600 }}>
               Ver demonstração
             </span>
           </a>
         ) : (
           <>
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none"
-              stroke="rgba(34,197,94,0.35)" strokeWidth="1.5" strokeLinecap="round">
+              stroke="rgba(201,168,76,0.35)" strokeWidth="1.5" strokeLinecap="round">
               <polygon points="6,3 20,12 6,21"/>
             </svg>
-            <span style={{ fontSize: 11, color: 'rgba(34,197,94,0.4)', fontFamily: T.sans }}>
+            <span style={{ fontSize: 11, color: 'rgba(201,168,76,0.4)', fontFamily: "'Montserrat', system-ui, sans-serif" }}>
               Vídeo do exercício
             </span>
           </>
@@ -462,7 +462,7 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
         onClick={onClose}
         style={{
           position: 'fixed', inset: 0, zIndex: 9998,
-          background: 'rgba(0,0,0,0.55)',
+          background: 'rgba(28,20,16,0.6)',
           animation: 'fadeIn 0.2s ease',
         }}
       />
@@ -470,7 +470,7 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
       {/* Bottom sheet */}
       <div style={{
         position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 9999,
-        background: T.white,
+        background: '#ffffff',
         borderRadius: '22px 22px 0 0',
         maxHeight: '92vh',
         overflowY: 'auto',
@@ -480,33 +480,33 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
       }}>
         {/* Handle */}
         <div style={{ display: 'flex', justifyContent: 'center', padding: '14px 0 4px' }}>
-          <div style={{ width: 40, height: 4, borderRadius: 2, background: '#e5e7eb' }} />
+          <div style={{ width: 40, height: 4, borderRadius: 2, background: '#E8DDD0' }} />
         </div>
 
         <div style={{ padding: '12px 20px 36px' }}>
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
             <div>
-              <h2 style={{ fontSize: 18, fontWeight: 700, color: T.navy, fontFamily: T.sans, margin: '0 0 4px' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 700, color: '#1C1410', fontFamily: "'Montserrat', system-ui, sans-serif", margin: '0 0 4px' }}>
                 Como foi o exercício?
               </h2>
-              <p style={{ fontSize: 13, color: T.muted, fontFamily: T.sans, margin: 0 }}>
+              <p style={{ fontSize: 13, color: '#6B5C4E', fontFamily: "'Montserrat', system-ui, sans-serif", margin: 0 }}>
                 {exercise.title}
               </p>
             </div>
             <button
               onClick={onClose}
-              style={{ background: '#f3f4f6', border: 'none', borderRadius: '50%', width: 34, height: 34, cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              style={{ background: '#F5EDD8', border: 'none', borderRadius: '50%', width: 34, height: 34, cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#8B6914' }}>
               ✕
             </button>
           </div>
 
           {/* ── EVA: escala de dor ── */}
           <div style={{ marginBottom: 26 }}>
-            <p style={{ fontSize: 14, fontWeight: 700, color: T.navy, fontFamily: T.sans, margin: '0 0 4px' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#1C1410', fontFamily: "'Montserrat', system-ui, sans-serif", margin: '0 0 4px' }}>
               Qual seu nível de dor agora?
             </p>
-            <p style={{ fontSize: 12, color: T.muted, fontFamily: T.sans, margin: '0 0 12px' }}>
+            <p style={{ fontSize: 12, color: '#6B5C4E', fontFamily: "'Montserrat', system-ui, sans-serif", margin: '0 0 12px' }}>
               Toque no número que melhor descreve sua dor
             </p>
 
@@ -532,12 +532,12 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
                 <button key={v} onClick={() => setPainLevel(v)} style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
                   padding: '8px 2px', borderRadius: 10, border: '1.5px solid',
-                  borderColor: painLevel === v ? painColors(v).border : '#e5e7eb',
-                  background: painLevel === v ? painColors(v).bg : T.white,
+                  borderColor: painLevel === v ? painColors(v).border : '#E8DDD0',
+                  background: painLevel === v ? painColors(v).bg : '#ffffff',
                   cursor: 'pointer', transition: 'all 0.15s', fontSize: 0,
                 }}>
                   <span style={{ fontSize: 'clamp(14px,3.5vw,18px)', lineHeight: 1 }}>{e}</span>
-                  <span style={{ fontSize: 10, fontWeight: 700, fontFamily: T.sans, color: painLevel === v ? painColors(v).text : T.muted }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, fontFamily: "'Montserrat', system-ui, sans-serif", color: painLevel === v ? painColors(v).text : '#6B5C4E' }}>
                     {v}
                   </span>
                 </button>
@@ -547,10 +547,10 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
 
           {/* ── Borg: esforço percebido ── */}
           <div style={{ marginBottom: 26 }}>
-            <p style={{ fontSize: 14, fontWeight: 700, color: T.navy, fontFamily: T.sans, margin: '0 0 4px' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#1C1410', fontFamily: "'Montserrat', system-ui, sans-serif", margin: '0 0 4px' }}>
               Quão difícil foi realizar?
             </p>
-            <p style={{ fontSize: 12, color: T.muted, fontFamily: T.sans, margin: '0 0 12px' }}>
+            <p style={{ fontSize: 12, color: '#6B5C4E', fontFamily: "'Montserrat', system-ui, sans-serif", margin: '0 0 12px' }}>
               Escala de esforço percebido (Borg)
             </p>
 
@@ -559,14 +559,14 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
                 <button key={opt.v} onClick={() => setBorgLevel(opt.v)} style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
                   padding: '12px 4px', borderRadius: 12, border: '1.5px solid',
-                  borderColor: borgLevel === opt.v ? T.green : '#e5e7eb',
-                  background: borgLevel === opt.v ? 'rgba(34,197,94,0.08)' : T.white,
+                  borderColor: borgLevel === opt.v ? '#C9A84C' : '#E8DDD0',
+                  background: borgLevel === opt.v ? 'rgba(201,168,76,0.1)' : '#ffffff',
                   cursor: 'pointer', transition: 'all 0.15s',
                 }}>
                   <span style={{ fontSize: 'clamp(18px,4.5vw,22px)', lineHeight: 1 }}>{opt.e}</span>
                   <span style={{
-                    fontSize: 'clamp(9px,2.2vw,11px)', fontWeight: 700, fontFamily: T.sans, textAlign: 'center',
-                    color: borgLevel === opt.v ? '#15803d' : T.muted, lineHeight: 1.2,
+                    fontSize: 'clamp(9px,2.2vw,11px)', fontWeight: 700, fontFamily: "'Montserrat', system-ui, sans-serif", textAlign: 'center',
+                    color: borgLevel === opt.v ? '#8B6914' : '#6B5C4E', lineHeight: 1.2,
                   }}>
                     {opt.l}
                   </span>
@@ -577,8 +577,8 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
 
           {/* ── Observações ── */}
           <div style={{ marginBottom: 24 }}>
-            <p style={{ fontSize: 14, fontWeight: 700, color: T.navy, fontFamily: T.sans, margin: '0 0 8px' }}>
-              Observações <span style={{ fontWeight: 400, color: T.muted }}>(opcional)</span>
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#1C1410', fontFamily: "'Montserrat', system-ui, sans-serif", margin: '0 0 8px' }}>
+              Observações <span style={{ fontWeight: 400, color: '#6B5C4E' }}>(opcional)</span>
             </p>
             <textarea
               value={notes}
@@ -587,10 +587,10 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
               rows={3}
               style={{
                 width: '100%', borderRadius: 12, padding: '12px 14px',
-                border: '1.5px solid #e5e7eb', fontSize: 14,
-                fontFamily: T.sans, color: T.navy, lineHeight: 1.6,
+                border: '1.5px solid #E8DDD0', fontSize: 14,
+                fontFamily: "'Montserrat', system-ui, sans-serif", color: '#1C1410', lineHeight: 1.6,
                 resize: 'none', outline: 'none', boxSizing: 'border-box',
-                background: '#f9fafb',
+                background: '#FAFAF8',
               }}
             />
           </div>
@@ -600,7 +600,7 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
             <div style={{
               padding: '12px 14px', borderRadius: 10, marginBottom: 4,
               background: '#fef2f2', border: '1px solid #fca5a5',
-              fontSize: 13, color: '#991b1b', fontFamily: T.sans, lineHeight: 1.5,
+              fontSize: 13, color: '#991b1b', fontFamily: "'Montserrat', system-ui, sans-serif", lineHeight: 1.5,
             }}>
               ⚠️ {saveError}
             </div>
@@ -612,11 +612,11 @@ function FeedbackModal({ exercise, painLevel, setPainLevel, borgLevel, setBorgLe
             disabled={submitting}
             style={{
               width: '100%', padding: '16px', borderRadius: 12, border: 'none',
-              background: submitting ? '#e5e7eb' : T.green,
-              color: submitting ? T.muted : T.navy,
+              background: submitting ? '#E8DDD0' : '#C9A84C',
+              color: submitting ? '#6B5C4E' : '#1C1410',
               fontSize: 16, fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer',
-              fontFamily: T.sans, minHeight: 54,
-              boxShadow: submitting ? 'none' : '0 4px 14px rgba(34,197,94,0.35)',
+              fontFamily: "'Montserrat', system-ui, sans-serif", minHeight: 54,
+              boxShadow: submitting ? 'none' : '0 4px 14px rgba(201,168,76,0.35)',
               transition: 'all 0.2s',
             }}>
             {submitting ? 'Salvando…' : saveError ? '↻ Tentar novamente' : '✓ Confirmar conclusão'}
@@ -639,7 +639,7 @@ function Skeleton() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}`}</style>
       {[1, 2, 3].map(i => (
-        <div key={i} style={{ height: 66, background: '#e5e7eb', borderRadius: 14, animation: `pulse 1.5s ${i * 0.12}s ease-in-out infinite` }} />
+        <div key={i} style={{ height: 66, background: '#E8DDD0', borderRadius: 14, animation: `pulse 1.5s ${i * 0.12}s ease-in-out infinite` }} />
       ))}
     </div>
   )
@@ -647,16 +647,16 @@ function Skeleton() {
 
 function EmptyState() {
   return (
-    <div style={{ textAlign: 'center', padding: '56px 20px', background: T.white, borderRadius: 16, border: '1px solid #e5e7eb', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-      <div style={{ width: 46, height: 46, borderRadius: 12, background: T.bg, margin: '0 auto 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #e5e7eb' }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round">
+    <div style={{ textAlign: 'center', padding: '56px 20px', background: '#ffffff', borderRadius: 16, border: '1px solid #E8DDD0', boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
+      <div style={{ width: 46, height: 46, borderRadius: 12, background: '#F5EDD8', margin: '0 auto 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E8DDD0' }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round">
           <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
         </svg>
       </div>
-      <div style={{ fontSize: 15, color: T.navy, fontFamily: T.sans, fontWeight: 700, marginBottom: 6 }}>
+      <div style={{ fontSize: 15, color: '#1C1410', fontFamily: "'Montserrat', system-ui, sans-serif", fontWeight: 700, marginBottom: 6 }}>
         Nenhum exercício prescrito ainda
       </div>
-      <div style={{ fontSize: 14, color: T.muted, fontFamily: T.sans, lineHeight: 1.6 }}>
+      <div style={{ fontSize: 14, color: '#6B5C4E', fontFamily: "'Montserrat', system-ui, sans-serif", lineHeight: 1.6 }}>
         O Dr. Pablo irá adicionar o seu protocolo em breve.
       </div>
     </div>
