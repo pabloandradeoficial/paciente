@@ -16,10 +16,11 @@ const T = {
 }
 
 const tabs = [
-  { href: '/paciente',               label: 'Início',      icon: HomeIcon },
-  { href: '/paciente/exercicios',    label: 'Exercícios',  icon: ExIcon },
+  { href: '/paciente',               label: 'Início',      icon: HomeIcon  },
+  { href: '/paciente/exercicios',    label: 'Exercícios',  icon: ExIcon    },
   { href: '/paciente/orientacoes',   label: 'Orientações', icon: GuideIcon },
-  { href: '/paciente/materiais',     label: 'Materiais',   icon: MatIcon },
+  { href: '/paciente/materiais',     label: 'Materiais',   icon: MatIcon   },
+  { href: '/paciente/evolucao',      label: 'Evolução',    icon: ChartIcon },
 ]
 
 export default function PatientLayout({ children }) {
@@ -146,6 +147,13 @@ export default function PatientLayout({ children }) {
 }
 
 /* ── SVG Icons ── */
+function ChartIcon({ size = 16, color = 'currentColor' }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" />
+    </svg>
+  )
+}
 function HomeIcon({ size = 16, color = 'currentColor' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -16,16 +16,38 @@ const T = {
   amber: '#d97706', amberLight: '#fef3c7',
 }
 
+// ─── Pain alert helpers ───────────────────────────────────────────────────────
+
+function painBorderStyle(dor) {
+  if (dor == null) return {}
+  if (dor >= 8) return {
+    border: '2px solid #ef4444',
+    boxShadow: '0 0 0 0 rgba(239,68,68,0.4)',
+    animation: 'pulseBorderRed 2s ease-in-out infinite',
+  }
+  if (dor >= 5) return { border: '2px solid #f59e0b', boxShadow: '0 0 0 2px rgba(245,158,11,0.15)' }
+  return {}
+}
+
+function painTooltip(alert) {
+  if (!alert) return null
+  const d = new Date(alert.registrado_em)
+  const fmt = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`
+  return `Última dor registrada: ${alert.nivel_dor}/10 em ${fmt}`
+}
+
 export default function AdminDashboard() {
   const router = useRouter()
   const [patients, setPatients]         = useState([])
   const [loading, setLoading]           = useState(true)
+  const [painAlerts, setPainAlerts]     = useState({})   // { [patient_id]: { nivel_dor, registrado_em } }
   const [weeklyMsg, setWeeklyMsg]       = useState(null)
   const [msgTitle, setMsgTitle]         = useState('')
   const [msgText, setMsgText]           = useState('')
   const [savingMsg, setSavingMsg]       = useState(false)
   const [msgSaved, setMsgSaved]         = useState(false)
   const [editingMsg, setEditingMsg]     = useState(false)
+  const [tooltip, setTooltip]           = useState(null)  // { x, y, text }
 
   useEffect(() => {
     fetch('/api/patients').then(r => r.json()).then(data => { setPatients(data); setLoading(false) })
@@ -35,8 +57,11 @@ export default function AdminDashboard() {
         setMsgTitle(data.title || '')
         setMsgText(data.message || '')
       } else {
-        setEditingMsg(true) // sem mensagem ainda, abrir editor
+        setEditingMsg(true)
       }
+    })
+    fetch('/api/admin-pain-alerts').then(r => r.json()).then(data => {
+      if (data && !data.error) setPainAlerts(data)
     })
   }, [])
 
@@ -65,6 +90,109 @@ export default function AdminDashboard() {
       <Head><title>Dashboard — Admin</title></Head>
       <AdminLayout title="Dashboard" subtitle="Visão geral do sistema">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+
+          {/* ── Keyframe injetado uma vez ── */}
+          <style>{`
+            @keyframes pulseBorderRed {
+              0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+              50%       { box-shadow: 0 0 0 6px rgba(239,68,68,0); }
+            }
+          `}</style>
+
+          {/* ── Tooltip global ── */}
+          {tooltip && (
+            <div style={{
+              position: 'fixed', zIndex: 9999, pointerEvents: 'none',
+              top: tooltip.y + 12, left: tooltip.x,
+              background: '#1f2937', color: '#fff',
+              fontSize: 12, fontFamily: T.sans, fontWeight: 600,
+              padding: '6px 12px', borderRadius: 8,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
+              whiteSpace: 'nowrap',
+            }}>
+              {tooltip.text}
+            </div>
+          )}
+
+          {/* ── Alertas de dor ── */}
+          {(() => {
+            const alertPatients = patients
+              .map(p => ({ ...p, alert: painAlerts[p.id] }))
+              .filter(p => p.alert?.nivel_dor >= 5)
+              .sort((a, b) => (b.alert?.nivel_dor ?? 0) - (a.alert?.nivel_dor ?? 0))
+
+            if (!alertPatients.length) return null
+
+            return (
+              <div style={{ background: T.white, borderRadius: 16, border: `1px solid ${T.gray200}`, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+                <div style={{ padding: '16px 22px', borderBottom: `1px solid ${T.gray100}`, display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: 18 }}>⚠️</span>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: '#991b1b', fontFamily: T.sans }}>Alertas de Dor</div>
+                    <div style={{ fontSize: 11, color: T.gray400, fontFamily: T.sans, marginTop: 1 }}>
+                      {alertPatients.length} paciente{alertPatients.length > 1 ? 's' : ''} com dor ≥ 5 no último registro
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  {alertPatients.map((p, i) => {
+                    const dor = p.alert.nivel_dor
+                    const isHigh = dor >= 8
+                    const tipText = painTooltip(p.alert)
+                    return (
+                      <div
+                        key={p.id}
+                        onClick={() => router.push(`/admin/pacientes/${p.id}`)}
+                        onMouseEnter={e => setTooltip({ x: e.clientX, y: e.clientY, text: tipText })}
+                        onMouseLeave={() => setTooltip(null)}
+                        style={{
+                          padding: '13px 22px',
+                          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                          cursor: 'pointer',
+                          borderBottom: i < alertPatients.length - 1 ? `1px solid ${T.gray50}` : 'none',
+                          background: isHigh ? 'rgba(239,68,68,0.03)' : 'rgba(245,158,11,0.03)',
+                          borderLeft: `4px solid ${isHigh ? '#ef4444' : '#f59e0b'}`,
+                          transition: 'background 0.15s',
+                          ...(isHigh ? { animation: 'pulseBorderRed 2s ease-in-out infinite' } : {}),
+                        }}
+                        onMouseOver={e => { e.currentTarget.style.background = isHigh ? 'rgba(239,68,68,0.07)' : 'rgba(245,158,11,0.07)' }}
+                        onMouseOut={e => {
+                          e.currentTarget.style.background = isHigh ? 'rgba(239,68,68,0.03)' : 'rgba(245,158,11,0.03)'
+                          setTooltip(null)
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                          <div style={{ width: 36, height: 36, borderRadius: '50%', background: isHigh ? '#fee2e2' : '#fef3c7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 12, flexShrink: 0, color: isHigh ? '#991b1b' : '#92400e', fontFamily: T.sans }}>
+                            {p.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                          </div>
+                          <div>
+                            <div style={{ fontSize: 13.5, fontWeight: 600, color: T.gray800, fontFamily: T.sans }}>{p.full_name}</div>
+                            <div style={{ fontSize: 11, color: T.gray400, marginTop: 1, fontFamily: T.sans }}>
+                              {painTooltip(p.alert)}
+                            </div>
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          {isHigh && <span style={{ fontSize: 16 }}>⚠️</span>}
+                          <span style={{
+                            display: 'inline-flex', alignItems: 'center', gap: 5,
+                            padding: '4px 12px', borderRadius: 20,
+                            fontSize: 12, fontWeight: 800,
+                            background: isHigh ? '#fee2e2' : '#fef3c7',
+                            color: isHigh ? '#991b1b' : '#92400e',
+                            border: `1px solid ${isHigh ? '#fca5a5' : '#fcd34d'}`,
+                            fontFamily: T.sans,
+                          }}>
+                            Dor {dor}/10
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })()}
 
           {/* ── Stats row ── */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
@@ -113,26 +241,66 @@ export default function AdminDashboard() {
                 <div style={{ padding: 40, textAlign: 'center', color: T.gray400, fontFamily: T.sans }}>Carregando...</div>
               ) : recent.length === 0 ? (
                 <div style={{ padding: 40, textAlign: 'center', color: T.gray400, fontFamily: T.sans }}>Nenhum paciente ainda.</div>
-              ) : recent.map((p, i) => (
-                <div key={p.id} onClick={() => router.push(`/admin/pacientes/${p.id}`)}
-                  style={{ padding: '13px 22px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', borderBottom: i < recent.length - 1 ? `1px solid ${T.gray50}` : 'none', transition: 'background 0.15s' }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', color: T.gold, fontWeight: 800, fontSize: 12, flexShrink: 0, fontFamily: T.sans }}>
-                      {p.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+              ) : recent.map((p, i) => {
+                const alert = painAlerts[p.id]
+                const dor   = alert?.nivel_dor ?? null
+                const tipText = painTooltip(alert)
+                const borderStyle = painBorderStyle(dor)
+                return (
+                  <div key={p.id}
+                    onClick={() => router.push(`/admin/pacientes/${p.id}`)}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = '#f8fafc'
+                      if (tipText) setTooltip({ x: e.clientX, y: e.clientY, text: tipText })
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = 'transparent'
+                      setTooltip(null)
+                    }}
+                    onMouseMove={e => {
+                      if (tipText) setTooltip({ x: e.clientX, y: e.clientY, text: tipText })
+                    }}
+                    style={{
+                      padding: '13px 22px',
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      cursor: 'pointer',
+                      borderBottom: i < recent.length - 1 ? `1px solid ${T.gray50}` : 'none',
+                      transition: 'background 0.15s',
+                      borderLeft: dor >= 8 ? '4px solid #ef4444' : dor >= 5 ? '4px solid #f59e0b' : '4px solid transparent',
+                      ...(dor >= 8 ? { animation: 'pulseBorderRed 2s ease-in-out infinite' } : {}),
+                    }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: '50%', background: T.navy, display: 'flex', alignItems: 'center', justifyContent: 'center', color: T.gold, fontWeight: 800, fontSize: 12, flexShrink: 0, fontFamily: T.sans }}>
+                        {p.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 13.5, fontWeight: 600, color: T.gray800, fontFamily: T.sans, display: 'flex', alignItems: 'center', gap: 6 }}>
+                          {p.full_name}
+                          {dor >= 8 && <span title={tipText} style={{ fontSize: 14 }}>⚠️</span>}
+                        </div>
+                        <div style={{ fontSize: 11.5, color: T.gray400, marginTop: 1, fontFamily: T.sans }}>@{p.username}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div style={{ fontSize: 13.5, fontWeight: 600, color: T.gray800, fontFamily: T.sans }}>{p.full_name}</div>
-                      <div style={{ fontSize: 11.5, color: T.gray400, marginTop: 1, fontFamily: T.sans }}>@{p.username}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      {dor != null && (
+                        <span style={{
+                          display: 'inline-flex', alignItems: 'center',
+                          padding: '2px 9px', borderRadius: 20,
+                          fontSize: 10.5, fontWeight: 700, fontFamily: T.sans,
+                          background: dor >= 8 ? '#fee2e2' : dor >= 5 ? '#fef3c7' : '#f0fdf4',
+                          color: dor >= 8 ? '#991b1b' : dor >= 5 ? '#92400e' : '#166534',
+                        }}>
+                          Dor {dor}/10
+                        </span>
+                      )}
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700, background: p.is_active ? T.greenLight : T.gray100, color: p.is_active ? T.greenDark : T.gray500, fontFamily: T.sans }}>
+                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: p.is_active ? T.green : T.gray400 }} />
+                        {p.is_active ? 'Ativo' : 'Inativo'}
+                      </span>
                     </div>
                   </div>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700, background: p.is_active ? T.greenLight : T.gray100, color: p.is_active ? T.greenDark : T.gray500, fontFamily: T.sans }}>
-                    <span style={{ width: 5, height: 5, borderRadius: '50%', background: p.is_active ? T.green : T.gray400 }} />
-                    {p.is_active ? 'Ativo' : 'Inativo'}
-                  </span>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
             {/* ── MENSAGEM SEMANAL ── */}
